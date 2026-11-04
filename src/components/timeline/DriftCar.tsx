@@ -12,7 +12,7 @@ export function DriftCar({ ref }: DriftCarProps) {
           <span key={index} className="drift-car-puff" />
         ))}
       </div>
-      <img className="drift-car-image" src={carImage} width={459} height={962} alt="" />
+      <img className="drift-car-image" src={carImage} width={240} height={488} alt="" />
     </div>
   );
 }

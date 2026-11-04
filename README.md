@@ -34,7 +34,7 @@ para o comando `npm run build` com diretório de saída `dist`.
 ```
 public/
   favicon.png
-  media/hero-drift.webm         vídeo de fundo do topo (ver "Mídias")
+  media/                        vídeo do topo e seu poster (ver "Mídias")
 src/
   App.tsx                       monta a página na ordem das seções
   content/
@@ -48,7 +48,7 @@ src/
   hooks/useDriftCar.ts          movimenta o carro conforme a rolagem
   lib/
     track.ts                    traçado da pista e cálculo do drift
-    assets.ts                   caminhos de logo e vídeo
+    assets.ts                   caminhos do vídeo do topo
   assets/
     brand/                      logo da marca
     images/                     fotos e imagem do carro
@@ -70,8 +70,19 @@ src/
 
 ## Mídias
 
-| Arquivo                                | Uso                                                                                                             |
-| -------------------------------------- | --------------------------------------------------------------------------------------------------------------- |
-| `src/assets/brand/logo.png`            | Logo no header e footer. Sem ele, o nome aparece em texto.                                                      |
-| `public/media/hero-drift.webm`         | Vídeo do topo. Sem ele, aparece a foto `track-drift.jpg`.                                                       |
-| `src/assets/images/drift-car-top.webp` | Carro visto de cima na linha do tempo. A dianteira deve apontar **para baixo** e o fundo deve ser transparente. |
+| Arquivo                                | Uso                                                                                         |
+| -------------------------------------- | ------------------------------------------------------------------------------------------- |
+| `src/assets/brand/logo.webp`           | Logo do header e do footer (fundo transparente)                                             |
+| `src/assets/images/drift-car-top.webp` | Carro da linha do tempo, visto de cima, com a dianteira **para baixo** e fundo transparente |
+| `public/media/hero-drift.webm`         | Vídeo do topo (1080p, sem áudio)                                                            |
+| `public/media/hero-drift.mp4`          | Mesmo vídeo em MP4, para navegadores sem suporte a WebM                                     |
+| `public/media/hero-poster.webp`        | Quadro exibido enquanto o vídeo carrega                                                     |
+
+Para trocar o vídeo, gere as duas versões a partir do original com
+[ffmpeg](https://ffmpeg.org):
+
+```bash
+ffmpeg -i original.mp4 -an -vf scale=1920:-2 -c:v libvpx-vp9 -crf 36 -b:v 0 -row-mt 1 public/media/hero-drift.webm
+ffmpeg -i original.mp4 -an -vf scale=1920:-2 -c:v libx264 -crf 26 -preset slow -pix_fmt yuv420p -movflags +faststart public/media/hero-drift.mp4
+ffmpeg -ss 1 -i original.mp4 -frames:v 1 -vf scale=1920:-2 public/media/hero-poster.webp
+```

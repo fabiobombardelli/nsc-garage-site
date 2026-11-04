@@ -1,19 +1,23 @@
-import posterImage from "@/assets/images/track-drift.jpg";
-import { heroVideoUrl } from "@/lib/assets";
+import { heroVideo } from "@/lib/assets";
 
 export function Hero() {
   return (
-    <section id="inicio" className="relative z-30 isolate h-svh min-h-[640px] overflow-hidden">
+    <section
+      id="inicio"
+      className="relative z-30 isolate h-svh min-h-[640px] overflow-hidden bg-background"
+    >
       <video
         className="absolute inset-0 h-full w-full object-cover"
-        src={heroVideoUrl}
-        poster={posterImage}
+        poster={heroVideo.poster}
         autoPlay
         muted
         loop
         playsInline
         aria-label="Carro preparado realizando drift em pista noturna"
-      />
+      >
+        <source src={heroVideo.webm} type="video/webm" />
+        <source src={heroVideo.mp4} type="video/mp4" />
+      </video>
       <div className="hero-shade absolute inset-0" />
 
       <div className="container-site relative flex h-full items-end pb-20 sm:pb-28">

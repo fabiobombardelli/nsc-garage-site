@@ -1,16 +1,10 @@
 /**
- * Arquivos de marca opcionais.
- *
- * Coloque o logo em `src/assets/brand/logo.png` (ou .svg/.webp) e ele
- * passa a ser usado automaticamente. Enquanto o arquivo não existir,
- * o site mostra o nome da marca em texto.
+ * Mídias pesadas ficam em `public/media/` (servidas como estão, sem passar
+ * pelo bundler). Imagens comuns são importadas direto nos componentes.
  */
-const logoFiles = import.meta.glob<string>("../assets/brand/logo.{png,svg,webp}", {
-  eager: true,
-  import: "default",
-});
-
-export const logoUrl: string | undefined = Object.values(logoFiles)[0];
-
-/** Vídeo de fundo do topo da página (arquivo em `public/media/`). */
-export const heroVideoUrl = "/media/hero-drift.webm";
+export const heroVideo = {
+  webm: "/media/hero-drift.webm",
+  /** Versão MP4 para navegadores que não reproduzem WebM (iPhones antigos). */
+  mp4: "/media/hero-drift.mp4",
+  poster: "/media/hero-poster.webp",
+} as const;
