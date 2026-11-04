@@ -1,6 +1,6 @@
 {
   "schemaVersion": 2,
-  "generatedAt": "2026-11-04T15:25:24Z",
+  "generatedAt": "2026-11-04T16:16:50Z",
   "title": "Design System: NSC Garage",
   "extensions": {
     "colorMeta": {
@@ -228,6 +228,21 @@
           "oklch(0.84 0.006 250)",
           "oklch(0.95 0.006 250)"
         ]
+      },
+      "carbon-deep": {
+        "role": "neutral",
+        "displayName": "Grafite profundo",
+        "canonical": "oklch(0.13 0.004 250)",
+        "tonalRamp": [
+          "oklch(0.15 0.006 250)",
+          "oklch(0.26 0.006 250)",
+          "oklch(0.37 0.006 250)",
+          "oklch(0.48 0.006 250)",
+          "oklch(0.60 0.006 250)",
+          "oklch(0.72 0.006 250)",
+          "oklch(0.84 0.006 250)",
+          "oklch(0.95 0.006 250)"
+        ]
       }
     },
     "typographyMeta": {
@@ -411,7 +426,7 @@
       },
       {
         "name": "A Regra do Grafite",
-        "body": "O fundo nunca é preto puro fora do alto contraste. A profundidade vem dos quatro degraus (`carbon` → `floor` → `raised` → `raised-strong`).",
+        "body": "O fundo nunca é preto puro fora do alto contraste. A profundidade vem dos quatro degraus (`carbon` → `floor` → `raised` → `raised-strong`); o grafite profundo é a única exceção, reservado à faixa de onde a pista sai.",
         "section": "colors"
       },
       {

@@ -15,6 +15,8 @@
 
   /* Fundo da página: grafite, nunca preto (texto a 16:1 sobre ele). */
   --color-carbon: oklch(0.205 0.005 250);
+  /* Grafite profundo: só a faixa de abertura da Trajetória, de onde a pista sai. */
+  --color-carbon-deep: oklch(0.13 0.004 250);
   /* Piso de epóxi do box (seção da Trajetória). */
   --color-floor: oklch(0.265 0.005 250);
   /* Superfícies elevadas: ordem de serviço, interior das gavetas. */
@@ -192,6 +194,7 @@
  */
 :root[data-contrast="high"] {
   --color-carbon: #000;
+  --color-carbon-deep: #000;
   --color-floor: #000;
   --color-raised: #000;
   --color-raised-strong: #1a1a1a;
@@ -210,6 +213,7 @@
 @media (prefers-contrast: more) {
   :root:not([data-contrast="normal"]) {
     --color-carbon: #000;
+    --color-carbon-deep: #000;
     --color-floor: #000;
     --color-raised: #000;
     --color-raised-strong: #1a1a1a;

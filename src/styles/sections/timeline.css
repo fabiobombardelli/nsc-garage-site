@@ -9,21 +9,27 @@
     position: relative;
     z-index: 0;
     isolation: isolate;
-    padding-block: var(--section-gap);
+    padding-bottom: var(--section-gap);
     background: var(--color-floor);
   }
 
   /* ---------- Abertura: foto quadrada e texto ---------- */
 
-  .plate {
+  /* Faixa mais escura que o piso, de ponta a ponta. Fica por cima do começo
+     da pista: a borda dela é de onde a pista e o carro saem. */
+  .timeline-opening {
     position: relative;
     z-index: 30;
+    padding-top: var(--section-gap);
+    background: var(--color-carbon-deep);
+  }
+
+  .plate {
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 2.5rem;
     min-height: 88svh;
     padding-bottom: 6rem;
-    background: var(--color-floor);
   }
 
   /* Fade pedido pelo cliente: a foto se dissolve em direção ao texto. */

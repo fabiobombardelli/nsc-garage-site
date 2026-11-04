@@ -22,8 +22,9 @@ function getEras() {
 }
 
 /**
- * Trajetória: a foto do 350Z abre a seção e, abaixo, o piso do box com a
- * faixa pintada por onde o carro derrapa conforme a página rola.
+ * Trajetória: a foto do 350Z abre a seção numa faixa escura e, abaixo, o
+ * piso do box com a pista por onde o carro derrapa conforme a página rola.
+ * A pista começa por baixo da faixa, então pista e carro saem de trás dela.
  */
 export function Timeline() {
   const { geometry, stageRef, listRef, pathRef, tyreMarksRef, conesRef, carRef } = useDriftCar();
@@ -32,50 +33,53 @@ export function Timeline() {
 
   return (
     <section id="trajetoria" className="timeline" aria-labelledby="trajetoria-title">
-      <div className="plate container-site">
-        <figure className="plate-photo">
-          <m.img
-            src={slidePhoto}
-            alt="O 350Z #69 da NSC passando de lado em meio à fumaça"
-            width={1100}
-            height={1100}
-            loading="lazy"
-            initial={{ opacity: 0, scale: 1.08 }}
-            whileInView={{ opacity: 1, scale: 1 }}
-            viewport={{ once: true, margin: "0px 0px -15% 0px" }}
-            transition={{ duration: 1.4, ease: [0.33, 1, 0.68, 1] }}
-          />
-        </figure>
+      {/* Faixa escura de ponta a ponta: a pista e o carro saem de baixo dela. */}
+      <div className="timeline-opening">
+        <div className="plate container-site">
+          <figure className="plate-photo">
+            <m.img
+              src={slidePhoto}
+              alt="O 350Z #69 da NSC passando de lado em meio à fumaça"
+              width={1100}
+              height={1100}
+              loading="lazy"
+              initial={{ opacity: 0, scale: 1.08 }}
+              whileInView={{ opacity: 1, scale: 1 }}
+              viewport={{ once: true, margin: "0px 0px -15% 0px" }}
+              transition={{ duration: 1.4, ease: [0.33, 1, 0.68, 1] }}
+            />
+          </figure>
 
-        <div className="plate-text">
-          <nav aria-label="Épocas da trajetória" className="plate-tabs">
-            {eras.map((era) => (
-              <a key={era.href} href={era.href} className="plate-tab">
-                {era.label}
+          <div className="plate-text">
+            <nav aria-label="Épocas da trajetória" className="plate-tabs">
+              {eras.map((era) => (
+                <a key={era.href} href={era.href} className="plate-tab">
+                  {era.label}
+                </a>
+              ))}
+            </nav>
+
+            <div className="plate-copy">
+              <h2 id="trajetoria-title" className="type-head">
+                <MaskedLine>Andamos de lado</MaskedLine>{" "}
+                <MaskedLine delay={0.08}>desde {firstYear}</MaskedLine>
+              </h2>
+              <Reveal order={2}>
+                <p className="type-lead">
+                  Mais de uma década entre o box e a pista. Cada marco é um cone no traçado, e o
+                  350Z #69 passa por todos.
+                </p>
+              </Reveal>
+            </div>
+
+            <div className="plate-actions">
+              <a href={`#marco-${firstYear}`} className="plate-cell plate-cell-light">
+                Ver os marcos
               </a>
-            ))}
-          </nav>
-
-          <div className="plate-copy">
-            <h2 id="trajetoria-title" className="type-head">
-              <MaskedLine>Andamos de lado</MaskedLine>{" "}
-              <MaskedLine delay={0.08}>desde {firstYear}</MaskedLine>
-            </h2>
-            <Reveal order={2}>
-              <p className="type-lead">
-                Mais de uma década entre o box e a pista. Cada marco é um cone no traçado, e o 350Z
-                #69 passa por todos.
-              </p>
-            </Reveal>
-          </div>
-
-          <div className="plate-actions">
-            <a href={`#marco-${firstYear}`} className="plate-cell plate-cell-light">
-              Ver os marcos
-            </a>
-            <a href="#contato" className="plate-cell">
-              {site.primaryAction}
-            </a>
+              <a href="#contato" className="plate-cell">
+                {site.primaryAction}
+              </a>
+            </div>
           </div>
         </div>
       </div>

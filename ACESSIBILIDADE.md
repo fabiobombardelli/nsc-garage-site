@@ -96,6 +96,7 @@ topo ao primeiro Tab.
 | Texto principal sobre a bancada (cupom, gavetas) | 12,1:1    | 4,5:1              |
 | Texto secundário sobre o grafite                 | 9,0:1     | 4,5:1              |
 | Texto secundário sobre a bancada                 | 6,7:1     | 4,5:1              |
+| Texto sobre a faixa escura da Trajetória         | 18,2:1    | 4,5:1              |
 | Texto claro sobre o vermelho (botões, rodapé)    | 5,2:1     | 4,5:1              |
 | Texto claro sobre o vermelho do hover            | 6,9:1     | 4,5:1              |
 | Texto escuro sobre o painel de luz               | 17,0:1    | 4,5:1              |

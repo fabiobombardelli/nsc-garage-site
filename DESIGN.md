@@ -3,6 +3,7 @@ name: NSC Garage
 description: O box da NSC depois do expediente. Piso de epóxi grafite, luz branca de LED e o vermelho laqueado do carrinho de ferramentas.
 colors:
   carbon: "oklch(0.205 0.005 250)"
+  carbon-deep: "oklch(0.13 0.004 250)"
   floor: "oklch(0.265 0.005 250)"
   raised: "oklch(0.305 0.005 250)"
   raised-strong: "oklch(0.36 0.005 250)"
@@ -165,6 +166,7 @@ Uma escala de grafite frio em quatro degraus, luz de LED para todo o texto e um 
 ### Neutral
 
 - **Grafite** (`carbon`): fundo da página, header sólido, menu do celular e o interior dos campos do formulário.
+- **Grafite profundo** (`carbon-deep`): só a faixa de abertura da Trajetória, de ponta a ponta. É o tom mais escuro da página, para a pista e o carro saírem de trás dela com contraste contra o piso.
 - **Piso de epóxi** (`floor`): o fundo da Trajetória, onde corre a pista.
 - **Bancada** (`raised`): superfícies elevadas: a ordem de serviço, o interior das gavetas, as células da Trajetória e o fundo das fotos enquanto carregam.
 - **Bancada sob o ponteiro** (`raised-strong`): hover das superfícies elevadas e trilho da barra de rolagem.
@@ -184,7 +186,7 @@ Uma escala de grafite frio em quatro degraus, luz de LED para todo o texto e um 
 
 **A Regra da Laca.** O vermelho é superfície, nunca texto sobre o grafite. Onde há vermelho, há texto claro por cima.
 
-**A Regra do Grafite.** O fundo nunca é preto puro fora do alto contraste. A profundidade vem dos quatro degraus (`carbon` → `floor` → `raised` → `raised-strong`).
+**A Regra do Grafite.** O fundo nunca é preto puro fora do alto contraste. A profundidade vem dos quatro degraus (`carbon` → `floor` → `raised` → `raised-strong`); o grafite profundo é a única exceção, reservado à faixa de onde a pista sai.
 
 **A Regra dos Tokens.** Componentes usam só os tokens de cor; preto translúcido aparece apenas em sombras e no scrim do vídeo. O alto contraste (`data-contrast="high"` ou `prefers-contrast: more`) troca os tokens por preto, branco, `#d40000` e amarelo `#ffe500`, sem tocar nos componentes.
 
@@ -218,7 +220,7 @@ Grade de 12 colunas com espaço de `min(1.5rem, 2vw)` entre colunas, largura út
 Cada seção tem composição própria:
 
 - **Topo:** vídeo em tela cheia com as duas frases do slogan em cantos opostos e nada entre elas. Com movimento liberado, a seção tem duas telas de altura e o palco fica preso (sticky) durante a primeira: as frases saem, o vídeo fica sozinho e depois sobe. Se o slogan não couber na altura da tela (fonte muito ampliada), o topo não fica preso e cresce além da tela em vez de cortar.
-- **Trajetória:** foto quadrada que se dissolve em direção ao texto. Abaixo, o piso com a pista em S no centro e os marcos alternando de lado; abaixo de 64rem, a pista corre pela esquerda.
+- **Trajetória:** a abertura (foto quadrada que se dissolve em direção ao texto) fica numa faixa de grafite profundo de ponta a ponta, por cima do começo da pista. Abaixo, o piso com a pista em S no centro, saindo de baixo da faixa, e os marcos alternando de lado; abaixo de 64rem, a pista corre pela esquerda.
 - **Oficina:** foto larga de 8 colunas com a nota em painel de luz no canto, e a coluna lateral com o bloco vermelho e os fatos.
 - **Serviços:** coluna central estreita (42rem) com o título de ponta a ponta e as gavetas.
 - **Contato:** o cupom da ordem de serviço em 10 colunas, com picote a 42%.
