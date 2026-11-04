@@ -20,12 +20,3 @@ export const heroVideo = {
     { src: media("hero-drift.mp4"), type: "video/mp4" },
   ] satisfies VideoSource[],
 };
-
-/** Trecho de 2 s do 350Z de lado, exibido dentro do título da Trajetória. */
-export const slideLoop = {
-  poster: media("slide-loop-poster.webp"),
-  sources: [
-    { src: media("slide-loop.webm"), type: "video/webm" },
-    { src: media("slide-loop.mp4"), type: "video/mp4" },
-  ] satisfies VideoSource[],
-};

@@ -1,58 +1,110 @@
-import cornerPhoto from "@/assets/images/footage/corner-69.webp";
+import { ArrowRight, Plus } from "lucide-react";
+import { m } from "motion/react";
+import { useEffect, useState, type ReactNode } from "react";
 import { services } from "@/content/services";
 import { whatsappLink } from "@/lib/whatsapp";
 
-/** Serviços como uma tabela de critérios: cada linha abre um orçamento no WhatsApp. */
+/**
+ * Serviços: o carrinho de ferramentas vermelho do box. Cada serviço é uma
+ * gaveta que abre no lugar, com o que costuma estar incluído e o pedido de
+ * orçamento direto no WhatsApp.
+ *
+ * Acessibilidade: padrão "accordion" do WAI-ARIA. Cada gaveta é um botão
+ * com aria-expanded que controla a sua região; gavetas fechadas saem da
+ * página (atributo hidden) ao terminar de fechar.
+ */
 export function Services() {
+  const [openId, setOpenId] = useState<string | null>(services[0]?.id ?? null);
+
   return (
-    <section id="servicos" className="services">
-      <div className="container-site">
-        <h2 className="services-title type-head" data-reveal="drift">
-          Do carro de rua <br className="hidden md:block" />
-          ao carro de pista.
+    <section id="servicos" className="services" aria-labelledby="servicos-title">
+      <div className="tool-chest">
+        <h2 id="servicos-title" className="tool-chest-title">
+          Serviços
         </h2>
 
-        <div className="grid-site services-grid">
-          <figure className="services-photo" data-reveal="shutter">
-            <div className="shutter">
-              <img src={cornerPhoto} alt="" width={960} height={1200} loading="lazy" />
-            </div>
-            <figcaption>O 350Z #69 da equipe contornando a curva.</figcaption>
-          </figure>
+        <ul className="drawers">
+          {services.map((service) => {
+            const open = openId === service.id;
+            const panelId = `gaveta-${service.id}`;
+            const buttonId = `gaveta-${service.id}-botao`;
 
-          <ul className="services-list">
-            {services.map((service, index) => {
-              const startsGroup = services[index - 1]?.group !== service.group;
-              return (
-                <li
-                  key={service.title}
-                  className="service-row"
-                  data-group-start={startsGroup || undefined}
-                  data-reveal="rise"
-                  style={{ "--reveal-order": index % 4 } as React.CSSProperties}
-                >
-                  <span className="service-group">{startsGroup ? service.group : ""}</span>
-                  <div>
-                    <h3 className="service-name">{service.title}</h3>
-                    <p className="service-description">{service.description}</p>
-                  </div>
+            return (
+              <li key={service.id} className="drawer" data-open={open}>
+                <h3 className="drawer-heading">
+                  <button
+                    id={buttonId}
+                    type="button"
+                    className="drawer-front"
+                    aria-expanded={open}
+                    aria-controls={panelId}
+                    onClick={() => setOpenId(open ? null : service.id)}
+                  >
+                    <span className="drawer-label">{service.title}</span>
+                    <span className="drawer-group">{service.group}</span>
+                    <Plus className="drawer-icon" size={20} aria-hidden="true" />
+                  </button>
+                </h3>
+
+                <DrawerPanel id={panelId} labelledBy={buttonId} open={open}>
+                  <p>{service.description}</p>
+                  <ul className="drawer-includes" aria-label="Normalmente inclui">
+                    {service.includes.map((item) => (
+                      <li key={item}>{item}</li>
+                    ))}
+                  </ul>
                   <a
-                    className="service-quote text-link"
+                    className="drawer-quote text-link"
                     href={whatsappLink(
                       `Olá! Quero um orçamento de ${service.title.toLowerCase()}.`,
                     )}
                     target="_blank"
                     rel="noopener noreferrer"
-                    aria-label={`Pedir orçamento de ${service.title.toLowerCase()} pelo WhatsApp`}
                   >
-                    Orçar
+                    Pedir orçamento pelo WhatsApp
+                    <ArrowRight size={16} aria-hidden="true" />
+                    <span className="sr-only-text"> (abre em nova aba)</span>
                   </a>
-                </li>
-              );
-            })}
-          </ul>
-        </div>
+                </DrawerPanel>
+              </li>
+            );
+          })}
+        </ul>
       </div>
     </section>
+  );
+}
+
+type DrawerPanelProps = {
+  id: string;
+  labelledBy: string;
+  open: boolean;
+  children: ReactNode;
+};
+
+/** Interior da gaveta: abre deslizando e, depois de fechar, sai da página. */
+function DrawerPanel({ id, labelledBy, open, children }: DrawerPanelProps) {
+  const [hidden, setHidden] = useState(!open);
+
+  useEffect(() => {
+    if (open) setHidden(false);
+  }, [open]);
+
+  return (
+    <m.div
+      id={id}
+      role="region"
+      aria-labelledby={labelledBy}
+      className="drawer-body"
+      hidden={hidden}
+      initial={false}
+      animate={{ height: open ? "auto" : 0 }}
+      transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
+      onAnimationComplete={() => {
+        if (!open) setHidden(true);
+      }}
+    >
+      <div className="drawer-inner">{children}</div>
+    </m.div>
   );
 }

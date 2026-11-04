@@ -7,6 +7,11 @@ export const site = {
   description: "Preparação de carros de drift e competição e manutenção premium de esportivos.",
   /** Nome da ação principal. Use o mesmo texto em todos os botões que levam ao contato. */
   primaryAction: "Agendar avaliação",
+  /**
+   * Slogan da marca. INEGOCIÁVEL: aparece sempre completo, nas duas frases,
+   * sem cortes nem reescrita (pedido do cliente).
+   */
+  tagline: ["Carros são nossa paixão.", "Competir é a obsessão."],
 } as const;
 
 /**

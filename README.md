@@ -1,10 +1,9 @@
-# NSC Garage — Site institucional
+# NSC Garage: site institucional
 
-Landing page da NSC Garage, oficina premium de manutenção e preparação de carros de
-competição e drift.
+Site da NSC Garage, oficina premium de manutenção e preparação de carros de drift e competição.
 
-**Stack:** React 19 · TypeScript · Vite · Tailwind CSS 4 · fonte Hanken Grotesk (servida pelo
-próprio site)
+**Stack:** React 19, TypeScript, Vite, Tailwind CSS 4, Motion (animações) e a fonte Archivo,
+servida pelo próprio site.
 
 ## Rodando localmente
 
@@ -25,81 +24,98 @@ npm run dev        # servidor de desenvolvimento em http://localhost:5173
 
 ## Publicação
 
-`npm run build` gera um site 100% estático na pasta `dist/`, com caminhos relativos. Pode ser
-publicado em qualquer hospedagem (Vercel, Netlify, Cloudflare Pages, Hostinger, cPanel…), na
-raiz do domínio ou numa subpasta.
+`npm run build` gera um site 100% estático na pasta `dist/`, com caminhos relativos. Ele pode ser
+publicado em qualquer hospedagem (Vercel, Netlify, Cloudflare Pages, Hostinger, cPanel…), na raiz do
+domínio ou numa subpasta.
 
 ## A página, de cima para baixo
 
-1. **Topo** — o vídeo da equipe aparece por uma janela no papel e abre até a tela cheia ao
-   rolar.
-2. **Trajetória** — "Andamos de [vídeo] desde 2015": o 350Z #69 percorre a pista conforme a
-   página rola, deixa marcas de pneu e acende o clipping point de cada marco.
-3. **Oficina** — quem é a NSC, com os fatos (fundador, títulos, pioneirismo).
-4. **Serviços** — tabela de serviços; cada "Orçar" abre o WhatsApp com a mensagem pronta.
-5. **Contato** — a ficha de inscrição (cupom) que monta a mensagem e abre o WhatsApp.
-6. **Rodapé** — campo vermelho com o número do WhatsApp; o carro dá três zerinhos.
+O conceito visual é **"o box à noite"**: a oficina depois do expediente, com piso de epóxi grafite,
+luz branca de LED e o vermelho do carrinho de ferramentas. Os detalhes estão em `DESIGN.md`.
+
+1. **Topo:** o vídeo da equipe em tela cheia com o slogan completo, "Carros são nossa paixão.
+   Competir é a obsessão.", uma frase em cada canto.
+2. **Trajetória:** a foto do 350Z se dissolve em direção ao texto. Abaixo, o carro desce o piso do
+   box entre faixas pintadas conforme a página rola, deixa marcas de pneu e acende o cone de cada
+   marco.
+3. **Oficina:** quem é a NSC: foto do box, o bloco "Pioneiros do drift no Brasil" e os fatos.
+4. **Serviços:** o carrinho de ferramentas. Cada gaveta abre no lugar com o que o serviço inclui e o
+   pedido de orçamento pelo WhatsApp.
+5. **Contato:** a ordem de serviço. O formulário monta a mensagem e abre o WhatsApp.
+6. **Rodapé:** o campo vermelho com o nome de ponta a ponta, os contatos e o carro fazendo oitos sem
+   parar.
 
 ## Estrutura
 
 ```
-public/media/                   vídeos (topo e loop do título) e poster
+public/media/                   vídeo do topo (computador e celular) e poster
 src/
   App.tsx                       ordem das seções
+  main.tsx                      ponto de entrada (fonte, acessibilidade)
   content/                      TEXTOS E DADOS (edite aqui)
-    site.ts                     nome, ação principal, menu e dados de contato
+    site.ts                     nome, slogan, ação principal, menu e contatos
     milestones.ts               marcos da Trajetória
-    services.ts                 serviços
+    services.ts                 serviços (gavetas e formulário)
   components/
-    layout/                     Header e Footer
+    a11y/AccessShortcuts.tsx    atalhos de acesso (Alt + 1 a 4)
+    layout/                     Header, MobileMenu e Footer
     sections/                   Hero, Timeline, About, Services, Contact
-    timeline/                   pista, carro, marco e ano com contador
-    footer/DonutCar.tsx         o zerinho do rodapé
-    contact/ContactForm.tsx     formulário que envia pelo WhatsApp
-    ui/                         Logo, botão flutuante e vídeo dentro do título
+    timeline/                   faixa do piso, carro, marco e ano com contador
+    footer/FigureEight.tsx      o carro fazendo oitos no rodapé
+    contact/WorkOrderForm.tsx   formulário que envia pelo WhatsApp
+    ui/                         Logo, entradas animadas e botão do WhatsApp
   hooks/
-    useDriftCar.ts              monta a pista e move o carro com a rolagem
-    useHeroWindow.ts            abre a janela do vídeo do topo
-    useReveal.ts                dispara as entradas ao rolar
+    useDriftCar.ts              monta a faixa e move o carro com a rolagem
+    useReducedMotion.ts         segue o modo de movimento reduzido
     useInView.ts                visibilidade de um elemento
   lib/
-    track.ts                    traçado da pista e cálculo do drift
+    accessibility.ts            preferências de acessibilidade
+    track.ts                    traçado da faixa, do oito e cálculo do drift
     whatsapp.ts                 links do WhatsApp
-    assets.ts                   caminhos dos vídeos
+    assets.ts                   caminhos do vídeo
   assets/
     brand/logo.webp             logo
-    images/                     carro visto de cima, fotos ilustrativas
-    images/footage/             quadros reais do vídeo da equipe
+    images/                     carro visto de cima e fotos ilustrativas
+    images/footage/             quadros do vídeo da equipe
   styles/
-    theme.css                   cores, tipografia e tokens
+    theme.css                   cores, tipografia, tokens e alto contraste
+    accessibility.css           atalhos, forced colors e movimento reduzido
     controls.css                botões e links
-    motion.css                  entradas ao rolar
     sections/                   um arquivo por seção
+ACESSIBILIDADE.md               o que já atende ao WCAG e como testar
 DESIGN.md                       sistema visual documentado
 PRODUCT.md                      fatos do negócio que o design respeita
 ```
 
 ## Edições comuns
 
-- **WhatsApp, Instagram, endereço e horário:** objeto `contact` em `src/content/site.ts`. O
-  número é usado no formulário, nos botões "Orçar", no botão flutuante e no rodapé.
-- **Marcos da Trajetória:** `src/content/milestones.ts`. Adicione, remova ou reordene; a pista
-  ganha uma curva por marco automaticamente.
+- **WhatsApp, Instagram, endereço e horário:** objeto `contact` em `src/content/site.ts`. O número
+  é usado no formulário, nas gavetas, no botão flutuante e no rodapé.
+- **Slogan:** `site.tagline` em `src/content/site.ts`. É parte da marca: aparece sempre completo,
+  nas duas frases.
+- **Marcos da Trajetória:** `src/content/milestones.ts`. Adicione, remova ou reordene; a faixa
+  ganha uma curva e um cone por marco automaticamente.
 - **Serviços:** `src/content/services.ts`. O formulário lista os mesmos serviços.
-- **Cores e tipografia:** `src/styles/theme.css` (o vermelho da marca é `--color-accent`). Antes
-  de mudar, leia `DESIGN.md`.
+- **Cores e tipografia:** `src/styles/theme.css` (o vermelho da marca é `--color-accent`). Antes de
+  mudar, leia `DESIGN.md`, e confira o contraste em `ACESSIBILIDADE.md`.
 - **Textos de cada seção:** no componente correspondente em `src/components/sections/`.
+
+## Acessibilidade
+
+O site segue as preferências do sistema (movimento reduzido, contraste alto) e tem atalhos de
+acesso no padrão eMAG. Para conferir cada modo, abra com `?movimento=reduzido`, `?contraste=alto`
+ou `?fonte=150` na URL (e `?acessibilidade=padrao` para voltar). Tudo está em `ACESSIBILIDADE.md`.
 
 ## Mídias
 
-| Arquivo                                | Uso                                                               |
-| -------------------------------------- | ----------------------------------------------------------------- |
-| `src/assets/brand/logo.webp`           | Logo (fundo transparente)                                         |
-| `src/assets/images/drift-car-top.webp` | Carro visto de cima: dianteira **para baixo**, fundo transparente |
-| `src/assets/images/footage/*.webp`     | Quadros do vídeo da equipe usados como fotos                      |
-| `src/assets/images/*-drift.jpg`        | Fotos ilustrativas de box e peças — **trocar pelas reais**        |
-| `public/media/hero-drift(-mobile).*`   | Vídeo do topo (1080p no computador, 720p no celular)              |
-| `public/media/slide-loop.*`            | Trecho de 2 s do carro de lado, dentro do título da Trajetória    |
+| Arquivo                                | Origem e uso                                                                           |
+| -------------------------------------- | -------------------------------------------------------------------------------------- |
+| `src/assets/brand/logo.webp`           | Logo enviado pelo cliente (fundo transparente)                                         |
+| `src/assets/images/drift-car-top.webp` | 350Z visto de cima, enviado pelo cliente: dianteira **para baixo**, fundo transparente |
+| `src/assets/images/footage/*.webp`     | Quadros extraídos do vídeo da equipe (`hero.webm`, enviado pelo cliente)               |
+| `src/assets/images/*-drift.jpg`        | Fotos ilustrativas de box e peças, vindas do projeto original: **trocar pelas reais**  |
+| `public/media/hero-drift(-mobile).*`   | Vídeo do topo, convertido do `hero.webm` (1080p no computador, 720p no celular)        |
+| `public/media/hero-poster.webp`        | Quadro do vídeo exibido enquanto ele carrega                                           |
 
 Para trocar o vídeo do topo, gere as versões a partir do original com [ffmpeg](https://ffmpeg.org):
 
@@ -111,8 +127,25 @@ ffmpeg -i original.mp4 -an -vf scale=-2:720 -c:v libx264 -crf 27 -preset slow -p
 ffmpeg -ss 1 -i original.mp4 -frames:v 1 -vf scale=1920:-2 public/media/hero-poster.webp
 ```
 
+Para tirar um quadro do vídeo e usar como foto (troque `12` pelo segundo desejado):
+
+```bash
+ffmpeg -ss 12 -i original.mp4 -frames:v 1 -vf scale=1600:-2 -c:v libwebp -quality 80 src/assets/images/footage/novo-quadro.webp
+```
+
 ## Antes de publicar
 
-- [ ] Trocar os dados de exemplo em `src/content/site.ts` (WhatsApp, endereço, horário).
-- [ ] Confirmar os marcos da Trajetória (textos e anos são provisórios).
+- [ ] Trocar os dados de exemplo em `src/content/site.ts` (WhatsApp, endereço, horário,
+      Instagram).
+- [ ] Confirmar os marcos da Trajetória (textos e anos são provisórios; "Na pista desde" usa o
+      primeiro ano da lista).
+- [ ] Confirmar o que cada serviço inclui em `src/content/services.ts` (itens de exemplo).
 - [ ] Trocar as fotos ilustrativas de box e peças pelas reais.
+
+## Próximas etapas
+
+- **Acessibilidade:** quando chegar o documento WCAG de referência, seguir os próximos passos de
+  `ACESSIBILIDADE.md` (painel de acessibilidade, testes com leitores de tela).
+- **Sistema de chamados:** abertura e acompanhamento de serviços. O formulário da ordem de serviço
+  (`WorkOrderForm.tsx`) é o ponto de partida, e o sistema deve seguir os tokens de `DESIGN.md` e os
+  padrões de `ACESSIBILIDADE.md`.

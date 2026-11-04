@@ -1,4 +1,7 @@
-/* Header: uma barra de papel com logo, três links e a ação principal. */
+/*
+ * Header: transparente sobre o vídeo; grafite sólido depois de descer.
+ * O recolhimento ao rolar é feito pelo Motion em Header.tsx.
+ */
 
 @layer components {
   .site-header {
@@ -7,7 +10,12 @@
     top: 0;
     z-index: 50;
     padding-top: env(safe-area-inset-top, 0px);
-    background: var(--color-paper);
+    color: var(--color-ink);
+    transition: background-color 300ms ease;
+
+    &.is-solid {
+      background: var(--color-carbon);
+    }
   }
 
   .site-header-bar {
@@ -18,34 +26,130 @@
     height: var(--header-height);
   }
 
-  .header-link {
-    font-size: var(--text-small);
-    font-weight: 500;
-    text-decoration: underline;
-    text-decoration-thickness: 0.07em;
-    text-underline-offset: 0.3em;
-    text-decoration-color: transparent;
-    transition: text-decoration-color 180ms ease;
+  .site-header-logo {
+    flex-shrink: 0;
+  }
 
-    @media (hover: hover) and (pointer: fine) {
-      &:hover {
-        text-decoration-color: currentColor;
-      }
+  .site-header-menu {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+  }
+
+  .site-nav ul {
+    display: flex;
+    gap: 2rem;
+  }
+
+  /* Link do menu: o texto "rola" para cima e volta sob o ponteiro. */
+  .nav-link {
+    display: inline-flex;
+    align-items: center;
+    min-height: 2.75rem;
+    font-size: var(--text-small);
+    font-weight: 600;
+    letter-spacing: 0.01em;
+  }
+
+  .nav-link-roll {
+    position: relative;
+    display: inline-block;
+    overflow: hidden;
+    line-height: 1.3;
+
+    & > span {
+      display: block;
+      transition: transform 420ms var(--ease-expo);
+    }
+
+    & > span + span {
+      position: absolute;
+      inset: 100% 0 auto;
     }
   }
 
+  @media (hover: hover) and (pointer: fine) {
+    .nav-link:hover .nav-link-roll > span {
+      transform: translateY(-100%);
+    }
+  }
+
+  .nav-link:focus-visible .nav-link-roll > span:first-child {
+    text-decoration: underline;
+    text-underline-offset: 0.3em;
+  }
+
+  .menu-toggle {
+    display: none;
+    min-height: 2.75rem;
+    padding: 0 0.75rem;
+    margin-right: -0.75rem;
+    font-size: var(--text-small);
+    font-weight: 600;
+  }
+
+  @media (width < 64rem) {
+    .site-nav,
+    .site-header-action {
+      display: none;
+    }
+
+    .menu-toggle {
+      display: inline-flex;
+      align-items: center;
+    }
+  }
+
+  /* Menu do celular em tela cheia. */
   .mobile-menu {
+    position: fixed;
+    inset: 0;
+    z-index: 120;
     display: flex;
     flex-direction: column;
-    min-height: calc(100svh - var(--header-height));
-    padding: 1.5rem var(--page-margin) 2rem;
+    padding: env(safe-area-inset-top, 0px) var(--page-margin)
+      calc(1.5rem + env(safe-area-inset-bottom, 0px));
+    background: var(--color-carbon);
+    color: var(--color-ink);
+    overflow-y: auto;
+  }
+
+  .mobile-menu-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    min-height: var(--header-height);
+
+    & .menu-toggle {
+      display: inline-flex;
+      align-items: center;
+    }
+  }
+
+  .mobile-menu-nav {
+    flex: 1;
+    padding-block: 2rem;
   }
 
   .mobile-menu-link {
-    padding-block: 0.4rem;
-    font-size: var(--text-head);
-    font-weight: 500;
-    line-height: 1.1;
-    letter-spacing: -0.04em;
+    display: block;
+    padding-block: 0.35rem;
+    font-size: clamp(3rem, 2rem + 6vw, 4.5rem);
+    font-weight: 800;
+    font-stretch: 62%;
+    line-height: 1;
+    text-transform: uppercase;
+    overflow-wrap: anywhere;
+  }
+
+  .mobile-menu-footer {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 1.25rem;
+
+    & p {
+      color: var(--color-muted);
+      font-size: var(--text-small);
+    }
   }
 }

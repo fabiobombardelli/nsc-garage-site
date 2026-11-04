@@ -1,38 +1,309 @@
 {
   "schemaVersion": 2,
-  "generatedAt": "2026-11-04T05:40:00Z",
+  "generatedAt": "2026-11-04T11:12:41Z",
   "title": "Design System: NSC Garage",
   "extensions": {
     "colorMeta": {
-      "paper": { "role": "neutral", "displayName": "Papel frio", "canonical": "oklch(0.952 0.004 240)" },
-      "surface": { "role": "neutral", "displayName": "Superfície", "canonical": "oklch(0.912 0.005 240)" },
-      "ink": { "role": "neutral", "displayName": "Tinta carbono", "canonical": "oklch(0.19 0.006 250)" },
-      "muted": { "role": "neutral", "displayName": "Tinta secundária", "canonical": "oklch(0.43 0.008 250)" },
-      "accent": { "role": "primary", "displayName": "Vermelho da marca", "canonical": "oklch(0.55 0.215 28)" },
-      "accent-strong": { "role": "primary", "displayName": "Vermelho sob o ponteiro", "canonical": "oklch(0.49 0.2 28)" },
-      "asphalt": { "role": "neutral", "displayName": "Asfalto", "canonical": "oklch(0.28 0.006 250)" },
-      "asphalt-raised": { "role": "neutral", "displayName": "Asfalto elevado", "canonical": "oklch(0.34 0.006 250)" },
-      "rubber": { "role": "neutral", "displayName": "Borracha", "canonical": "oklch(0.12 0.004 250)" }
+      "carbon": {
+        "role": "neutral",
+        "displayName": "Grafite",
+        "canonical": "oklch(0.205 0.005 250)",
+        "tonalRamp": [
+          "oklch(0.15 0.006 250)",
+          "oklch(0.26 0.006 250)",
+          "oklch(0.37 0.006 250)",
+          "oklch(0.48 0.006 250)",
+          "oklch(0.60 0.006 250)",
+          "oklch(0.72 0.006 250)",
+          "oklch(0.84 0.006 250)",
+          "oklch(0.95 0.006 250)"
+        ]
+      },
+      "floor": {
+        "role": "neutral",
+        "displayName": "Piso de epóxi",
+        "canonical": "oklch(0.265 0.005 250)",
+        "tonalRamp": [
+          "oklch(0.15 0.006 250)",
+          "oklch(0.26 0.006 250)",
+          "oklch(0.37 0.006 250)",
+          "oklch(0.48 0.006 250)",
+          "oklch(0.60 0.006 250)",
+          "oklch(0.72 0.006 250)",
+          "oklch(0.84 0.006 250)",
+          "oklch(0.95 0.006 250)"
+        ]
+      },
+      "raised": {
+        "role": "neutral",
+        "displayName": "Bancada",
+        "canonical": "oklch(0.305 0.005 250)",
+        "tonalRamp": [
+          "oklch(0.15 0.006 250)",
+          "oklch(0.26 0.006 250)",
+          "oklch(0.37 0.006 250)",
+          "oklch(0.48 0.006 250)",
+          "oklch(0.60 0.006 250)",
+          "oklch(0.72 0.006 250)",
+          "oklch(0.84 0.006 250)",
+          "oklch(0.95 0.006 250)"
+        ]
+      },
+      "raised-strong": {
+        "role": "neutral",
+        "displayName": "Bancada sob o ponteiro",
+        "canonical": "oklch(0.36 0.005 250)",
+        "tonalRamp": [
+          "oklch(0.15 0.006 250)",
+          "oklch(0.26 0.006 250)",
+          "oklch(0.37 0.006 250)",
+          "oklch(0.48 0.006 250)",
+          "oklch(0.60 0.006 250)",
+          "oklch(0.72 0.006 250)",
+          "oklch(0.84 0.006 250)",
+          "oklch(0.95 0.006 250)"
+        ]
+      },
+      "ink": {
+        "role": "neutral",
+        "displayName": "Luz de LED",
+        "canonical": "oklch(0.965 0.003 250)",
+        "tonalRamp": [
+          "oklch(0.15 0.006 250)",
+          "oklch(0.26 0.006 250)",
+          "oklch(0.37 0.006 250)",
+          "oklch(0.48 0.006 250)",
+          "oklch(0.60 0.006 250)",
+          "oklch(0.72 0.006 250)",
+          "oklch(0.84 0.006 250)",
+          "oklch(0.95 0.006 250)"
+        ]
+      },
+      "muted": {
+        "role": "neutral",
+        "displayName": "LED difuso",
+        "canonical": "oklch(0.78 0.006 250)",
+        "tonalRamp": [
+          "oklch(0.15 0.006 250)",
+          "oklch(0.26 0.006 250)",
+          "oklch(0.37 0.006 250)",
+          "oklch(0.48 0.006 250)",
+          "oklch(0.60 0.006 250)",
+          "oklch(0.72 0.006 250)",
+          "oklch(0.84 0.006 250)",
+          "oklch(0.95 0.006 250)"
+        ]
+      },
+      "accent": {
+        "role": "primary",
+        "displayName": "Vermelho laqueado",
+        "canonical": "oklch(0.55 0.21 27)",
+        "tonalRamp": [
+          "oklch(0.15 0.073 27)",
+          "oklch(0.26 0.126 27)",
+          "oklch(0.37 0.178 27)",
+          "oklch(0.48 0.210 27)",
+          "oklch(0.60 0.210 27)",
+          "oklch(0.72 0.168 27)",
+          "oklch(0.84 0.105 27)",
+          "oklch(0.95 0.042 27)"
+        ]
+      },
+      "accent-strong": {
+        "role": "primary",
+        "displayName": "Vermelho sob o ponteiro",
+        "canonical": "oklch(0.48 0.19 27)",
+        "tonalRamp": [
+          "oklch(0.15 0.073 27)",
+          "oklch(0.26 0.126 27)",
+          "oklch(0.37 0.178 27)",
+          "oklch(0.48 0.210 27)",
+          "oklch(0.60 0.210 27)",
+          "oklch(0.72 0.168 27)",
+          "oklch(0.84 0.105 27)",
+          "oklch(0.95 0.042 27)"
+        ]
+      },
+      "on-accent": {
+        "role": "neutral",
+        "displayName": "Tinta sobre o vermelho",
+        "canonical": "oklch(0.985 0.002 250)",
+        "tonalRamp": [
+          "oklch(0.15 0.006 250)",
+          "oklch(0.26 0.006 250)",
+          "oklch(0.37 0.006 250)",
+          "oklch(0.48 0.006 250)",
+          "oklch(0.60 0.006 250)",
+          "oklch(0.72 0.006 250)",
+          "oklch(0.84 0.006 250)",
+          "oklch(0.95 0.006 250)"
+        ]
+      },
+      "on-light": {
+        "role": "neutral",
+        "displayName": "Tinta sobre a luz",
+        "canonical": "oklch(0.18 0.004 250)",
+        "tonalRamp": [
+          "oklch(0.15 0.006 250)",
+          "oklch(0.26 0.006 250)",
+          "oklch(0.37 0.006 250)",
+          "oklch(0.48 0.006 250)",
+          "oklch(0.60 0.006 250)",
+          "oklch(0.72 0.006 250)",
+          "oklch(0.84 0.006 250)",
+          "oklch(0.95 0.006 250)"
+        ]
+      },
+      "paint": {
+        "role": "neutral",
+        "displayName": "Tinta de piso",
+        "canonical": "oklch(0.93 0.003 250)",
+        "tonalRamp": [
+          "oklch(0.15 0.006 250)",
+          "oklch(0.26 0.006 250)",
+          "oklch(0.37 0.006 250)",
+          "oklch(0.48 0.006 250)",
+          "oklch(0.60 0.006 250)",
+          "oklch(0.72 0.006 250)",
+          "oklch(0.84 0.006 250)",
+          "oklch(0.95 0.006 250)"
+        ]
+      },
+      "rubber": {
+        "role": "neutral",
+        "displayName": "Borracha",
+        "canonical": "oklch(0.1 0.003 250)",
+        "tonalRamp": [
+          "oklch(0.15 0.006 250)",
+          "oklch(0.26 0.006 250)",
+          "oklch(0.37 0.006 250)",
+          "oklch(0.48 0.006 250)",
+          "oklch(0.60 0.006 250)",
+          "oklch(0.72 0.006 250)",
+          "oklch(0.84 0.006 250)",
+          "oklch(0.95 0.006 250)"
+        ]
+      },
+      "focus": {
+        "role": "functional",
+        "displayName": "Amarelo de foco",
+        "canonical": "oklch(0.88 0.17 95)",
+        "tonalRamp": [
+          "oklch(0.15 0.051 95)",
+          "oklch(0.26 0.077 95)",
+          "oklch(0.37 0.102 95)",
+          "oklch(0.48 0.128 95)",
+          "oklch(0.60 0.153 95)",
+          "oklch(0.72 0.170 95)",
+          "oklch(0.84 0.170 95)",
+          "oklch(0.95 0.085 95)"
+        ]
+      },
+      "danger": {
+        "role": "functional",
+        "displayName": "Vermelho de alerta",
+        "canonical": "oklch(0.76 0.15 25)",
+        "tonalRamp": [
+          "oklch(0.15 0.059 25)",
+          "oklch(0.26 0.102 25)",
+          "oklch(0.37 0.145 25)",
+          "oklch(0.48 0.170 25)",
+          "oklch(0.60 0.170 25)",
+          "oklch(0.72 0.136 25)",
+          "oklch(0.84 0.085 25)",
+          "oklch(0.95 0.034 25)"
+        ]
+      }
     },
     "typographyMeta": {
-      "display": { "displayName": "Display", "purpose": "Frases de pôster: título da Trajetória e número do WhatsApp." },
-      "head": { "displayName": "Título", "purpose": "Títulos de seção e do topo." },
-      "lead": { "displayName": "Afirmação", "purpose": "Frases grandes de texto e títulos dos marcos." },
-      "body": { "displayName": "Texto", "purpose": "Texto corrido na tinta cheia." },
-      "small": { "displayName": "Nota", "purpose": "Menu, notas e rótulos." }
+      "monument": {
+        "displayName": "Monumento",
+        "purpose": "Só o slogan do topo, medido pela largura útil (cqw)."
+      },
+      "head": {
+        "displayName": "Título",
+        "purpose": "Títulos de seção, anos dos marcos e o bloco vermelho da Oficina."
+      },
+      "lead": {
+        "displayName": "Abertura",
+        "purpose": "Frase do topo, aberturas de seção, títulos dos marcos e contatos do rodapé."
+      },
+      "body": {
+        "displayName": "Texto",
+        "purpose": "Texto corrido (34–52ch), botões e rótulos de campo."
+      },
+      "small": {
+        "displayName": "Nota",
+        "purpose": "Menu, dicas, rótulos dos fatos, legenda do vídeo e textos legais."
+      }
     },
     "shadows": [
-      { "name": "floating-action", "value": "0 10px 24px oklch(0.19 0.006 250 / 28%)", "purpose": "Somente o botão flutuante do WhatsApp." }
+      {
+        "name": "flutuacao",
+        "value": "0 12px 28px oklch(0 0 0 / 45%)",
+        "purpose": "Só o botão do WhatsApp, que flutua sobre o conteúdo."
+      },
+      {
+        "name": "contato-do-carro",
+        "value": "drop-shadow(0 6px 5px oklch(0 0 0 / 55%))",
+        "purpose": "O 350Z sobre o piso (filter, não box-shadow)."
+      },
+      {
+        "name": "scrim-do-video",
+        "value": "linear-gradient(180deg, oklch(0 0 0 / 78%) 0%, oklch(0 0 0 / 30%) 36%, oklch(0 0 0 / 20%) 55%, oklch(0 0 0 / 85%) 100%)",
+        "purpose": "Escurece as bordas do vídeo do topo para o slogan manter 3:1 ou mais em qualquer quadro."
+      }
     ],
     "motion": [
-      { "name": "ease-out", "value": "cubic-bezier(0.22, 1, 0.36, 1)", "purpose": "Entradas e respostas abaixo de 600 ms." },
-      { "name": "ease-expo", "value": "cubic-bezier(0.16, 1, 0.3, 1)", "purpose": "Revelações longas e o contador de anos." },
-      { "name": "ease-in-out", "value": "cubic-bezier(0.76, 0, 0.24, 1)", "purpose": "Fotos que abrem como persiana." },
-      { "name": "ease-soft", "value": "cubic-bezier(0.33, 1, 0.68, 1)", "purpose": "Escala lenta das fotos." }
+      {
+        "name": "ease-out",
+        "value": "cubic-bezier(0.22, 1, 0.36, 1)",
+        "purpose": "Respostas de controles, gavetas e o header (até 450ms)."
+      },
+      {
+        "name": "ease-expo",
+        "value": "cubic-bezier(0.16, 1, 0.3, 1)",
+        "purpose": "Entradas longas: blocos, linhas mascaradas, contador de anos, links do menu."
+      },
+      {
+        "name": "ease-in-out",
+        "value": "cubic-bezier(0.76, 0, 0.24, 1)",
+        "purpose": "Fotos dos marcos que abrem como persiana (1100ms)."
+      },
+      {
+        "name": "reveal",
+        "value": "900ms ease-expo, 80ms por item",
+        "purpose": "Blocos que sobem 24px e aparecem ao entrar na tela."
+      },
+      {
+        "name": "masked-line",
+        "value": "1000ms ease-expo",
+        "purpose": "Títulos que sobem de dentro de uma máscara."
+      },
+      {
+        "name": "drawer",
+        "value": "450ms cubic-bezier(0.22, 1, 0.36, 1)",
+        "purpose": "Gavetas do carrinho de serviços abrindo no lugar."
+      },
+      {
+        "name": "figure-eight",
+        "value": "240 unidades/s, loop contínuo",
+        "purpose": "O carro do rodapé; pausa por botão, fora da tela e no movimento reduzido."
+      }
     ],
     "breakpoints": [
-      { "name": "tablet", "value": "48rem" },
-      { "name": "desktop", "value": "64rem" }
+      {
+        "name": "narrow",
+        "value": "40rem"
+      },
+      {
+        "name": "tablet",
+        "value": "48rem"
+      },
+      {
+        "name": "desktop",
+        "value": "64rem"
+      }
     ]
   },
   "components": [
@@ -40,50 +311,131 @@
       "name": "Botão principal",
       "kind": "button",
       "refersTo": "button-primary",
-      "description": "A ação principal, sempre 'Agendar avaliação'.",
-      "html": "<a class=\"ds-button\" href=\"#contato\">Agendar avaliação</a>",
-      "css": ".ds-button{display:inline-flex;align-items:center;justify-content:center;min-height:52px;padding:0 24px;background:oklch(0.55 0.215 28);color:oklch(0.952 0.004 240);font:500 18px/1.2 'Hanken Grotesk',system-ui,sans-serif;letter-spacing:-0.01em;text-decoration:none;border-radius:0;transition:transform 140ms cubic-bezier(.22,1,.36,1),background-color 180ms ease}.ds-button:hover{background:oklch(0.49 0.2 28)}.ds-button:active{transform:scale(.97)}"
+      "description": "A ação principal, sempre \"Agendar avaliação\": laca vermelha, cantos retos e a seta que avança.",
+      "html": "<a class=\"ds-button\" href=\"#contato\">Agendar avaliação<span class=\"ds-button-arrow\"><svg width=\"18\" height=\"18\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M5 12h14\"/><path d=\"m12 5 7 7-7 7\"/></svg></span></a>",
+      "css": ".ds-button{display:inline-flex;align-items:center;justify-content:center;gap:.75rem;min-height:3.25rem;padding:0 1.5rem;border:2px solid transparent;border-radius:0;background:var(--color-accent,oklch(0.55 0.21 27));color:var(--color-on-accent,oklch(0.985 0.002 250));font:600 1.0625rem/1.2 var(--font-sans,'Archivo Variable','Archivo',system-ui,sans-serif);text-decoration:none;transition:transform 140ms cubic-bezier(.22,1,.36,1),background-color 180ms ease}.ds-button-arrow{display:inline-flex;transition:transform 300ms cubic-bezier(.22,1,.36,1)}.ds-button:hover{background:var(--color-accent-strong,oklch(0.48 0.19 27))}.ds-button:hover .ds-button-arrow{transform:translateX(.25rem)}.ds-button:active{transform:scale(.97)}.ds-button:focus-visible{outline:3px solid var(--color-focus,oklch(0.88 0.17 95));outline-offset:3px}"
     },
     {
-      "name": "Campo do cupom",
+      "name": "Botão discreto",
+      "kind": "button",
+      "refersTo": "button-quiet",
+      "description": "Ação secundária na bancada, mesmo formato do principal.",
+      "html": "<a class=\"ds-button-quiet\" href=\"#trajetoria\">Ver os marcos</a>",
+      "css": ".ds-button-quiet{display:inline-flex;align-items:center;min-height:3.25rem;padding:0 1.5rem;border:2px solid transparent;border-radius:0;background:var(--color-raised,oklch(0.305 0.005 250));color:var(--color-ink,oklch(0.965 0.003 250));font:600 1.0625rem/1.2 var(--font-sans,'Archivo Variable','Archivo',system-ui,sans-serif);text-decoration:none;transition:background-color 180ms ease}.ds-button-quiet:hover{background:var(--color-raised-strong,oklch(0.36 0.005 250))}.ds-button-quiet:focus-visible{outline:3px solid var(--color-focus,oklch(0.88 0.17 95));outline-offset:3px}"
+    },
+    {
+      "name": "Botão de ícone",
+      "kind": "button",
+      "refersTo": "icon-button",
+      "description": "Pausa do vídeo e da animação do rodapé: quadrado de 2.75rem em grafite translúcido.",
+      "html": "<div style=\"background:#3b3d40;padding:16px\"><button class=\"ds-icon-button\" type=\"button\" aria-label=\"Pausar vídeo\"><svg width=\"18\" height=\"18\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><rect x=\"14\" y=\"4\" width=\"4\" height=\"16\" rx=\"1\"/><rect x=\"6\" y=\"4\" width=\"4\" height=\"16\" rx=\"1\"/></svg></button></div>",
+      "css": ".ds-icon-button{display:inline-grid;place-items:center;min-width:2.75rem;min-height:2.75rem;border:2px solid transparent;border-radius:0;background:color-mix(in oklab,var(--color-carbon,oklch(0.205 0.005 250)) 72%,transparent);color:var(--color-ink,oklch(0.965 0.003 250));cursor:pointer;transition:background-color 180ms ease}.ds-icon-button:hover{background:var(--color-carbon,oklch(0.205 0.005 250))}.ds-icon-button:focus-visible{outline:3px solid var(--color-focus,oklch(0.88 0.17 95));outline-offset:3px}"
+    },
+    {
+      "name": "Campo da ordem de serviço",
       "kind": "input",
-      "refersTo": "field-on-ink",
-      "description": "Campo preenchido sobre o cupom escuro de inscrição.",
-      "html": "<div style=\"background:oklch(0.19 0.006 250);padding:24px\"><input class=\"ds-field\" placeholder=\"Seu nome\"></div>",
-      "css": ".ds-field{width:100%;min-height:52px;padding:12px 16px;background:oklch(0.34 0.006 250);color:oklch(0.952 0.004 240);border:0;border-radius:0;font:400 18px/1.4 'Hanken Grotesk',system-ui,sans-serif}.ds-field::placeholder{color:oklch(0.8 0.004 250)}.ds-field:focus-visible{outline:2px solid oklch(0.55 0.215 28);outline-offset:3px}"
+      "refersTo": "field",
+      "description": "Campo em grafite sobre a bancada, com rótulo visível e dica ligada ao campo.",
+      "html": "<div class=\"ds-field-wrap\"><label class=\"ds-field-label\" for=\"ds-carro\">Carro</label><span class=\"ds-field-hint\" id=\"ds-carro-dica\">Modelo e ano, se souber.</span><input class=\"ds-field\" id=\"ds-carro\" aria-describedby=\"ds-carro-dica\" placeholder=\"Ex.: Nissan 350Z 2006\"></div>",
+      "css": ".ds-field-wrap{display:grid;gap:.4rem;padding:1.5rem;background:var(--color-raised,oklch(0.305 0.005 250));color:var(--color-ink,oklch(0.965 0.003 250));font:400 1.0625rem/1.55 var(--font-sans,'Archivo Variable','Archivo',system-ui,sans-serif)}.ds-field-label{font-weight:600}.ds-field-hint{color:var(--color-muted,oklch(0.78 0.006 250));font-size:.875rem}.ds-field{width:100%;min-height:3.25rem;padding:.75rem 1rem;border:2px solid transparent;border-radius:0;background:var(--color-carbon,oklch(0.205 0.005 250));color:var(--color-ink,oklch(0.965 0.003 250));font:inherit}.ds-field::placeholder{color:var(--color-muted,oklch(0.78 0.006 250))}.ds-field:focus-visible{outline:3px solid var(--color-focus,oklch(0.88 0.17 95));outline-offset:3px}"
     },
     {
       "name": "Barra de navegação",
       "kind": "nav",
       "refersTo": "header-bar",
-      "description": "Logo, três links e a ação principal sobre papel.",
-      "html": "<nav class=\"ds-nav\"><strong>NSC Garage</strong><span><a>Trajetória</a><a>Oficina</a><a>Serviços</a><a class=\"ds-nav-cta\">Agendar avaliação</a></span></nav>",
-      "css": ".ds-nav{display:flex;align-items:center;justify-content:space-between;height:68px;padding:0 32px;background:oklch(0.952 0.004 240);color:oklch(0.19 0.006 250);font:500 14px 'Hanken Grotesk',system-ui,sans-serif}.ds-nav span{display:flex;gap:32px;align-items:center}.ds-nav-cta{background:oklch(0.55 0.215 28);color:oklch(0.952 0.004 240);padding:12px 16px}"
+      "description": "Header grafite: logo, três links que rolam sob o ponteiro e a ação principal em tamanho small.",
+      "html": "<nav class=\"ds-nav\" aria-label=\"Principal\"><strong class=\"ds-nav-logo\">NSC GARAGE</strong><span class=\"ds-nav-links\"><a href=\"#trajetoria\"><span class=\"ds-roll\"><span>Trajetória</span><span aria-hidden=\"true\">Trajetória</span></span></a><a href=\"#oficina\"><span class=\"ds-roll\"><span>Oficina</span><span aria-hidden=\"true\">Oficina</span></span></a><a href=\"#servicos\"><span class=\"ds-roll\"><span>Serviços</span><span aria-hidden=\"true\">Serviços</span></span></a><a class=\"ds-nav-cta\" href=\"#contato\">Agendar avaliação</a></span></nav>",
+      "css": ".ds-nav{display:flex;align-items:center;justify-content:space-between;gap:1.5rem;height:4.5rem;padding:0 2rem;background:var(--color-carbon,oklch(0.205 0.005 250));color:var(--color-ink,oklch(0.965 0.003 250));font:600 .875rem/1.3 var(--font-sans,'Archivo Variable','Archivo',system-ui,sans-serif);letter-spacing:.01em}.ds-nav-logo{font-weight:800;font-stretch:62%;font-size:1.5rem;letter-spacing:0}.ds-nav-links{display:flex;align-items:center;gap:2rem}.ds-nav a{color:inherit;text-decoration:none}.ds-roll{position:relative;display:inline-block;overflow:hidden}.ds-roll>span{display:block;transition:transform 420ms cubic-bezier(.16,1,.3,1)}.ds-roll>span+span{position:absolute;inset:100% 0 auto}.ds-nav a:hover .ds-roll>span{transform:translateY(-100%)}.ds-nav a:focus-visible{outline:3px solid var(--color-focus,oklch(0.88 0.17 95));outline-offset:3px}.ds-nav-cta{display:inline-flex;align-items:center;min-height:2.75rem;padding:0 1.125rem;background:var(--color-accent,oklch(0.55 0.21 27));color:var(--color-on-accent,oklch(0.985 0.002 250))}.ds-nav-cta:hover{background:var(--color-accent-strong,oklch(0.48 0.19 27))}"
+    },
+    {
+      "name": "Gaveta do carrinho",
+      "kind": "custom",
+      "refersTo": "drawer-front",
+      "description": "Frente de gaveta vermelha com puxador de alumínio; abre no lugar e mostra o interior em bancada.",
+      "html": "<div class=\"ds-drawer\"><button class=\"ds-drawer-front\" type=\"button\" aria-expanded=\"true\"><span class=\"ds-drawer-label\">Preparação de drift</span><span class=\"ds-drawer-group\">Competição</span><span class=\"ds-drawer-icon\"><svg width=\"20\" height=\"20\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M5 12h14\"/><path d=\"M12 5v14\"/></svg></span></button><div class=\"ds-drawer-body\"><p>Chassi, ângulo de esterço e acerto de suspensão para a pista.</p></div></div>",
+      "css": ".ds-drawer{max-width:42rem;font:400 1.0625rem/1.55 var(--font-sans,'Archivo Variable','Archivo',system-ui,sans-serif)}.ds-drawer-front{position:relative;display:flex;align-items:center;gap:1rem;width:100%;min-height:4rem;padding:.875rem 1.25rem .75rem;border:2px solid transparent;border-radius:0;background:var(--color-accent,oklch(0.55 0.21 27));color:var(--color-on-accent,oklch(0.985 0.002 250));font:600 1.0625rem/1.3 var(--font-sans,'Archivo Variable','Archivo',system-ui,sans-serif);text-align:left;cursor:pointer;transition:background-color 180ms ease}.ds-drawer-front::before{content:\"\";position:absolute;top:.4rem;left:1.25rem;right:1.25rem;height:.3rem;border-radius:.15rem;background:color-mix(in oklab,var(--color-on-accent,oklch(0.985 0.002 250)) 72%,transparent);transition:transform 300ms cubic-bezier(.22,1,.36,1)}.ds-drawer-front:hover{background:var(--color-accent-strong,oklch(0.48 0.19 27))}.ds-drawer-front:hover::before{transform:translateY(-.1rem)}.ds-drawer-front:focus-visible{outline:3px solid var(--color-focus,oklch(0.88 0.17 95));outline-offset:3px}.ds-drawer-label{flex:1}.ds-drawer-group{font-size:.875rem;font-weight:500}.ds-drawer-icon{display:inline-flex;transition:transform 300ms cubic-bezier(.22,1,.36,1)}.ds-drawer-front[aria-expanded=\"true\"] .ds-drawer-icon{transform:rotate(45deg)}.ds-drawer-body{padding:1.25rem 1.25rem 1.5rem;background:var(--color-raised,oklch(0.305 0.005 250));color:var(--color-ink,oklch(0.965 0.003 250))}"
+    },
+    {
+      "name": "Painel de luz",
+      "kind": "card",
+      "refersTo": "light-panel",
+      "description": "Texto escuro sobre a luz do LED: a nota sobre a foto da Oficina e a célula clara da Trajetória.",
+      "html": "<figure class=\"ds-light-wrap\"><figcaption class=\"ds-light-panel\">Neto começou a preparar carros de drift quando o esporte ainda nem tinha nome no Brasil.</figcaption></figure>",
+      "css": ".ds-light-wrap{margin:0;padding:24px;background:var(--color-carbon,oklch(0.205 0.005 250))}.ds-light-panel{max-width:20rem;padding:1.25rem;background:var(--color-ink,oklch(0.965 0.003 250));color:var(--color-on-light,oklch(0.18 0.004 250));font:400 1.0625rem/1.45 var(--font-sans,'Archivo Variable','Archivo',system-ui,sans-serif);border-radius:0}"
+    },
+    {
+      "name": "Cone do box",
+      "kind": "custom",
+      "refersTo": "accent",
+      "description": "Cone visto de cima, um por marco: apagado (0.45) até o carro passar; aceso, pulsa um anel.",
+      "html": "<div class=\"ds-cone-floor\"><svg class=\"ds-cone\" viewBox=\"-20 -20 40 40\" width=\"80\" height=\"80\" aria-hidden=\"true\"><rect class=\"ds-cone-base\" x=\"-12\" y=\"-12\" width=\"24\" height=\"24\"/><circle class=\"ds-cone-body\" r=\"10\"/><circle class=\"ds-cone-band\" r=\"6.5\"/><circle class=\"ds-cone-body\" r=\"3.25\"/><circle class=\"ds-cone-ring\" r=\"16\"/></svg><svg class=\"ds-cone is-lit\" viewBox=\"-20 -20 40 40\" width=\"80\" height=\"80\" aria-hidden=\"true\"><rect class=\"ds-cone-base\" x=\"-12\" y=\"-12\" width=\"24\" height=\"24\"/><circle class=\"ds-cone-body\" r=\"10\"/><circle class=\"ds-cone-band\" r=\"6.5\"/><circle class=\"ds-cone-body\" r=\"3.25\"/><circle class=\"ds-cone-ring\" r=\"16\"/></svg></div>",
+      "css": ".ds-cone-floor{display:flex;gap:24px;padding:24px;background:var(--color-floor,oklch(0.265 0.005 250))}.ds-cone{opacity:.45;overflow:visible;transition:opacity 300ms ease}.ds-cone.is-lit{opacity:1}.ds-cone-base{fill:var(--color-rubber,oklch(0.1 0.003 250))}.ds-cone-body{fill:var(--color-accent,oklch(0.55 0.21 27))}.ds-cone-band{fill:var(--color-paint,oklch(0.93 0.003 250))}.ds-cone-ring{fill:none;stroke:var(--color-paint,oklch(0.93 0.003 250));stroke-width:2px;opacity:0;transform-box:fill-box;transform-origin:center}.ds-cone.is-lit .ds-cone-ring{animation:ds-cone-ring 900ms cubic-bezier(.22,1,.36,1) 1}@keyframes ds-cone-ring{from{opacity:.9;transform:scale(.5)}to{opacity:0;transform:scale(1.7)}}@media (prefers-reduced-motion:reduce){.ds-cone.is-lit .ds-cone-ring{animation:none}}"
     }
   ],
   "narrative": {
-    "northStar": "A ficha de julgamento",
-    "overview": "O site é a ficha oficial de uma bateria de drift: papel frio, tinta carbono e o vermelho da marca como a caneta do juiz. O 350Z #69 percorre a pista da Trajetória deixando borracha e acendendo clipping points, e fecha a página com três zerinhos no rodapé vermelho.",
+    "northStar": "O box à noite",
+    "overview": "O site é o box da NSC depois do expediente. O carro de corrida descansa sob barras de LED branco, o piso de epóxi grafite devolve a luz e o carrinho de ferramentas vermelho fica encostado na parede. Tudo sai desse lugar: o fundo é grafite em camadas (nunca preto puro), o texto é a luz do LED, e o vermelho da marca é a laca do carrinho, aplicada só em superfícies (ações, cones, gavetas e o campo do rodapé).\n\nO movimento é o assunto. O vídeo da equipe ocupa a tela inteira sob o slogan. No meio da página, o 350Z #69 desce o piso do box entre faixas pintadas conforme a página rola, deixa borracha e acende cada cone por onde passa. No rodapé, ele faz oitos sem parar em volta de dois cones. O resto da página entra com gestos curtos e mecânicos: linhas que sobem de uma máscara como placas erguidas, fotos que abrem como persiana, anos que giram como contador. Tudo para no modo de movimento reduzido.\n\nRecusas confirmadas pelo cliente e pela direção: a folha de papel branca (o claro demais escurecia a pista e o carro), a página preta com neon vermelho, cards idênticos com ícone e o hero centralizado.",
     "keyCharacteristics": [
-      "Uma família tipográfica em caixa normal, cinco tamanhos",
-      "Vermelho só na ação, nos clipping points e no rodapé",
-      "Sem linhas, sombras em repouso ou gradientes",
-      "Imagens reais do vídeo da equipe"
+      "Grafite em quatro degraus tonais, sem sombras em repouso",
+      "Archivo comprimido 800 em caixa alta para monumentos e títulos; largura normal para ler",
+      "Vermelho só como laca de superfície: ação, cones, gavetas, rodapé",
+      "Cantos retos em toda a interface; curvas só no assunto (pista, cones, fumaça)",
+      "Movimento que nasce do drift, com pausa e modo reduzido",
+      "Tokens prontos para alto contraste, fonte ampliada e WCAG 2.2 AA"
     ],
     "rules": [
-      { "name": "A caneta do juiz", "body": "O vermelho marca o que importa agir ou notar; nunca decora.", "section": "colors" },
-      { "name": "Papel frio", "body": "Nada de creme ou marfim no fundo.", "section": "colors" },
-      { "name": "Duas linhas", "body": "Todo título cabe em duas linhas em qualquer largura.", "section": "typography" }
+      {
+        "name": "A Regra da Laca",
+        "body": "O vermelho é superfície, nunca texto sobre o grafite. Onde há vermelho, há texto claro por cima.",
+        "section": "colors"
+      },
+      {
+        "name": "A Regra do Grafite",
+        "body": "O fundo nunca é preto puro fora do alto contraste. A profundidade vem dos quatro degraus (`carbon` → `floor` → `raised` → `raised-strong`).",
+        "section": "colors"
+      },
+      {
+        "name": "A Regra dos Tokens",
+        "body": "Componentes usam só os tokens de cor; preto translúcido aparece apenas em sombras e no scrim do vídeo. O alto contraste (`data-contrast=\"high\"` ou `prefers-contrast: more`) troca os tokens por preto, branco, `#d40000` e amarelo `#ffe500`, sem tocar nos componentes.",
+        "section": "colors"
+      },
+      {
+        "name": "A Regra dos Cinco Tamanhos",
+        "body": "Texto de leitura usa só os cinco tamanhos acima, todos em rem, para crescer com o zoom e com a escala de fonte do site (até 150%).",
+        "section": "typography"
+      },
+      {
+        "name": "A Regra do Monumento",
+        "body": "Letra comprimida que preenche uma medida é calculada pela própria medida: o slogan (95% da largura útil), o nome no rodapé (`100cqw / 4.65`, de margem a margem), a palavra \"Serviços\" (`27.8cqw` da coluna do carrinho) e os links do menu do celular (`clamp(3rem, 2rem + 6vw, 4.5rem)`). Todos podem quebrar (`overflow-wrap: anywhere`) se o texto crescer, em vez de serem cortados.",
+        "section": "typography"
+      },
+      {
+        "name": "A Regra do Slogan",
+        "body": "\"Carros são nossa paixão. Competir é a obsessão.\" aparece sempre completo, nas duas frases, no h1 do topo.",
+        "section": "typography"
+      },
+      {
+        "name": "A Regra do Piso",
+        "body": "Profundidade é tom e sobreposição, não sombra. A sombra só existe onde algo realmente flutua ou toca o chão.",
+        "section": "elevation"
+      }
     ],
     "dos": [
-      "Usar quadros reais do vídeo da equipe",
-      "Deixar o carro e a pista como o único momento barulhento",
-      "Manter o conteúdo visível sem JavaScript e com movimento reduzido"
+      "**Do** manter o slogan \"Carros são nossa paixão. Competir é a obsessão.\" completo no h1 do topo, nas duas frases.",
+      "**Do** usar só os tokens de cor; o alto contraste troca os tokens, não os componentes.",
+      "**Do** manter texto em 4,5:1 ou mais e controles e foco em 3:1 ou mais, inclusive sobre o vídeo (o scrim existe para isso).",
+      "**Do** usar fotos e quadros reais do vídeo da equipe sempre que existirem.",
+      "**Do** dar pausa a todo movimento contínuo e pará-lo por completo no modo de movimento reduzido.",
+      "**Do** dimensionar texto em rem e deixar monumentos quebrarem em vez de cortar."
     ],
     "donts": [
-      "Rótulos pequenos acima de títulos ou seções numeradas",
-      "Gradientes, linhas finas, contornos de 1 px ou sombras em repouso",
-      "Títulos, depoimentos, números ou patrocinadores inventados"
+      "**Don't** voltar ao fundo claro ou branco (rejeitado pelo cliente) nem usar preto puro fora do alto contraste.",
+      "**Don't** usar o vermelho como cor de texto sobre o grafite.",
+      "**Don't** separar, encurtar ou reescrever o slogan, nem levar metade dele para o texto de apoio.",
+      "**Don't** usar cards idênticos com ícone, rótulos pequenos acima de títulos ou seções numeradas.",
+      "**Don't** usar linhas finas de separação, contornos de 1px, brilho ou neon, nem sombras em superfícies de interface; gradiente só no scrim do vídeo e no fade da foto da Trajetória.",
+      "**Don't** indicar estado só por cor: erro tem ícone e texto, gaveta aberta tem o ícone girado e `aria-expanded`.",
+      "**Don't** inventar títulos, depoimentos, números ou patrocinadores."
     ]
   }
 }

@@ -1,25 +1,66 @@
-import { DonutCar } from "@/components/footer/DonutCar";
-import { Logo } from "@/components/ui/Logo";
+import { m, useScroll, useTransform } from "motion/react";
+import { useRef } from "react";
+import { FigureEight } from "@/components/footer/FigureEight";
 import { contact, navigation, site } from "@/content/site";
+import { useReducedMotion } from "@/hooks/useReducedMotion";
 import { whatsappLink } from "@/lib/whatsapp";
 
-/** O fechamento em campo vermelho: o número do WhatsApp é o título. */
+/**
+ * Rodapé: o campo vermelho do carrinho de ferramentas. O nome volta em
+ * largura total (crescendo levemente quando chega), seguido das formas de
+ * contato e do 350Z fazendo oitos.
+ */
 export function Footer() {
+  const ref = useRef<HTMLElement>(null);
+  const reduceMotion = useReducedMotion();
+  const { scrollYProgress } = useScroll({ target: ref, offset: ["start end", "start start"] });
+  const wordmarkScale = useTransform(scrollYProgress, [0, 1], [0.94, 1]);
   const year = new Date().getFullYear();
 
   return (
-    <footer id="rodape" className="site-footer">
-      <div className="container-site site-footer-inner">
-        <div className="site-footer-top">
-          <Logo className="h-10" />
-          <div className="site-footer-notes">
-            <p>{site.description}</p>
-            <p>
-              {contact.address.street}
-              <br />
-              {contact.address.city}
+    <footer
+      id="rodape"
+      ref={ref}
+      tabIndex={-1}
+      className="site-footer"
+      aria-labelledby="rodape-title"
+    >
+      <div className="container-site footer-inner">
+        <m.h2
+          id="rodape-title"
+          className="footer-wordmark"
+          style={reduceMotion ? undefined : { scale: wordmarkScale }}
+        >
+          {site.name}
+        </m.h2>
+
+        <div className="footer-main grid-site">
+          <div className="footer-places">
+            <a
+              className="footer-place"
+              href={whatsappLink("Olá! Vim pelo site da NSC Garage.")}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <span className="footer-place-label">WhatsApp</span>
+              {contact.whatsapp.display}
+              <span className="sr-only-text"> (abre em nova aba)</span>
+            </a>
+            <p className="footer-place">
+              <span className="footer-place-label">Endereço</span>
+              {contact.address.street}, {contact.address.city}
             </p>
-            <p>
+            {contact.instagram && (
+              <a
+                className="footer-place"
+                href={`https://instagram.com/${contact.instagram}`}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <span className="footer-place-label">Instagram</span>@{contact.instagram}
+              </a>
+            )}
+            <p className="footer-hours">
               {contact.hours.map((line) => (
                 <span key={line} className="block">
                   {line}
@@ -27,46 +68,24 @@ export function Footer() {
               ))}
             </p>
           </div>
-          <a href="#inicio" className="text-link site-footer-top-link">
-            Voltar ao início
-          </a>
+
+          <FigureEight />
         </div>
 
-        <DonutCar />
-
-        <div className="site-footer-contact">
-          <h2 className="type-lead">Chame no WhatsApp</h2>
-          <a
-            className="site-footer-number"
-            href={whatsappLink("Olá! Vim pelo site da NSC Garage.")}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            {contact.whatsapp.display}
-          </a>
-        </div>
-
-        <div className="site-footer-meta">
-          <nav aria-label="Rodapé" className="site-footer-links">
+        <div className="footer-legal">
+          <p>
+            © {year} {site.name}
+          </p>
+          <nav aria-label="Rodapé" className="footer-links">
             {navigation.map((item) => (
               <a key={item.href} href={item.href} className="text-link">
                 {item.label}
               </a>
             ))}
-            {contact.instagram && (
-              <a
-                href={`https://instagram.com/${contact.instagram}`}
-                className="text-link"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                Instagram
-              </a>
-            )}
           </nav>
-          <p>
-            © {year} {site.name}
-          </p>
+          <a href="#inicio" className="text-link">
+            Voltar ao início
+          </a>
         </div>
       </div>
     </footer>

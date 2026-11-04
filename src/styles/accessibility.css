@@ -1,0 +1,86 @@
+/*
+ * Acessibilidade: atalhos de acesso, modo de alto contraste do sistema
+ * (forced colors) e regras de movimento reduzido.
+ *
+ * Movimento reduzido: o atributo data-motion="reduce" no <html> (definido
+ * em lib/accessibility.ts) desliga animações em loop, fumaça e vídeo
+ * automático. Sem JavaScript, a media query faz o mesmo papel.
+ */
+
+@layer components {
+  /* Atalhos eMAG: aparecem no topo quando recebem o foco do teclado. */
+  .access-shortcuts {
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 200;
+    padding: calc(0.5rem + env(safe-area-inset-top, 0px)) var(--page-margin) 0.5rem;
+
+    & ul {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+
+    & a {
+      position: absolute;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.75rem;
+      min-height: 2.75rem;
+      padding: 0.5rem 0.75rem 0.5rem 1rem;
+      background: var(--color-ink);
+      color: var(--color-on-light);
+      font-size: var(--text-small);
+      font-weight: 600;
+      transform: translateY(-200%);
+    }
+
+    & a:focus {
+      position: static;
+      transform: none;
+    }
+
+    & kbd {
+      display: inline-grid;
+      place-items: center;
+      min-width: 1.5rem;
+      height: 1.5rem;
+      background: var(--color-on-light);
+      color: var(--color-ink);
+      font-family: inherit;
+      font-size: var(--text-small);
+      font-weight: 700;
+    }
+  }
+}
+
+/* Modo de alto contraste do Windows: cores do sistema e contornos visíveis. */
+@media (forced-colors: active) {
+  .button,
+  .icon-button,
+  .drawer-front,
+  .whatsapp-button {
+    border: 2px solid ButtonText;
+  }
+
+  :focus-visible {
+    outline-color: Highlight;
+  }
+
+  .floor-lane-paint,
+  .figure-eight-marks path {
+    stroke: CanvasText;
+  }
+}
+
+/* Sem JavaScript, o sistema decide o movimento. */
+@media (prefers-reduced-motion: reduce) {
+  .drift-car-puff {
+    display: none;
+  }
+}
+
+html[data-motion="reduce"] .drift-car-puff {
+  display: none;
+}

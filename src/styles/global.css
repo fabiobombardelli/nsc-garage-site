@@ -1,17 +1,17 @@
 /*
  * Ponto de entrada dos estilos.
  *
- *  theme.css          → cores, tipografia e tokens (identidade visual)
- *  controls.css       → botões, links e campos
- *  motion.css         → entradas ao rolar e preferências de movimento
- *  sections/*.css     → estilos de cada seção, na ordem da página
+ *  theme.css          → cores, tipografia, tokens e tema de alto contraste
+ *  accessibility.css  → atalhos de acesso, forced colors, movimento reduzido
+ *  controls.css       → botões, links e controles
+ *  sections/*.css     → estilos de cada parte, na ordem da página
  *
  * O resto do layout usa classes utilitárias do Tailwind direto no JSX.
  */
 @import "tailwindcss";
 @import "./theme.css";
+@import "./accessibility.css";
 @import "./controls.css";
-@import "./motion.css";
 @import "./sections/header.css";
 @import "./sections/hero.css";
 @import "./sections/timeline.css";
@@ -19,3 +19,18 @@
 @import "./sections/services.css";
 @import "./sections/contact.css";
 @import "./sections/footer.css";
+
+@layer components {
+  /* Linha de título que sobe de dentro de uma máscara (Reveal.tsx). */
+  .masked-line {
+    display: block;
+    overflow: hidden;
+    /* Folga para acentos e descendentes não serem cortados pela máscara. */
+    padding-block: 0.08em;
+    margin-block: -0.08em;
+  }
+
+  .masked-line-inner {
+    display: block;
+  }
+}

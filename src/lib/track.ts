@@ -64,9 +64,24 @@ export type CarPose = {
 /** Calcula posição e atitude do carro na altura `targetY` da pista. */
 export function getCarPose(path: SVGPathElement, targetY: number): CarPose {
   const totalLength = path.getTotalLength();
-  const length = lengthAtY(path, targetY, totalLength);
-  const at = (offset: number) =>
-    path.getPointAtLength(Math.min(totalLength, Math.max(0, length + offset)));
+  return getCarPoseAtLength(path, lengthAtY(path, targetY, totalLength), totalLength);
+}
+
+/**
+ * Calcula posição e atitude do carro a `length` pixels do início do traçado.
+ * Em traçados fechados (`loop`), o carro dá a volta sem parar no fim.
+ */
+export function getCarPoseAtLength(
+  path: SVGPathElement,
+  length: number,
+  totalLength = path.getTotalLength(),
+  { loop = false }: { loop?: boolean } = {},
+): CarPose {
+  const at = (offset: number) => {
+    const target = length + offset;
+    if (loop) return path.getPointAtLength(((target % totalLength) + totalLength) % totalLength);
+    return path.getPointAtLength(Math.min(totalLength, Math.max(0, target)));
+  };
 
   const step = Math.min(28, totalLength * 0.01);
   const point = at(0);
@@ -90,4 +105,21 @@ export function getCarPose(path: SVGPathElement, targetY: number): CarPose {
     driftForce,
     driftDirection,
   };
+}
+
+/**
+ * Traçado em "8" (lemniscata de Gerono) centrado em (cx, cy), com meia
+ * largura `rx` e meia altura `ry`. É o exercício clássico do drift: o
+ * carro contorna dois cones alternando o lado.
+ */
+export function buildFigureEightPath(cx: number, cy: number, rx: number, ry: number): string {
+  const steps = 160;
+  let d = "";
+  for (let i = 0; i <= steps; i += 1) {
+    const t = (i / steps) * Math.PI * 2;
+    const x = cx + rx * Math.sin(t);
+    const y = cy + ry * Math.sin(t) * Math.cos(t) * 2;
+    d += `${i === 0 ? "M" : "L"}${x.toFixed(2)} ${y.toFixed(2)} `;
+  }
+  return `${d}Z`;
 }

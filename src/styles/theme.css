@@ -1,48 +1,65 @@
 /*
- * Tokens de design da NSC Garage.
+ * Tokens de design da NSC Garage: "o box à noite".
  *
- * O mundo visual é a ficha de julgamento de uma bateria de drift:
- * papel claro, tinta carbono e o vermelho da marca como a caneta do juiz.
+ * O site é a oficina depois do expediente: piso de epóxi grafite, luz
+ * branca de LED e o vermelho laqueado do carrinho de ferramentas.
  * Cada cor declarada aqui vira classe do Tailwind (--color-ink → text-ink).
+ *
+ * Acessibilidade: todas as combinações de texto passam no WCAG AA
+ * (4,5:1 ou mais). O vermelho nunca é usado como cor de texto sobre o
+ * fundo escuro, só como preenchimento com texto branco por cima.
+ * O tema de alto contraste fica no fim deste arquivo.
  */
 @theme {
-  /* Uma família, dois pesos (400 e 500). */
-  --font-sans: "Hanken Grotesk", ui-sans-serif, system-ui, sans-serif;
+  --font-sans: "Archivo Variable", "Archivo", ui-sans-serif, system-ui, sans-serif;
 
-  /* Papel: o fundo de quase toda a página. Frio, nunca creme. */
-  --color-paper: oklch(0.952 0.004 240);
-  /* Um tom abaixo do papel: seções alternadas e campos. */
-  --color-surface: oklch(0.912 0.005 240);
-  /* Tinta: todo o texto corrido. */
-  --color-ink: oklch(0.19 0.006 250);
-  /* Tinta secundária: notas e descrições curtas. */
-  --color-muted: oklch(0.43 0.008 250);
-  /* Vermelho da marca: só na ação principal, nos clipping points e no rodapé. */
-  --color-accent: oklch(0.55 0.215 28);
-  --color-accent-strong: oklch(0.49 0.2 28);
-  /* Asfalto da pista e o cartão de inscrição. */
-  --color-asphalt: oklch(0.28 0.006 250);
-  --color-asphalt-raised: oklch(0.34 0.006 250);
-  /* Borracha deixada pelos pneus. */
-  --color-rubber: oklch(0.12 0.004 250);
-
-  /* Cinco tamanhos, e só eles. */
-  --text-small: clamp(0.8125rem, 0.79rem + 0.1vw, 0.875rem);
-  --text-body: clamp(1.0625rem, 1rem + 0.25vw, 1.1875rem);
-  --text-lead: clamp(1.375rem, 1.15rem + 0.9vw, 1.875rem);
-  --text-head: clamp(2.25rem, 1.2rem + 4.2vw, 4.25rem);
-  --text-display: clamp(3rem, 0.4rem + 10.2vw, 9.5rem);
+  /* Fundo da página: grafite, nunca preto (texto a 16:1 sobre ele). */
+  --color-carbon: oklch(0.205 0.005 250);
+  /* Piso de epóxi do box (seção da Trajetória). */
+  --color-floor: oklch(0.265 0.005 250);
+  /* Superfícies elevadas: ordem de serviço, interior das gavetas. */
+  --color-raised: oklch(0.305 0.005 250);
+  --color-raised-strong: oklch(0.36 0.005 250);
+  /* Luz de LED: todo o texto. */
+  --color-ink: oklch(0.965 0.003 250);
+  /* Texto secundário (9:1 sobre o grafite, 6,7:1 sobre as superfícies elevadas). */
+  --color-muted: oklch(0.78 0.006 250);
+  /* Vermelho laqueado da marca. */
+  --color-accent: oklch(0.55 0.21 27);
+  --color-accent-strong: oklch(0.48 0.19 27);
+  /* Tinta do texto sobre o vermelho e sobre painéis de luz. */
+  --color-on-accent: oklch(0.985 0.002 250);
+  --color-on-light: oklch(0.18 0.004 250);
+  /* Pintura de piso, borracha e foco. */
+  --color-paint: oklch(0.93 0.003 250);
+  --color-rubber: oklch(0.1 0.003 250);
+  --color-focus: oklch(0.88 0.17 95);
+  /* Erros de formulário: vermelho claro, legível sobre o grafite (7,7:1) e sobre a ordem de serviço (5,8:1). */
+  --color-danger: oklch(0.76 0.15 25);
 
   --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
   --ease-expo: cubic-bezier(0.16, 1, 0.3, 1);
   --ease-in-out: cubic-bezier(0.76, 0, 0.24, 1);
-  --ease-soft: cubic-bezier(0.33, 1, 0.68, 1);
 }
 
 :root {
+  /* Escala de texto controlada pelo site (ver lib/accessibility.ts). */
+  --font-scale: 1;
+
+  /* Cinco tamanhos de texto. Todos em rem, então crescem com a escala acima
+     e com o zoom do navegador. */
+  --text-small: 0.875rem;
+  --text-body: clamp(1.0625rem, 1rem + 0.25vw, 1.1875rem);
+  --text-lead: clamp(1.25rem, 1.1rem + 0.7vw, 1.625rem);
+  --text-head: clamp(2.25rem, 1.4rem + 3vw, 4.25rem);
+  /* Monumento: o slogan do topo. Medido pela largura útil do container
+     (cqw; sem container, vale a largura da tela): "Carros são nossa paixão."
+     mede 9,92em e ocupa 95% da largura. */
+  --text-monument: clamp(1.75rem, 9.6cqw, 9.2rem);
+
   --page-margin: 1.25rem;
   --section-gap: 7.5rem;
-  --header-height: 4.25rem;
+  --header-height: 4.5rem;
 
   @media (width >= 48rem) {
     --page-margin: 2rem;
@@ -52,31 +69,32 @@
 
 @layer base {
   html {
-    color-scheme: light;
-    /* Superfícies do navegador também seguem a marca. */
+    color-scheme: dark;
+    font-size: calc(100% * var(--font-scale));
     accent-color: var(--color-accent);
-    caret-color: var(--color-accent);
-    scrollbar-color: var(--color-muted) var(--color-paper);
+    caret-color: var(--color-ink);
+    scrollbar-color: var(--color-raised-strong) var(--color-carbon);
     scroll-behavior: smooth;
-    background-color: var(--color-paper);
+    /* Âncoras e o foco do teclado param abaixo do header fixo (WCAG 2.4.11). */
+    scroll-padding-top: var(--header-height);
+    background-color: var(--color-carbon);
     color: var(--color-ink);
     font-family: var(--font-sans);
-    font-size: 100%;
     -webkit-font-smoothing: antialiased;
     text-rendering: optimizeLegibility;
   }
 
   body {
-    background-color: var(--color-paper);
+    background-color: var(--color-carbon);
     font-size: var(--text-body);
-    line-height: 1.5;
-    letter-spacing: -0.005em;
+    line-height: 1.55;
+    /* Palavra que não cabe na linha quebra em vez de sair da tela. */
+    overflow-wrap: break-word;
   }
 
   h1,
   h2,
   h3 {
-    font-weight: 500;
     text-wrap: balance;
   }
 
@@ -84,18 +102,24 @@
     text-wrap: pretty;
   }
 
-  section[id] {
-    scroll-margin-top: var(--header-height);
-  }
-
   ::selection {
     background: var(--color-accent);
-    color: var(--color-paper);
+    color: var(--color-on-accent);
   }
 
+  /* Foco sempre visível e com 3:1 sobre qualquer fundo do site. */
   :focus-visible {
-    outline: 2px solid var(--color-accent);
+    outline: 3px solid var(--color-focus);
     outline-offset: 3px;
+  }
+
+  /* Destinos dos atalhos recebem foco sem mostrar contorno extra. */
+  [tabindex="-1"]:focus:not(:focus-visible) {
+    outline: none;
+  }
+
+  html[data-motion="reduce"] {
+    scroll-behavior: auto;
   }
 
   @media (prefers-reduced-motion: reduce) {
@@ -113,31 +137,39 @@
   padding-inline: var(--page-margin);
 }
 
-/* Grade de 12 colunas usada pelas seções. */
+/* Grade de 12 colunas usada pelas seções. O espaço entre colunas encolhe
+   em telas estreitas para que, com a fonte ampliada, os 11 espaços nunca
+   fiquem maiores que a própria tela. */
 @utility grid-site {
   display: grid;
   grid-template-columns: repeat(12, minmax(0, 1fr));
-  column-gap: 1.5rem;
+  column-gap: min(1.5rem, 2vw);
+}
+
+/* Letras de monumento: Archivo no ponto mais estreito e pesado, em caixa alta. */
+@utility type-monument {
+  font-size: var(--text-monument);
+  font-weight: 800;
+  font-stretch: 62%;
+  line-height: 0.86;
+  letter-spacing: -0.01em;
+  text-transform: uppercase;
+  overflow-wrap: anywhere;
 }
 
 @utility type-head {
   font-size: var(--text-head);
-  font-weight: 500;
-  line-height: 0.98;
-  letter-spacing: -0.04em;
-}
-
-@utility type-display {
-  font-size: var(--text-display);
-  font-weight: 500;
+  font-weight: 800;
+  font-stretch: 62%;
   line-height: 0.9;
-  letter-spacing: -0.05em;
+  letter-spacing: -0.005em;
+  text-transform: uppercase;
+  overflow-wrap: anywhere;
 }
 
 @utility type-lead {
   font-size: var(--text-lead);
-  line-height: 1.22;
-  letter-spacing: -0.02em;
+  line-height: 1.35;
 }
 
 @utility sr-only-text {
@@ -150,4 +182,43 @@
   clip-path: inset(50%);
   white-space: nowrap;
   border: 0;
+}
+
+/*
+ * Alto contraste: preto, branco e um amarelo de foco. Ativado pela
+ * preferência do sistema (prefers-contrast: more) ou pelo site
+ * (data-contrast="high"). Os componentes não mudam, só os tokens.
+ */
+:root[data-contrast="high"] {
+  --color-carbon: #000;
+  --color-floor: #000;
+  --color-raised: #000;
+  --color-raised-strong: #1a1a1a;
+  --color-ink: #fff;
+  --color-muted: #fff;
+  --color-accent: #d40000;
+  --color-accent-strong: #a30000;
+  --color-on-accent: #fff;
+  --color-on-light: #000;
+  --color-paint: #fff;
+  --color-focus: #ffe500;
+  --color-danger: #ff8a8a;
+}
+
+@media (prefers-contrast: more) {
+  :root:not([data-contrast="normal"]) {
+    --color-carbon: #000;
+    --color-floor: #000;
+    --color-raised: #000;
+    --color-raised-strong: #1a1a1a;
+    --color-ink: #fff;
+    --color-muted: #fff;
+    --color-accent: #d40000;
+    --color-accent-strong: #a30000;
+    --color-on-accent: #fff;
+    --color-on-light: #000;
+    --color-paint: #fff;
+    --color-focus: #ffe500;
+    --color-danger: #ff8a8a;
+  }
 }

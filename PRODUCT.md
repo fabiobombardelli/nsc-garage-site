@@ -33,17 +33,20 @@ Track pedigree applied to every car: the same team and methods that build compet
 - Stack: React 19 + TypeScript + Vite + Tailwind CSS 4, static build.
 - Contact data (WhatsApp number, address, hours, Instagram) is still placeholder in `src/content/site.ts` and must be replaced before launch.
 - Timeline milestones (2015–2024) are provisional content written by the client; real facts still to come.
+- Accessibility target: WCAG 2.2 level AA (confirmed by the client), with Brazilian eMAG-style access shortcuts, screen-reader semantics, a high-contrast mode (including colour-blind users), a reduced-motion mode and font enlargement that does not break the layout. The client will send the WCAG reference document; the visual system must be ready for these modes now.
+- Planned: an internal system for opening and tracking service requests ("chamados"). The client will send requirements and a traceability matrix; the current contact form is its seed (a work order that composes a WhatsApp message).
 
 ## Brand Commitments
 
 - Name: NSC Garage. Logo: carbon-fibre "NSC" block letters with red/white outlines and a red script "Garage" (`src/assets/brand/logo.webp`). Brand colours: red, black, white.
-- Tagline in use: "Carros são nossa paixão. Competir é a obsessão."
+- Tagline, non-negotiable and always complete: "Carros são nossa paixão. Competir é a obsessão." Never split it, shorten it or move half of it into supporting copy.
+- The client rejected a light/white ground (too white; it made the track and car look too dark).
 - Language: Brazilian Portuguese.
 
 ## Evidence on Hand
 
-- Real: hero footage (`public/media/hero-drift*.{webm,mp4}`), the 350Z livery top view (`src/assets/images/drift-car-top.webp`), the logo.
-- Illustrative, to be replaced by real photos the client will send: `workshop-drift.jpg`, `track-drift.jpg`, `parts-drift.jpg`.
+- Real: hero footage (`public/media/hero-drift*.{webm,mp4}`), stills taken from that footage (`src/assets/images/footage/`), the 350Z livery top view (`src/assets/images/drift-car-top.webp`), the logo.
+- Illustrative, to be replaced by real photos the client will send: `workshop-drift.jpg`, `parts-drift.jpg`.
 - Absent, must not be fabricated: testimonials, client names, review scores, sponsor logos, specific title names/years, business statistics.
 
 ## Product Principles

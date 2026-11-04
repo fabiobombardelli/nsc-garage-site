@@ -1,214 +1,176 @@
 /*
- * Rodapé: campo vermelho em que o número do WhatsApp é o título.
- * No alto, à direita, o 350Z dá três zerinhos e deixa os círculos de
- * borracha (DonutCar.tsx).
+ * Rodapé: o campo vermelho do carrinho de ferramentas. O nome em largura
+ * total, as formas de contato e o 350Z fazendo oitos em volta de dois cones.
  */
 
 @layer components {
   .site-footer {
     position: relative;
     z-index: 30;
+    overflow: hidden;
+    padding-block: 2.5rem calc(1.5rem + env(safe-area-inset-bottom, 0px));
     background: var(--color-accent);
-    color: var(--color-paper);
+    color: var(--color-on-accent);
+
+    & :focus-visible {
+      outline-color: var(--color-ink);
+    }
   }
 
-  .site-footer-inner {
-    position: relative;
-    display: grid;
-    grid-template-rows: auto 1fr auto auto;
-    min-height: 90svh;
-    padding-block: 2.5rem calc(2rem + env(safe-area-inset-bottom, 0px));
+  /* Container de medida para o nome (unidades cqw = largura útil). */
+  .footer-inner {
+    container-type: inline-size;
   }
 
-  .site-footer-top {
-    display: grid;
-    grid-template-columns: auto minmax(0, 1fr) auto;
+  /* O nome preenche a largura útil, de margem a margem. "NSC GARAGE" mede
+     4,49em nesta fonte; o divisor deixa uma pequena folga. Se o texto
+     crescer (espaçamento do WCAG 1.4.12), quebra em vez de ser cortado. */
+  .footer-wordmark {
+    font-size: calc(100cqw / 4.65);
+    font-weight: 800;
+    font-stretch: 62%;
+    line-height: 0.8;
+    letter-spacing: -0.01em;
+    text-transform: uppercase;
+    overflow-wrap: anywhere;
+    transform-origin: center top;
+  }
+
+  .footer-main {
+    margin-top: 4.5rem;
+    row-gap: 3rem;
     align-items: start;
-    gap: 2rem 3rem;
-    font-size: var(--text-small);
-
-    @media (width < 64rem) {
-      grid-template-columns: minmax(0, 1fr) auto;
-
-      & .site-footer-notes {
-        grid-row: 2;
-        grid-column: 1 / -1;
-      }
-    }
   }
 
-  .site-footer-notes {
+  .footer-places {
+    grid-column: 1 / span 5;
     display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
+    grid-template-columns: minmax(0, 1fr);
     gap: 1.5rem;
-    max-width: 48rem;
-
-    @media (width < 48rem) {
-      grid-template-columns: minmax(0, 1fr);
-      gap: 1rem;
-    }
   }
 
-  .site-footer-contact {
-    position: relative;
-    z-index: 1;
-    align-self: end;
-    margin-top: 2rem;
-  }
-
-  .site-footer-number {
+  .footer-place {
     display: block;
-    margin-top: 0.75rem;
-    font-size: min(var(--text-display), 10.4vw);
-    font-weight: 500;
-    line-height: 0.95;
-    letter-spacing: -0.05em;
-    font-variant-numeric: tabular-nums;
-    white-space: nowrap;
+    font-size: var(--text-lead);
+    font-weight: 600;
+    line-height: 1.2;
+  }
+
+  a.footer-place {
     text-decoration: underline;
-    text-decoration-thickness: 0.04em;
-    text-underline-offset: 0.12em;
-    text-decoration-color: transparent;
-    transition: text-decoration-color 180ms ease;
+    text-decoration-thickness: 0.06em;
+    text-underline-offset: 0.18em;
+    text-decoration-color: color-mix(in oklab, currentColor 45%, transparent);
 
-    @media (hover: hover) and (pointer: fine) {
-      &:hover {
-        text-decoration-color: currentColor;
-      }
+    &:hover {
+      text-decoration-color: currentColor;
     }
   }
 
-  .site-footer-meta {
-    display: grid;
-    grid-template-columns: 1fr auto;
-    gap: 1rem 2rem;
-    margin-top: 2.5rem;
+  .footer-place-label {
+    display: block;
+    margin-bottom: 0.25rem;
     font-size: var(--text-small);
+    font-weight: 500;
+  }
 
-    & > :last-child {
-      text-align: right;
-    }
+  .footer-hours {
+    font-size: var(--text-small);
+  }
 
-    @media (width < 48rem) {
-      grid-template-columns: minmax(0, 1fr);
+  /* ---------- O "8" ---------- */
 
-      & > :last-child {
-        text-align: left;
-      }
+  .figure-eight {
+    position: relative;
+    grid-column: 7 / -1;
+  }
+
+  .figure-eight-pad {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 640 / 300;
+
+    & svg {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      overflow: visible;
     }
   }
 
-  .site-footer-links {
+  .figure-eight-marks {
+    opacity: 0.3;
+
+    & path {
+      fill: none;
+      stroke: var(--color-rubber);
+      stroke-width: 7px;
+      stroke-linecap: round;
+      transform-box: view-box;
+      transform-origin: center;
+    }
+
+    & .mark-inner {
+      transform: scale(0.95);
+    }
+
+    & .mark-outer {
+      transform: scale(1.05);
+    }
+  }
+
+  /* No chão vermelho, os cones são brancos com faixa grafite. */
+  .figure-eight .cone {
+    opacity: 1;
+  }
+
+  .figure-eight .cone-body,
+  .figure-eight .cone-tip {
+    fill: var(--color-paint);
+  }
+
+  .figure-eight .cone-band {
+    fill: var(--color-carbon);
+  }
+
+  .figure-eight-car {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 2;
+    width: 5.4%;
+    transform: translate3d(calc(var(--car-x, -200px) - 50%), calc(var(--car-y, 0px) - 50%), 0)
+      rotate(var(--car-rotation, 0deg));
+    will-change: transform;
+  }
+
+  .figure-eight-toggle {
+    position: absolute;
+    right: 0;
+    bottom: -3.25rem;
+  }
+
+  .footer-legal {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem 2rem;
+    margin-top: 5rem;
+    font-size: var(--text-small);
+  }
+
+  .footer-links {
     display: flex;
     flex-wrap: wrap;
     gap: 0.5rem 1.25rem;
   }
 
-  /* ---------- Zerinho ---------- */
-
-  .donut {
-    position: absolute;
-    top: 24%;
-    right: 14%;
-    width: clamp(10rem, 20vw, 17rem);
-    aspect-ratio: 1;
-    pointer-events: none;
-
-    @media (width < 48rem) {
-      top: auto;
-      bottom: 15rem;
-      right: 0.5rem;
-      width: 9.5rem;
+  @media (width < 64rem) {
+    .footer-places,
+    .figure-eight {
+      grid-column: 1 / -1;
     }
-  }
-
-  .donut-marks {
-    position: absolute;
-    inset: 0;
-    width: 100%;
-    height: 100%;
-    overflow: visible;
-    /* O traço começa no topo, onde o carro inicia a volta. */
-    rotate: -90deg;
-
-    & circle {
-      fill: none;
-      stroke: var(--color-rubber);
-      stroke-opacity: 0.3;
-      stroke-width: 5px;
-      stroke-dasharray: 1;
-      stroke-dashoffset: 0;
-    }
-  }
-
-  .donut-orbit {
-    position: absolute;
-    inset: 0;
-  }
-
-  /* O carro fica no topo da órbita, de lado: a traseira escorrega para fora. */
-  .donut-car {
-    --drift-force: 1;
-    --smoke-sway: -20px;
-    position: absolute;
-    left: 50%;
-    top: 15.5%;
-    width: 15%;
-    translate: -50% -50%;
-    rotate: -30deg;
-  }
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .js .donut:not(.is-running) .donut-marks circle {
-    stroke-dashoffset: 1;
-  }
-
-  .js .donut:not(.is-running) .drift-car-smoke {
-    opacity: 0;
-  }
-
-  .js .donut.is-running {
-    & .donut-orbit {
-      animation: donut-spin 1.25s linear 3 both;
-    }
-
-    & .donut-marks circle {
-      animation: donut-rubber 3.75s linear both;
-    }
-
-    & .drift-car-smoke {
-      animation: donut-smoke 3.75s linear both;
-    }
-  }
-}
-
-@keyframes donut-spin {
-  to {
-    rotate: 1turn;
-  }
-}
-
-@keyframes donut-rubber {
-  from {
-    stroke-dashoffset: 1;
-  }
-  33% {
-    stroke-dashoffset: 0;
-    stroke-opacity: 0.18;
-  }
-  to {
-    stroke-dashoffset: 0;
-    stroke-opacity: 0.38;
-  }
-}
-
-@keyframes donut-smoke {
-  0%,
-  92% {
-    opacity: 1;
-  }
-  to {
-    opacity: 0;
   }
 }

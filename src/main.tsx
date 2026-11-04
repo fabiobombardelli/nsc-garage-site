@@ -1,11 +1,13 @@
-import "@fontsource/hanken-grotesk/latin-400.css";
-import "@fontsource/hanken-grotesk/latin-500.css";
+import "@fontsource-variable/archivo/wdth.css";
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import { App } from "./App";
+import { initAccessibility } from "./lib/accessibility";
 import "./styles/global.css";
 
-// Animações de entrada só se aplicam com JavaScript ativo (ver motion.css).
+// Preferências de acessibilidade (movimento, contraste, fonte) antes do primeiro desenho.
+initAccessibility();
+// Estados iniciais das animações só existem com JavaScript ativo.
 document.documentElement.classList.add("js");
 
 const rootElement = document.getElementById("root");

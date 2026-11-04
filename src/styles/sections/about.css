@@ -1,23 +1,86 @@
-/* Oficina: um tom abaixo do papel, texto grande com a foto do #69 como capitular. */
+/*
+ * Oficina: título, frase de abertura e, abaixo, a foto larga do box (com
+ * uma nota em painel de luz no canto), o bloco vermelho e os fatos.
+ */
 
 @layer components {
   .about {
     position: relative;
     z-index: 30;
     padding-block: var(--section-gap);
-    background: var(--color-surface);
+    background: var(--color-carbon);
   }
 
-  .about-grid {
-    row-gap: 3rem;
+  .about-lead {
+    margin-top: 1.5rem;
+    max-width: 40rem;
+  }
+
+  .about-tiles {
+    margin-top: 4.5rem;
+    row-gap: 1rem;
+    align-items: start;
+  }
+
+  .about-photo {
+    position: relative;
+    grid-column: 1 / span 8;
+  }
+
+  .about-photo-frame {
+    aspect-ratio: 16 / 10;
+    overflow: hidden;
+
+    & img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+  }
+
+  /* Nota num painel de luz, encostada no canto superior direito da foto. */
+  .about-note {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: min(20rem, 62%);
+    padding: 1.25rem;
+    background: var(--color-ink);
+    color: var(--color-on-light);
+    font-size: var(--text-body);
+    line-height: 1.45;
+  }
+
+  .about-side {
+    grid-column: 9 / -1;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 1.75rem;
+  }
+
+  /* Bloco no vermelho do carrinho de ferramentas. */
+  .about-tile {
+    display: flex;
+    align-items: flex-end;
+    aspect-ratio: 4 / 3;
+    padding: 1.5rem;
+    background: var(--color-accent);
+    color: var(--color-on-accent);
+
+    & p {
+      font-size: var(--text-head);
+      font-weight: 800;
+      font-stretch: 62%;
+      line-height: 0.95;
+      text-transform: uppercase;
+      overflow-wrap: anywhere;
+    }
   }
 
   .about-facts {
-    grid-column: 1 / span 2;
     display: grid;
-    align-content: start;
-    gap: 1.75rem;
-    padding-top: 0.75rem;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1.25rem 1rem;
 
     & dt {
       color: var(--color-muted);
@@ -26,55 +89,39 @@
 
     & dd {
       margin-top: 0.25rem;
-      font-weight: 500;
+      font-weight: 600;
       line-height: 1.3;
     }
   }
 
-  .about-body {
-    grid-column: 3 / -1;
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 2.5rem;
-  }
-
-  .about-statement {
-    max-width: 38em;
-  }
-
-  .about-statement-soft {
-    color: var(--color-muted);
-  }
-
-  /* Altura de três linhas do texto, como uma letra capitular. */
-  .about-portrait {
-    float: left;
-    width: 3.66em;
-    height: 3.66em;
-    margin: 0.2em 0.55em 0 0;
-    object-fit: cover;
-  }
-
-  .about-link {
-    font-weight: 500;
-  }
-
   @media (width < 64rem) {
-    .about-body {
+    .about-photo,
+    .about-side {
       grid-column: 1 / -1;
     }
 
-    .about-facts {
-      grid-row: 2;
-      grid-column: 1 / -1;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: 1rem;
+    .about-side {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      align-items: start;
+    }
+  }
+
+  @media (width < 48rem) {
+    .about-photo-frame {
+      aspect-ratio: 4 / 3;
     }
 
-    .about-portrait {
-      width: 4.88em;
-      height: 4.88em;
+    .about-note {
+      position: static;
+      width: 100%;
+    }
+
+    .about-side {
+      grid-template-columns: minmax(0, 1fr);
+    }
+
+    .about-tile {
+      aspect-ratio: 3 / 2;
     }
   }
 }
