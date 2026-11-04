@@ -6,6 +6,8 @@
     inset-inline: 0;
     top: 0;
     z-index: 50;
+    /* Respeita o notch / barra de status em celulares. */
+    padding-top: env(safe-area-inset-top, 0px);
     border-bottom: 1px solid color-mix(in oklab, var(--color-foreground) 10%, transparent);
     transition:
       background-color 0.3s ease,

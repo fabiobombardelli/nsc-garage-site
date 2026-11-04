@@ -23,10 +23,15 @@
 
 @layer base {
   html {
+    color-scheme: dark;
     scroll-behavior: smooth;
     background-color: var(--color-background);
     color: var(--color-foreground);
     font-family: var(--font-sans);
+  }
+
+  body {
+    background-color: var(--color-background);
   }
 
   * {
