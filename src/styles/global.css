@@ -1,0 +1,13 @@
+/*
+ * Ponto de entrada dos estilos.
+ *
+ *  theme.css            → cores, fontes e tokens (mude a identidade visual aqui)
+ *  components/*.css     → estilos específicos de cada parte da página
+ *
+ * O resto do layout usa classes utilitárias do Tailwind direto no JSX.
+ */
+@import "tailwindcss";
+@import "./theme.css";
+@import "./components/layout.css";
+@import "./components/hero.css";
+@import "./components/timeline.css";

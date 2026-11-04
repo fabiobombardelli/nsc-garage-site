@@ -1,0 +1,64 @@
+/*
+ * Tokens de design. Cada cor declarada em @theme vira classe do Tailwind:
+ * --color-primary → bg-primary, text-primary, border-primary...
+ */
+@theme {
+  --font-display: "Anton", sans-serif;
+  --font-sans: "Space Grotesk", sans-serif;
+
+  --color-background: oklch(0.1 0 0);
+  --color-foreground: oklch(0.95 0 0);
+  --color-card: oklch(0.14 0 0);
+  --color-secondary: oklch(0.16 0 0);
+  --color-muted-foreground: oklch(0.62 0 0);
+  --color-border: oklch(1 0 0 / 12%);
+
+  /* Vermelho da marca */
+  --color-primary: oklch(0.58 0.2 27);
+
+  /* Pista da linha do tempo */
+  --color-asphalt: oklch(0.22 0 0);
+  --color-track-line: oklch(0.55 0 0);
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    background-color: var(--color-background);
+    color: var(--color-foreground);
+    font-family: var(--font-sans);
+  }
+
+  * {
+    border-color: var(--color-border);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+  }
+}
+
+/* Largura máxima e respiro lateral padrão das seções. */
+@utility container-site {
+  margin-inline: auto;
+  width: 100%;
+  max-width: 1440px;
+  padding-inline: 1.25rem;
+
+  @media (width >= 40rem) {
+    padding-inline: 2.5rem;
+  }
+}
+
+@utility section-title {
+  font-family: var(--font-display);
+  font-size: var(--text-4xl);
+  line-height: 1.25;
+  text-transform: uppercase;
+
+  @media (width >= 40rem) {
+    font-size: var(--text-6xl);
+  }
+}
