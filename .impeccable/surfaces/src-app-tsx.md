@@ -11,7 +11,9 @@ Audience and job: drift/competition drivers and owners of sports and imported ca
 
 Client steer behind this round: the paper world read as too white and made the track and car look too dark; hero type read small and simple; the inline video in the Trajetória title read as strange (replace with a photo fading toward the text); header must feel premium; more motion (Motion library).
 
-Memorable moment: the 350Z drifts down the box floor between painted lines, leaving rubber and lighting each cone; the page closes on a red field where it runs figure-eights without stopping.
+Client steer behind the latest round: remove the panel over the video (keep only the tagline), make the tagline a little smaller so the video gets the focus, pin the video while the two lines slide away on scroll, make the track look like a real black-asphalt track with a subtle dashed centre line and wider relative to the car, and lighten the car image.
+
+Memorable moment: the 350Z drifts down a black-asphalt track on the box floor, leaving rubber and lighting each cone; the page closes on a red field where it runs figure-eights without stopping.
 
 ## Direction contract
 
@@ -21,7 +23,7 @@ OWN-WORLD: Graphite epoxy ground (never pure black), cool LED-white ink, brand r
 
 STORY: The night run fills the screen under the tagline; the course painted on the box floor carries the milestones; the box itself shows who NSC is; the tool chest holds the services; the work order books the evaluation; the red field closes with the car running eights.
 
-FIRST VIEWPORT: Full-bleed team video from the first frame under a neutral scrim. "Carros são nossa paixão." top-left and "Competir é a obsessão." bottom-right in Archivo compressed 800 capitals at about 9vw; one sentence and the red "Agendar avaliação" button between them; a pause control bottom-left; transparent header with logo, three links and the action.
+FIRST VIEWPORT: Full-bleed team video from the first frame under a neutral scrim. "Carros são nossa paixão." top-left and "Competir é a obsessão." bottom-right in Archivo compressed 800 capitals at about 79% of the measure, with nothing between them so the video carries the frame; on scroll the stage pins for one screen while the lines slide out sideways and the scrim lifts, then the video scrolls away; a pause control bottom-left; transparent header with logo, three links and the action.
 
 FORM: The box at night, position 4 of 7 on the re-rolled list (1 carbon fibre, 2 livery and decals, 3 tyre marks and track paint, 4 the box at night, 5 pit board and timing tower, 6 racing poster and magazine, 7 setup sheet and torque card), chosen by the client after the paper sheet was rejected. seed:e1b1cf794a102dde (re-roll 1, degraded, no challengers).
 

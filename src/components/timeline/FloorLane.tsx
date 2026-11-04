@@ -9,8 +9,8 @@ type FloorLaneProps = {
 };
 
 /**
- * A faixa pintada no piso do box: duas linhas brancas paralelas (o mesmo
- * traçado pintado largo em branco e, por cima, na cor do piso), a borracha
+ * A pista no piso do box: asfalto preto com bordas brancas e uma faixa
+ * central tracejada (o mesmo traçado desenhado em três camadas), a borracha
  * que o carro deixa e um cone listrado ao lado de cada marco.
  * Puramente decorativa: o conteúdo está na lista de marcos.
  */
@@ -27,8 +27,9 @@ export function FloorLane({ geometry, pathRef, tyreMarksRef, conesRef }: FloorLa
       aria-hidden="true"
       focusable="false"
     >
-      <path ref={pathRef} className="floor-lane-paint" d={path} />
-      <path className="floor-lane-surface" d={path} />
+      <path ref={pathRef} className="floor-lane-edge" d={path} />
+      <path className="floor-lane-asphalt" d={path} />
+      <path className="floor-lane-centre" d={path} />
 
       {/* Duas faixas de borracha, uma para cada pneu traseiro. */}
       <g ref={tyreMarksRef} className="floor-lane-rubber">

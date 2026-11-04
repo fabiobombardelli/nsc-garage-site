@@ -34,10 +34,11 @@ O conceito visual é **"o box à noite"**: a oficina depois do expediente, com p
 luz branca de LED e o vermelho do carrinho de ferramentas. Os detalhes estão em `DESIGN.md`.
 
 1. **Topo:** o vídeo da equipe em tela cheia com o slogan completo, "Carros são nossa paixão.
-   Competir é a obsessão.", uma frase em cada canto.
+   Competir é a obsessão.", uma frase em cada canto. Ao rolar, o vídeo fica preso enquanto as duas
+   frases saem pelas laterais, e só então a página segue.
 2. **Trajetória:** a foto do 350Z se dissolve em direção ao texto. Abaixo, o carro desce o piso do
-   box entre faixas pintadas conforme a página rola, deixa marcas de pneu e acende o cone de cada
-   marco.
+   box por uma pista de asfalto preto conforme a página rola, deixa marcas de pneu e acende o cone
+   de cada marco.
 3. **Oficina:** quem é a NSC: foto do box, o bloco "Pioneiros do drift no Brasil" e os fatos.
 4. **Serviços:** o carrinho de ferramentas. Cada gaveta abre no lugar com o que o serviço inclui e o
    pedido de orçamento pelo WhatsApp.
@@ -108,14 +109,14 @@ ou `?fonte=150` na URL (e `?acessibilidade=padrao` para voltar). Tudo está em `
 
 ## Mídias
 
-| Arquivo                                | Origem e uso                                                                           |
-| -------------------------------------- | -------------------------------------------------------------------------------------- |
-| `src/assets/brand/logo.webp`           | Logo enviado pelo cliente (fundo transparente)                                         |
-| `src/assets/images/drift-car-top.webp` | 350Z visto de cima, enviado pelo cliente: dianteira **para baixo**, fundo transparente |
-| `src/assets/images/footage/*.webp`     | Quadros extraídos do vídeo da equipe (`hero.webm`, enviado pelo cliente)               |
-| `src/assets/images/*-drift.jpg`        | Fotos ilustrativas de box e peças, vindas do projeto original: **trocar pelas reais**  |
-| `public/media/hero-drift(-mobile).*`   | Vídeo do topo, convertido do `hero.webm` (1080p no computador, 720p no celular)        |
-| `public/media/hero-poster.webp`        | Quadro do vídeo exibido enquanto ele carrega                                           |
+| Arquivo                                | Origem e uso                                                                                                       |
+| -------------------------------------- | ------------------------------------------------------------------------------------------------------------------ |
+| `src/assets/brand/logo.webp`           | Logo enviado pelo cliente (fundo transparente)                                                                     |
+| `src/assets/images/drift-car-top.webp` | 350Z visto de cima, enviado pelo cliente e clareado (curva gama 0,7): dianteira **para baixo**, fundo transparente |
+| `src/assets/images/footage/*.webp`     | Quadros extraídos do vídeo da equipe (`hero.webm`, enviado pelo cliente)                                           |
+| `src/assets/images/*-drift.jpg`        | Fotos ilustrativas de box e peças, vindas do projeto original: **trocar pelas reais**                              |
+| `public/media/hero-drift(-mobile).*`   | Vídeo do topo, convertido do `hero.webm` (1080p no computador, 720p no celular)                                    |
+| `public/media/hero-poster.webp`        | Quadro do vídeo exibido enquanto ele carrega                                                                       |
 
 Para trocar o vídeo do topo, gere as versões a partir do original com [ffmpeg](https://ffmpeg.org):
 

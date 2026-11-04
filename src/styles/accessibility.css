@@ -68,7 +68,8 @@
     outline-color: Highlight;
   }
 
-  .floor-lane-paint,
+  .floor-lane-edge,
+  .floor-lane-centre,
   .figure-eight-marks path {
     stroke: CanvasText;
   }

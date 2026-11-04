@@ -30,8 +30,9 @@
   /* Tinta do texto sobre o vermelho e sobre painéis de luz. */
   --color-on-accent: oklch(0.985 0.002 250);
   --color-on-light: oklch(0.18 0.004 250);
-  /* Pintura de piso, borracha e foco. */
+  /* Pintura de piso, asfalto da pista, borracha e foco. */
   --color-paint: oklch(0.93 0.003 250);
+  --color-asphalt: oklch(0.165 0.004 250);
   --color-rubber: oklch(0.1 0.003 250);
   --color-focus: oklch(0.88 0.17 95);
   /* Erros de formulário: vermelho claro, legível sobre o grafite (7,7:1) e sobre a ordem de serviço (5,8:1). */
@@ -54,8 +55,8 @@
   --text-head: clamp(2.25rem, 1.4rem + 3vw, 4.25rem);
   /* Monumento: o slogan do topo. Medido pela largura útil do container
      (cqw; sem container, vale a largura da tela): "Carros são nossa paixão."
-     mede 9,92em e ocupa 95% da largura. */
-  --text-monument: clamp(1.75rem, 9.6cqw, 9.2rem);
+     mede 9,92em e ocupa 79% da largura, deixando o vídeo respirar. */
+  --text-monument: clamp(1.75rem, 8cqw, 7.5rem);
 
   --page-margin: 1.25rem;
   --section-gap: 7.5rem;
@@ -201,6 +202,7 @@
   --color-on-accent: #fff;
   --color-on-light: #000;
   --color-paint: #fff;
+  --color-asphalt: #000;
   --color-focus: #ffe500;
   --color-danger: #ff8a8a;
 }
@@ -218,6 +220,7 @@
     --color-on-accent: #fff;
     --color-on-light: #000;
     --color-paint: #fff;
+    --color-asphalt: #000;
     --color-focus: #ffe500;
     --color-danger: #ff8a8a;
   }

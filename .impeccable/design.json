@@ -1,6 +1,6 @@
 {
   "schemaVersion": 2,
-  "generatedAt": "2026-11-04T11:12:41Z",
+  "generatedAt": "2026-11-04T15:25:24Z",
   "title": "Design System: NSC Garage",
   "extensions": {
     "colorMeta": {
@@ -213,12 +213,27 @@
           "oklch(0.84 0.085 25)",
           "oklch(0.95 0.034 25)"
         ]
+      },
+      "asphalt": {
+        "role": "neutral",
+        "displayName": "Asfalto",
+        "canonical": "oklch(0.165 0.004 250)",
+        "tonalRamp": [
+          "oklch(0.15 0.006 250)",
+          "oklch(0.26 0.006 250)",
+          "oklch(0.37 0.006 250)",
+          "oklch(0.48 0.006 250)",
+          "oklch(0.60 0.006 250)",
+          "oklch(0.72 0.006 250)",
+          "oklch(0.84 0.006 250)",
+          "oklch(0.95 0.006 250)"
+        ]
       }
     },
     "typographyMeta": {
       "monument": {
         "displayName": "Monumento",
-        "purpose": "Só o slogan do topo, medido pela largura útil (cqw)."
+        "purpose": "Só o slogan do topo, medido pela largura útil (cqw): a frase mais longa ocupa 79% da largura."
       },
       "head": {
         "displayName": "Título",
@@ -289,6 +304,11 @@
         "name": "figure-eight",
         "value": "240 unidades/s, loop contínuo",
         "purpose": "O carro do rodapé; pausa por botão, fora da tela e no movimento reduzido."
+      },
+      {
+        "name": "hero-pin",
+        "value": "1 tela de rolagem; frases até ±115% com easeIn e 10° de inclinação; scrim 1 → 0.3; vídeo 1.08 → 1",
+        "purpose": "O topo fica preso enquanto o slogan sai pelas laterais; desligado no movimento reduzido."
       }
     ],
     "breakpoints": [
@@ -374,7 +394,7 @@
   ],
   "narrative": {
     "northStar": "O box à noite",
-    "overview": "O site é o box da NSC depois do expediente. O carro de corrida descansa sob barras de LED branco, o piso de epóxi grafite devolve a luz e o carrinho de ferramentas vermelho fica encostado na parede. Tudo sai desse lugar: o fundo é grafite em camadas (nunca preto puro), o texto é a luz do LED, e o vermelho da marca é a laca do carrinho, aplicada só em superfícies (ações, cones, gavetas e o campo do rodapé).\n\nO movimento é o assunto. O vídeo da equipe ocupa a tela inteira sob o slogan. No meio da página, o 350Z #69 desce o piso do box entre faixas pintadas conforme a página rola, deixa borracha e acende cada cone por onde passa. No rodapé, ele faz oitos sem parar em volta de dois cones. O resto da página entra com gestos curtos e mecânicos: linhas que sobem de uma máscara como placas erguidas, fotos que abrem como persiana, anos que giram como contador. Tudo para no modo de movimento reduzido.\n\nRecusas confirmadas pelo cliente e pela direção: a folha de papel branca (o claro demais escurecia a pista e o carro), a página preta com neon vermelho, cards idênticos com ícone e o hero centralizado.",
+    "overview": "O site é o box da NSC depois do expediente. O carro de corrida descansa sob barras de LED branco, o piso de epóxi grafite devolve a luz e o carrinho de ferramentas vermelho fica encostado na parede. Tudo sai desse lugar: o fundo é grafite em camadas (nunca preto puro), o texto é a luz do LED, e o vermelho da marca é a laca do carrinho, aplicada só em superfícies (ações, cones, gavetas e o campo do rodapé).\n\nO movimento é o assunto. O vídeo da equipe ocupa a tela inteira sob o slogan; ao rolar, ele fica preso enquanto as duas frases saem pelas laterais, e só então a página segue. No meio da página, o 350Z #69 desce uma pista de asfalto preto pelo piso do box conforme a página rola, deixa borracha e acende cada cone por onde passa. No rodapé, ele faz oitos sem parar em volta de dois cones. O resto da página entra com gestos curtos e mecânicos: linhas que sobem de uma máscara como placas erguidas, fotos que abrem como persiana, anos que giram como contador. Tudo para no modo de movimento reduzido.\n\nRecusas confirmadas pelo cliente e pela direção: a folha de papel branca (o claro demais escurecia a pista e o carro), a página preta com neon vermelho, cards idênticos com ícone e o hero centralizado.",
     "keyCharacteristics": [
       "Grafite em quatro degraus tonais, sem sombras em repouso",
       "Archivo comprimido 800 em caixa alta para monumentos e títulos; largura normal para ler",
@@ -406,7 +426,7 @@
       },
       {
         "name": "A Regra do Monumento",
-        "body": "Letra comprimida que preenche uma medida é calculada pela própria medida: o slogan (95% da largura útil), o nome no rodapé (`100cqw / 4.65`, de margem a margem), a palavra \"Serviços\" (`27.8cqw` da coluna do carrinho) e os links do menu do celular (`clamp(3rem, 2rem + 6vw, 4.5rem)`). Todos podem quebrar (`overflow-wrap: anywhere`) se o texto crescer, em vez de serem cortados.",
+        "body": "Letra comprimida que preenche uma medida é calculada pela própria medida: o slogan (79% da largura útil), o nome no rodapé (`100cqw / 4.65`, de margem a margem), a palavra \"Serviços\" (`27.8cqw` da coluna do carrinho) e os links do menu do celular (`clamp(3rem, 2rem + 6vw, 4.5rem)`). Todos podem quebrar (`overflow-wrap: anywhere`) se o texto crescer, em vez de serem cortados.",
         "section": "typography"
       },
       {

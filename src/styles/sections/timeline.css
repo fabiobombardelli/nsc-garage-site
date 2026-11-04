@@ -143,25 +143,27 @@
     --track-center-fraction: 0.5;
     --track-center-offset: 0;
     --track-amplitude: 104;
-    --track-half-width: 50;
-    --cone-gap: 26;
+    --track-half-width: 76;
+    --cone-gap: 22;
     --track-overhang-top: 220;
     --track-overhang-bottom: 320;
     --tyre-offset: 13px;
     --car-width: 48px;
+    --centre-dash: 18 26;
     position: relative;
 
     /* Celular e tablet: a faixa corre pela esquerda e os marcos ficam ao lado dela. */
     @media (width < 64rem) {
       --track-center-fraction: 0;
-      --track-center-offset: 40;
-      --track-amplitude: 12;
-      --track-half-width: 24;
-      --cone-gap: 16;
+      --track-center-offset: 46;
+      --track-amplitude: 10;
+      --track-half-width: 32;
+      --cone-gap: 8;
       --track-overhang-top: 160;
       --track-overhang-bottom: 220;
       --tyre-offset: 7px;
       --car-width: 32px;
+      --centre-dash: 10 16;
     }
   }
 
@@ -173,24 +175,34 @@
     pointer-events: none;
   }
 
-  /* Duas linhas brancas: o traçado largo em branco e, por cima, o miolo na cor do piso. */
-  .floor-lane-paint {
+  /* A pista: o mesmo traçado em três camadas. Bordas brancas (traço largo
+     em tinta de piso), o asfalto preto por cima e a faixa central tracejada,
+     bem sutil. A borracha do carro fica por cima de tudo. */
+  .floor-lane-edge {
     fill: none;
     stroke: var(--color-paint);
-    stroke-opacity: 0.85;
-    stroke-width: calc((var(--track-half-width) * 2 + 8) * 1px);
+    stroke-opacity: 0.7;
+    stroke-width: calc((var(--track-half-width) * 2 + 6) * 1px);
   }
 
-  .floor-lane-surface {
+  .floor-lane-asphalt {
     fill: none;
-    stroke: var(--color-floor);
+    stroke: var(--color-asphalt);
     stroke-width: calc(var(--track-half-width) * 2px);
+  }
+
+  .floor-lane-centre {
+    fill: none;
+    stroke: var(--color-paint);
+    stroke-opacity: 0.3;
+    stroke-width: 3px;
+    stroke-dasharray: var(--centre-dash);
   }
 
   .floor-lane-rubber path {
     fill: none;
     stroke: var(--color-rubber);
-    stroke-opacity: 0.75;
+    stroke-opacity: 0.9;
     stroke-width: calc(var(--tyre-offset) * 0.5);
     stroke-linecap: round;
   }
@@ -339,19 +351,19 @@
 
     &[data-side="right"] {
       justify-content: flex-end;
-      padding-left: calc(50% + 200px);
+      padding-left: calc(50% + 236px);
     }
 
     &[data-side="left"] {
       justify-content: flex-start;
-      padding-right: calc(50% + 200px);
+      padding-right: calc(50% + 236px);
     }
 
     @media (width < 64rem) {
       &[data-side="right"],
       &[data-side="left"] {
         justify-content: flex-start;
-        padding-left: 96px;
+        padding-left: 116px;
         padding-right: 0;
       }
     }

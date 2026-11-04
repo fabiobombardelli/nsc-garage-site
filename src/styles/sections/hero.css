@@ -1,7 +1,10 @@
 /*
  * Topo: vídeo em tela cheia e o slogan como monumento, uma frase no alto à
- * esquerda e a outra embaixo à direita. A frase de apoio fica sobre um
- * painel sólido para manter o contraste AA sobre qualquer quadro do vídeo.
+ * esquerda e a outra embaixo à direita.
+ *
+ * Com movimento liberado, o topo fica preso na tela por mais uma tela de
+ * rolagem (.is-pinned): as duas frases saem pelas laterais, o vídeo clareia
+ * e só então a página segue. A animação está em Hero.tsx.
  */
 
 @layer components {
@@ -9,13 +12,31 @@
     position: relative;
     z-index: 40;
     isolation: isolate;
-    display: grid;
-    /* A altura da tela, mas cresce se o texto precisar (fonte ampliada ou
-       espaçamento de texto do WCAG 1.4.12) em vez de cortar. */
-    min-height: max(100svh, 36rem);
-    overflow: clip;
     background: var(--color-carbon);
     color: var(--color-ink);
+  }
+
+  /* O palco: vídeo, scrim, slogan e controles. Tem a altura da tela, mas
+     cresce se o texto precisar (fonte ampliada ou espaçamento de texto do
+     WCAG 1.4.12) em vez de cortar. */
+  .hero-stage {
+    position: relative;
+    display: grid;
+    min-height: max(100svh, 36rem);
+    overflow: clip;
+  }
+
+  /* Preso: a seção ganha uma tela a mais de altura e o palco fica no topo
+     enquanto ela passa. Só quando o slogan cabe na tela (Hero.tsx). */
+  .hero.is-pinned {
+    height: 200svh;
+
+    & .hero-stage {
+      position: sticky;
+      top: 0;
+      height: 100svh;
+      min-height: 0;
+    }
   }
 
   .hero-media {
@@ -39,36 +60,31 @@
     background: linear-gradient(180deg, oklch(0 0 0 / 78%) 0%, oklch(0 0 0 / 30%) 36%, oklch(0 0 0 / 20%) 55%, oklch(0 0 0 / 85%) 100%); /* taste-skill-ignore: scrim neutro sobre o vídeo, para legibilidade */
   }
 
-  /* Três faixas: a primeira frase, o painel do meio e a segunda frase. É
-     também o container de medida do slogan (--text-monument), dimensionado
-     pela largura útil, com ou sem barra de rolagem. */
+  /* Container de medida do slogan (--text-monument): dimensionado pela
+     largura útil, com ou sem barra de rolagem. */
   .hero-layout {
     position: relative;
     z-index: 2;
     display: grid;
     grid-template-columns: minmax(0, 1fr);
-    grid-template-rows: auto 1fr auto;
-    row-gap: 1.5rem;
     container-type: inline-size;
     padding-top: calc(var(--header-height) + 1.25rem);
     padding-bottom: 5.5rem;
   }
 
-  /* O h1 ocupa as três faixas (subgrid) e põe uma frase em cada ponta;
-     o painel fica na faixa do meio e nunca cobre o slogan. */
+  /* Uma frase em cada ponta, com o vídeo livre no meio. */
   .hero-title {
-    grid-column: 1;
-    grid-row: 1 / -1;
     display: grid;
-    grid-template-rows: subgrid;
+    grid-template-rows: auto 1fr auto;
+    row-gap: 1.5rem;
     pointer-events: none;
   }
 
   /* No celular, uma linha por frase deixaria o slogan pequeno (cerca de
-     34px): ele cresce e cada frase quebra em duas linhas equilibradas. */
+     28px): ele cresce e cada frase quebra em duas linhas equilibradas. */
   @container (width < 30rem) {
     .hero-title {
-      --text-monument: clamp(1.75rem, 15cqw, 3.75rem);
+      --text-monument: clamp(1.75rem, 13cqw, 3.25rem);
     }
   }
 
@@ -80,37 +96,15 @@
   }
 
   .hero-line-one {
-    grid-row: 1;
     justify-self: start;
-    transform-origin: left top;
+    transform-origin: left center;
   }
 
   .hero-line-two {
     grid-row: 3;
     justify-self: end;
     text-align: right;
-    transform-origin: right bottom;
-  }
-
-  /* Frase e ação no meio, cruzando o horizonte do vídeo a partir de 30% da largura. */
-  .hero-aside {
-    grid-column: 1;
-    grid-row: 2;
-    align-self: center;
-    justify-self: start;
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 1.25rem;
-    width: min(100%, 27rem);
-    margin-left: 28vw;
-    padding: 1.5rem;
-    background: color-mix(in oklab, var(--color-carbon) 88%, transparent);
-
-    & p {
-      font-size: var(--text-lead);
-      line-height: 1.35;
-    }
+    transform-origin: right center;
   }
 
   .hero-controls {
@@ -129,26 +123,7 @@
     font-size: var(--text-small);
   }
 
-  @media (width < 64rem) {
-    .hero-aside {
-      margin-left: 0;
-    }
-  }
-
   @media (width < 40rem) {
-    .hero-aside {
-      width: 100%;
-      padding: 1.25rem;
-
-      & p {
-        font-size: var(--text-body);
-      }
-
-      & .button {
-        width: 100%;
-      }
-    }
-
     .hero-caption {
       display: none;
     }

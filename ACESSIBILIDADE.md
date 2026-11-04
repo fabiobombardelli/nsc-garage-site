@@ -112,6 +112,7 @@ cores do tema.
 Com o modo ligado:
 
 - As entradas viram troca instantânea, sem deslocamento.
+- O topo não fica preso na tela: as frases do slogan não saem e a página rola direto.
 - O vídeo do topo não toca sozinho; o botão de reprodução continua lá.
 - A fumaça some, e os anéis dos cones e o carro do rodapé ficam parados.
 - O carro da Trajetória continua acompanhando a rolagem, porque é a própria pessoa que o move.
