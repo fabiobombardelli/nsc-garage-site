@@ -1,0 +1,51 @@
+/* Header: uma barra de papel com logo, três links e a ação principal. */
+
+@layer components {
+  .site-header {
+    position: fixed;
+    inset-inline: 0;
+    top: 0;
+    z-index: 50;
+    padding-top: env(safe-area-inset-top, 0px);
+    background: var(--color-paper);
+  }
+
+  .site-header-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1.5rem;
+    height: var(--header-height);
+  }
+
+  .header-link {
+    font-size: var(--text-small);
+    font-weight: 500;
+    text-decoration: underline;
+    text-decoration-thickness: 0.07em;
+    text-underline-offset: 0.3em;
+    text-decoration-color: transparent;
+    transition: text-decoration-color 180ms ease;
+
+    @media (hover: hover) and (pointer: fine) {
+      &:hover {
+        text-decoration-color: currentColor;
+      }
+    }
+  }
+
+  .mobile-menu {
+    display: flex;
+    flex-direction: column;
+    min-height: calc(100svh - var(--header-height));
+    padding: 1.5rem var(--page-margin) 2rem;
+  }
+
+  .mobile-menu-link {
+    padding-block: 0.4rem;
+    font-size: var(--text-head);
+    font-weight: 500;
+    line-height: 1.1;
+    letter-spacing: -0.04em;
+  }
+}

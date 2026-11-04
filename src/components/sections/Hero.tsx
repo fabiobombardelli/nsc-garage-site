@@ -1,58 +1,51 @@
-import { ArrowRight } from "lucide-react";
+import { site } from "@/content/site";
+import { useHeroWindow } from "@/hooks/useHeroWindow";
 import { heroVideo } from "@/lib/assets";
 
+/**
+ * Abertura: o vídeo da equipe aparece por uma janela no papel e, conforme
+ * a página rola, a janela abre até a tela inteira (ver hero.css).
+ */
 export function Hero() {
+  const { sectionRef, stageRef } = useHeroWindow();
+
   return (
-    <section
-      id="inicio"
-      className="relative z-30 isolate h-svh min-h-[640px] overflow-hidden bg-background"
-    >
-      <video
-        className="absolute inset-0 h-full w-full object-cover"
-        poster={heroVideo.poster}
-        autoPlay
-        muted
-        loop
-        playsInline
-        aria-label="Carro preparado realizando drift em pista noturna"
-      >
-        {heroVideo.sources.map((source) => (
-          <source key={source.src} {...source} />
-        ))}
-      </video>
-      <div className="hero-shade absolute inset-0" />
+    <section id="inicio" ref={sectionRef} className="hero">
+      <div ref={stageRef} className="hero-stage">
+        <div className="hero-media">
+          <video
+            poster={heroVideo.poster}
+            autoPlay
+            muted
+            loop
+            playsInline
+            aria-label="O 350Z número 69 da equipe NSC derrapando na pista"
+          >
+            {heroVideo.sources.map((source) => (
+              <source key={source.src} {...source} />
+            ))}
+          </video>
+        </div>
 
-      <div className="container-site relative flex h-full items-end pb-20 sm:pb-28">
-        <div className="hero-copy relative max-w-[760px]">
-          <h1 className="font-display text-4xl leading-[1.2] uppercase sm:text-5xl lg:text-6xl">
-            <span className="mb-1 block sm:mb-2">
-              Carros são nossa <span className="text-primary">paixão.</span>
-            </span>
-            <span className="block">
-              Competir é a <span className="text-primary">obsessão.</span>
-            </span>
+        <div className="hero-copy container-site">
+          <h1 className="hero-title type-head">
+            Competir é <br />a obsessão.
           </h1>
-
-          <p className="mt-5 max-w-[52ch] text-base leading-relaxed text-foreground/80 sm:text-lg">
-            Manutenção premium e preparação de carros de competição e drift, com a mesma exigência
-            dentro e fora da pista.
-          </p>
-
-          <div className="mt-8 flex flex-wrap gap-3">
-            <a href="#contato" className="btn btn-primary">
-              Agende uma avaliação <ArrowRight size={16} aria-hidden="true" />
-            </a>
-            <a href="#servicos" className="btn btn-outline">
-              Nossos serviços
+          <div className="hero-aside">
+            <p>
+              Carros são nossa paixão. Preparamos carros de drift e competição e cuidamos do seu
+              esportivo com o mesmo rigor de pista.
+            </p>
+            <a href="#contato" className="button">
+              {site.primaryAction}
             </a>
           </div>
         </div>
-      </div>
 
-      <a href="#trajetoria" className="scroll-cue" aria-label="Ir para a trajetória">
-        <span />
-        Role para acelerar
-      </a>
+        <p className="hero-caption" aria-hidden="true">
+          350Z #69 da equipe NSC
+        </p>
+      </div>
     </section>
   );
 }

@@ -1,0 +1,89 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-11-04T05:40:00Z",
+  "title": "Design System: NSC Garage",
+  "extensions": {
+    "colorMeta": {
+      "paper": { "role": "neutral", "displayName": "Papel frio", "canonical": "oklch(0.952 0.004 240)" },
+      "surface": { "role": "neutral", "displayName": "Superfície", "canonical": "oklch(0.912 0.005 240)" },
+      "ink": { "role": "neutral", "displayName": "Tinta carbono", "canonical": "oklch(0.19 0.006 250)" },
+      "muted": { "role": "neutral", "displayName": "Tinta secundária", "canonical": "oklch(0.43 0.008 250)" },
+      "accent": { "role": "primary", "displayName": "Vermelho da marca", "canonical": "oklch(0.55 0.215 28)" },
+      "accent-strong": { "role": "primary", "displayName": "Vermelho sob o ponteiro", "canonical": "oklch(0.49 0.2 28)" },
+      "asphalt": { "role": "neutral", "displayName": "Asfalto", "canonical": "oklch(0.28 0.006 250)" },
+      "asphalt-raised": { "role": "neutral", "displayName": "Asfalto elevado", "canonical": "oklch(0.34 0.006 250)" },
+      "rubber": { "role": "neutral", "displayName": "Borracha", "canonical": "oklch(0.12 0.004 250)" }
+    },
+    "typographyMeta": {
+      "display": { "displayName": "Display", "purpose": "Frases de pôster: título da Trajetória e número do WhatsApp." },
+      "head": { "displayName": "Título", "purpose": "Títulos de seção e do topo." },
+      "lead": { "displayName": "Afirmação", "purpose": "Frases grandes de texto e títulos dos marcos." },
+      "body": { "displayName": "Texto", "purpose": "Texto corrido na tinta cheia." },
+      "small": { "displayName": "Nota", "purpose": "Menu, notas e rótulos." }
+    },
+    "shadows": [
+      { "name": "floating-action", "value": "0 10px 24px oklch(0.19 0.006 250 / 28%)", "purpose": "Somente o botão flutuante do WhatsApp." }
+    ],
+    "motion": [
+      { "name": "ease-out", "value": "cubic-bezier(0.22, 1, 0.36, 1)", "purpose": "Entradas e respostas abaixo de 600 ms." },
+      { "name": "ease-expo", "value": "cubic-bezier(0.16, 1, 0.3, 1)", "purpose": "Revelações longas e o contador de anos." },
+      { "name": "ease-in-out", "value": "cubic-bezier(0.76, 0, 0.24, 1)", "purpose": "Fotos que abrem como persiana." },
+      { "name": "ease-soft", "value": "cubic-bezier(0.33, 1, 0.68, 1)", "purpose": "Escala lenta das fotos." }
+    ],
+    "breakpoints": [
+      { "name": "tablet", "value": "48rem" },
+      { "name": "desktop", "value": "64rem" }
+    ]
+  },
+  "components": [
+    {
+      "name": "Botão principal",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "A ação principal, sempre 'Agendar avaliação'.",
+      "html": "<a class=\"ds-button\" href=\"#contato\">Agendar avaliação</a>",
+      "css": ".ds-button{display:inline-flex;align-items:center;justify-content:center;min-height:52px;padding:0 24px;background:oklch(0.55 0.215 28);color:oklch(0.952 0.004 240);font:500 18px/1.2 'Hanken Grotesk',system-ui,sans-serif;letter-spacing:-0.01em;text-decoration:none;border-radius:0;transition:transform 140ms cubic-bezier(.22,1,.36,1),background-color 180ms ease}.ds-button:hover{background:oklch(0.49 0.2 28)}.ds-button:active{transform:scale(.97)}"
+    },
+    {
+      "name": "Campo do cupom",
+      "kind": "input",
+      "refersTo": "field-on-ink",
+      "description": "Campo preenchido sobre o cupom escuro de inscrição.",
+      "html": "<div style=\"background:oklch(0.19 0.006 250);padding:24px\"><input class=\"ds-field\" placeholder=\"Seu nome\"></div>",
+      "css": ".ds-field{width:100%;min-height:52px;padding:12px 16px;background:oklch(0.34 0.006 250);color:oklch(0.952 0.004 240);border:0;border-radius:0;font:400 18px/1.4 'Hanken Grotesk',system-ui,sans-serif}.ds-field::placeholder{color:oklch(0.8 0.004 250)}.ds-field:focus-visible{outline:2px solid oklch(0.55 0.215 28);outline-offset:3px}"
+    },
+    {
+      "name": "Barra de navegação",
+      "kind": "nav",
+      "refersTo": "header-bar",
+      "description": "Logo, três links e a ação principal sobre papel.",
+      "html": "<nav class=\"ds-nav\"><strong>NSC Garage</strong><span><a>Trajetória</a><a>Oficina</a><a>Serviços</a><a class=\"ds-nav-cta\">Agendar avaliação</a></span></nav>",
+      "css": ".ds-nav{display:flex;align-items:center;justify-content:space-between;height:68px;padding:0 32px;background:oklch(0.952 0.004 240);color:oklch(0.19 0.006 250);font:500 14px 'Hanken Grotesk',system-ui,sans-serif}.ds-nav span{display:flex;gap:32px;align-items:center}.ds-nav-cta{background:oklch(0.55 0.215 28);color:oklch(0.952 0.004 240);padding:12px 16px}"
+    }
+  ],
+  "narrative": {
+    "northStar": "A ficha de julgamento",
+    "overview": "O site é a ficha oficial de uma bateria de drift: papel frio, tinta carbono e o vermelho da marca como a caneta do juiz. O 350Z #69 percorre a pista da Trajetória deixando borracha e acendendo clipping points, e fecha a página com três zerinhos no rodapé vermelho.",
+    "keyCharacteristics": [
+      "Uma família tipográfica em caixa normal, cinco tamanhos",
+      "Vermelho só na ação, nos clipping points e no rodapé",
+      "Sem linhas, sombras em repouso ou gradientes",
+      "Imagens reais do vídeo da equipe"
+    ],
+    "rules": [
+      { "name": "A caneta do juiz", "body": "O vermelho marca o que importa agir ou notar; nunca decora.", "section": "colors" },
+      { "name": "Papel frio", "body": "Nada de creme ou marfim no fundo.", "section": "colors" },
+      { "name": "Duas linhas", "body": "Todo título cabe em duas linhas em qualquer largura.", "section": "typography" }
+    ],
+    "dos": [
+      "Usar quadros reais do vídeo da equipe",
+      "Deixar o carro e a pista como o único momento barulhento",
+      "Manter o conteúdo visível sem JavaScript e com movimento reduzido"
+    ],
+    "donts": [
+      "Rótulos pequenos acima de títulos ou seções numeradas",
+      "Gradientes, linhas finas, contornos de 1 px ou sombras em repouso",
+      "Títulos, depoimentos, números ou patrocinadores inventados"
+    ]
+  }
+}

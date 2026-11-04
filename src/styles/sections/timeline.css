@@ -1,0 +1,388 @@
+/*
+ * Trajetória: o título com o vídeo no lugar de "lado", a pista e os marcos.
+ *
+ * A pista é desenhada por src/hooks/useDriftCar.ts a partir das variáveis
+ * numéricas de .timeline-stage (em px). O carro recebe --car-x, --car-y,
+ * --car-rotation, --drift-force e --smoke-sway do mesmo hook.
+ */
+
+@layer components {
+  .timeline {
+    position: relative;
+    z-index: 0;
+    isolation: isolate;
+    padding-block: var(--section-gap);
+    background: var(--color-paper);
+  }
+
+  /* Fica acima da pista: o carro "sai de baixo" do título. */
+  .timeline-intro {
+    position: relative;
+    z-index: 30;
+    padding-bottom: 6rem;
+    background: var(--color-paper);
+  }
+
+  .timeline-title {
+    grid-column: 1 / -1;
+  }
+
+  .timeline-lede {
+    grid-column: 8 / span 5;
+
+    @media (width < 64rem) {
+      grid-column: 1 / -1;
+      max-width: 34ch;
+    }
+  }
+
+  /* Um trecho de vídeo do tamanho de uma palavra, apoiado na linha de base. */
+  .inline-clip {
+    display: inline-block;
+    width: 1.9em;
+    height: 0.72em;
+    margin-inline: 0.04em 0.06em;
+    overflow: hidden;
+    background: var(--color-asphalt);
+
+    @media (width < 48rem) {
+      width: 1.45em;
+    }
+
+    & video {
+      display: block;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+  }
+
+  .timeline-stage {
+    --track-center-fraction: 0.5;
+    --track-center-offset: 0;
+    --track-amplitude: 104;
+    --track-half-width: 50;
+    --marker-gap: 12;
+    --track-overhang-top: 220;
+    --track-overhang-bottom: 320;
+    --tyre-offset: 13px;
+    --car-width: 46px;
+    position: relative;
+
+    /* Celular e tablet: a pista corre pela esquerda e os marcos ficam ao lado dela. */
+    @media (width < 64rem) {
+      --track-center-fraction: 0;
+      --track-center-offset: 38;
+      --track-amplitude: 12;
+      --track-half-width: 22;
+      --marker-gap: 9;
+      --track-overhang-top: 160;
+      --track-overhang-bottom: 220;
+      --tyre-offset: 7px;
+      --car-width: 30px;
+    }
+  }
+
+  /* ---------- Pista ---------- */
+
+  .race-track {
+    position: absolute;
+    left: 0;
+    z-index: 0;
+    overflow: visible;
+    pointer-events: none;
+  }
+
+  .race-track-asphalt {
+    fill: none;
+    stroke: var(--color-asphalt);
+    stroke-width: calc(var(--track-half-width) * 2px);
+  }
+
+  .race-track-paint {
+    fill: none;
+    stroke: var(--color-paper);
+    stroke-opacity: 0.45;
+    stroke-width: 2px;
+    stroke-dasharray: 14 22;
+  }
+
+  .race-track-rubber path {
+    fill: none;
+    stroke: var(--color-rubber);
+    stroke-opacity: 0.6;
+    stroke-width: calc(var(--tyre-offset) * 0.45);
+    stroke-linecap: round;
+  }
+
+  .rubber-left {
+    transform: translateX(calc(var(--tyre-offset) * -1));
+  }
+
+  .rubber-right {
+    transform: translateX(var(--tyre-offset));
+  }
+
+  /* Clipping point: um cone visto de cima que fica vermelho quando o carro passa. */
+  .clipping-point-cone {
+    fill: var(--color-paper);
+    stroke: var(--color-asphalt);
+    stroke-width: 3px;
+    transition:
+      fill 200ms ease,
+      stroke 200ms ease;
+  }
+
+  .clipping-point-ring {
+    fill: none;
+    stroke: var(--color-accent);
+    stroke-width: 2px;
+    opacity: 0;
+    transform-box: fill-box;
+    transform-origin: center;
+  }
+
+  .clipping-point.is-lit {
+    & .clipping-point-cone {
+      fill: var(--color-accent);
+      stroke: var(--color-paper);
+    }
+
+    & .clipping-point-ring {
+      animation: clipping-ring 800ms var(--ease-out) 1;
+    }
+  }
+
+  /* ---------- Carro ---------- */
+
+  .drift-car {
+    position: relative;
+    width: var(--car-width, 46px);
+    pointer-events: none;
+  }
+
+  .drift-car-image {
+    position: relative;
+    z-index: 2;
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+
+  .drift-car-smoke {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    opacity: calc(0.18 + var(--drift-force, 0) * 0.82);
+  }
+
+  .drift-car-puff {
+    position: absolute;
+    width: 48%;
+    aspect-ratio: 1;
+    border-radius: 999px;
+    background: oklch(0.97 0.002 240 / 70%);
+    filter: blur(5px);
+    animation: smoke-puff 1.45s ease-out infinite;
+
+    /* A traseira fica no topo da imagem (o carro anda com a frente para baixo). */
+    &:nth-child(1) {
+      left: 6%;
+      top: -6%;
+    }
+    &:nth-child(2) {
+      left: 52%;
+      top: -4%;
+      animation-delay: 0.35s;
+    }
+    &:nth-child(3) {
+      left: 14%;
+      top: 4%;
+      animation-delay: 0.7s;
+    }
+    &:nth-child(4) {
+      left: 58%;
+      top: 6%;
+      animation-delay: 1.05s;
+    }
+  }
+
+  .timeline-car {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 20;
+    transform: translate3d(calc(var(--car-x, -200px) - 50%), calc(var(--car-y, 0px) - 50%), 0)
+      rotate(var(--car-rotation, 0deg));
+    will-change: transform;
+    backface-visibility: hidden;
+  }
+
+  /* ---------- Marcos ---------- */
+
+  .milestones {
+    position: relative;
+    z-index: 10;
+    display: grid;
+    gap: 8rem;
+    padding-block: 2rem;
+
+    @media (width < 48rem) {
+      gap: 5rem;
+    }
+  }
+
+  /* Os marcos alternam de lado; a pista corre pelo meio. */
+  .milestone {
+    display: flex;
+
+    &[data-side="right"] {
+      justify-content: flex-end;
+      padding-left: calc(50% + 12.5rem);
+    }
+
+    &[data-side="left"] {
+      justify-content: flex-start;
+      padding-right: calc(50% + 12.5rem);
+    }
+
+    @media (width < 64rem) {
+      &[data-side="right"],
+      &[data-side="left"] {
+        justify-content: flex-start;
+        padding-left: 5.25rem;
+        padding-right: 0;
+      }
+    }
+  }
+
+  .milestone-content {
+    width: min(100%, 30rem);
+  }
+
+  .milestone-photo {
+    aspect-ratio: 3 / 2;
+    overflow: hidden;
+    background: var(--color-surface);
+
+    & img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+  }
+
+  .milestone-year {
+    margin-top: 1.25rem;
+    line-height: 1;
+  }
+
+  .milestone-title {
+    margin-top: 0.75rem;
+  }
+
+  .milestone-text {
+    margin-top: 0.5rem;
+    max-width: 36ch;
+  }
+
+  /* Ano com dígitos de contador mecânico (RollingYear.tsx). */
+  .rolling-year-digits {
+    display: inline-flex;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .rolling-year-column {
+    display: inline-block;
+    height: 1em;
+    overflow: clip;
+  }
+
+  /* Uma fita com os algarismos de 0 a 9, um por linha, deslocada até o dígito. */
+  .rolling-year-strip {
+    display: block;
+    transform: translateY(calc(var(--digit) * -1em));
+
+    &::before {
+      content: "0\A 1\A 2\A 3\A 4\A 5\A 6\A 7\A 8\A 9";
+      display: block;
+      line-height: 1;
+      white-space: pre;
+    }
+  }
+}
+
+@keyframes smoke-puff {
+  0% {
+    opacity: 0;
+    transform: translate(0, 0) scale(0.45);
+  }
+  25% {
+    opacity: 0.55;
+  }
+  100% {
+    opacity: 0;
+    transform: translate(var(--smoke-sway, -24px), -48px) scale(2.25);
+  }
+}
+
+@keyframes clipping-ring {
+  from {
+    opacity: 0.9;
+    transform: scale(0.4);
+  }
+  to {
+    opacity: 0;
+    transform: scale(1.6);
+  }
+}
+
+/* Entradas dos marcos: a foto abre, o ano gira, o texto sobe. */
+@media (prefers-reduced-motion: no-preference) {
+  .js .milestone {
+    & .milestone-photo {
+      transition: clip-path 1100ms var(--ease-in-out);
+    }
+
+    & .milestone-photo img {
+      transition: transform 1500ms var(--ease-soft);
+    }
+
+    & .milestone-title,
+    & .milestone-text {
+      transition:
+        opacity 700ms ease 250ms,
+        transform 900ms var(--ease-out) 250ms;
+    }
+  }
+
+  .js .milestone:not(.is-in) {
+    & .milestone-photo {
+      clip-path: inset(100% 0 0 0);
+    }
+
+    & .milestone-photo img {
+      transform: scale(1.12);
+    }
+
+    & .milestone-title,
+    & .milestone-text {
+      opacity: 0;
+      transform: translateY(1rem);
+    }
+
+    & .rolling-year-strip {
+      transform: none;
+    }
+  }
+
+  .js .milestone.is-in .rolling-year-strip {
+    transition: transform 1100ms var(--ease-expo) calc(var(--column) * 70ms + 150ms);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .drift-car-puff {
+    display: none;
+  }
+}

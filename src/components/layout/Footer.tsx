@@ -1,30 +1,73 @@
+import { DonutCar } from "@/components/footer/DonutCar";
 import { Logo } from "@/components/ui/Logo";
-import { navigation, site } from "@/content/site";
+import { contact, navigation, site } from "@/content/site";
+import { whatsappLink } from "@/lib/whatsapp";
 
+/** O fechamento em campo vermelho: o número do WhatsApp é o título. */
 export function Footer() {
+  const year = new Date().getFullYear();
+
   return (
-    <footer className="bg-card">
-      <div className="container-site flex flex-col gap-8 py-12 md:flex-row md:items-center md:justify-between">
-        <div>
-          <Logo className="h-14" />
-          <p className="mt-3 max-w-[40ch] text-sm text-muted-foreground">{site.shortDescription}</p>
+    <footer id="rodape" className="site-footer">
+      <div className="container-site site-footer-inner">
+        <div className="site-footer-top">
+          <Logo className="h-10" />
+          <div className="site-footer-notes">
+            <p>{site.description}</p>
+            <p>
+              {contact.address.street}
+              <br />
+              {contact.address.city}
+            </p>
+            <p>
+              {contact.hours.map((line) => (
+                <span key={line} className="block">
+                  {line}
+                </span>
+              ))}
+            </p>
+          </div>
+          <a href="#inicio" className="text-link site-footer-top-link">
+            Voltar ao início
+          </a>
         </div>
 
-        <nav aria-label="Rodapé" className="flex flex-wrap gap-x-6 gap-y-3">
-          {navigation.map((item) => (
-            <a
-              key={item.href}
-              href={item.href}
-              className="text-xs font-semibold tracking-[0.18em] text-muted-foreground uppercase transition-colors hover:text-foreground"
-            >
-              {item.label}
-            </a>
-          ))}
-        </nav>
-      </div>
+        <DonutCar />
 
-      <div className="border-t border-border px-5 py-5 text-center text-[10px] tracking-[0.2em] text-muted-foreground uppercase">
-        © {new Date().getFullYear()} {site.name} · Todos os direitos reservados
+        <div className="site-footer-contact">
+          <h2 className="type-lead">Chame no WhatsApp</h2>
+          <a
+            className="site-footer-number"
+            href={whatsappLink("Olá! Vim pelo site da NSC Garage.")}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            {contact.whatsapp.display}
+          </a>
+        </div>
+
+        <div className="site-footer-meta">
+          <nav aria-label="Rodapé" className="site-footer-links">
+            {navigation.map((item) => (
+              <a key={item.href} href={item.href} className="text-link">
+                {item.label}
+              </a>
+            ))}
+            {contact.instagram && (
+              <a
+                href={`https://instagram.com/${contact.instagram}`}
+                className="text-link"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                Instagram
+              </a>
+            )}
+          </nav>
+          <p>
+            © {year} {site.name}
+          </p>
+        </div>
       </div>
     </footer>
   );

@@ -1,11 +1,12 @@
 /**
  * Informações gerais da marca. Edite aqui para atualizar textos que
- * aparecem em mais de um lugar do site (header, footer, contato…).
+ * aparecem em mais de um lugar do site (header, rodapé, contato…).
  */
 export const site = {
   name: "NSC Garage",
-  tagline: "Preparação e manutenção premium",
-  shortDescription: "Oficina premium de manutenção e preparação de carros de competição e drift.",
+  description: "Preparação de carros de drift e competição e manutenção premium de esportivos.",
+  /** Nome da ação principal. Use o mesmo texto em todos os botões que levam ao contato. */
+  primaryAction: "Agendar avaliação",
 } as const;
 
 /**
@@ -20,15 +21,11 @@ export const contact = {
   },
   /** Usuário do Instagram sem o @. Deixe vazio para esconder. */
   instagram: "",
-  /** Deixe vazio para esconder. */
-  email: "",
   address: {
     street: "Endereço da oficina",
-    city: "Cidade — UF",
-    /** Link do Google Maps. Deixe vazio para não exibir o link "Como chegar". */
-    mapsUrl: "",
+    city: "Cidade, UF",
   },
-  hours: ["Segunda a sexta · 8h às 18h", "Sábado · 8h às 12h"],
+  hours: ["Segunda a sexta, 8h às 18h", "Sábado, 8h às 12h"],
 } as const;
 
 export type NavItem = {
@@ -36,10 +33,9 @@ export type NavItem = {
   href: `#${string}`;
 };
 
+/** Links do menu. A ação principal (contato) é um botão à parte. */
 export const navigation: NavItem[] = [
-  { label: "Início", href: "#inicio" },
   { label: "Trajetória", href: "#trajetoria" },
   { label: "Oficina", href: "#oficina" },
   { label: "Serviços", href: "#servicos" },
-  { label: "Contato", href: "#contato" },
 ];

@@ -1,16 +1,13 @@
-import { Menu, X } from "lucide-react";
 import { useEffect, useState } from "react";
 import { Logo } from "@/components/ui/Logo";
 import { navigation, site } from "@/content/site";
-import { useScrolled } from "@/hooks/useScrolled";
 import { cn } from "@/lib/cn";
 
+/** Barra simples: logo, três links e a ação principal. No celular, os links ficam atrás de "Menu". */
 export function Header() {
-  const scrolled = useScrolled();
   const [menuOpen, setMenuOpen] = useState(false);
   const closeMenu = () => setMenuOpen(false);
 
-  // Fecha o menu mobile com a tecla Esc.
   useEffect(() => {
     if (!menuOpen) return;
     const onKeyDown = (event: KeyboardEvent) => event.key === "Escape" && closeMenu();
@@ -19,45 +16,38 @@ export function Header() {
   }, [menuOpen]);
 
   return (
-    <header className={cn("site-header", (scrolled || menuOpen) && "is-solid")}>
-      <div className="container-site flex items-center justify-between gap-5 py-3">
-        <a
-          href="#inicio"
-          aria-label={`${site.name} — início`}
-          className="flex min-w-0 items-center gap-3"
-          onClick={closeMenu}
-        >
-          <Logo className="h-10 sm:h-12" />
-          <span className="hidden h-6 w-px bg-foreground/25 lg:block" />
-          <span className="hidden text-[10px] font-medium tracking-[0.28em] text-muted-foreground uppercase lg:block">
-            {site.tagline}
-          </span>
+    <header className={cn("site-header", menuOpen && "is-open")}>
+      <div className="container-site site-header-bar">
+        <a href="#inicio" aria-label={`${site.name}, início`} onClick={closeMenu}>
+          <Logo className="h-9 sm:h-10" />
         </a>
 
-        <nav aria-label="Navegação principal" className="hidden items-center gap-1 md:flex">
+        <nav aria-label="Navegação principal" className="hidden items-center gap-8 md:flex">
           {navigation.map((item) => (
-            <a key={item.href} href={item.href} className="nav-link">
+            <a key={item.href} href={item.href} className="header-link">
               {item.label}
             </a>
           ))}
+          <a href="#contato" className="button button-small">
+            {site.primaryAction}
+          </a>
         </nav>
 
         <button
           type="button"
-          className="mobile-menu-toggle md:hidden"
+          className="header-link md:hidden"
           aria-expanded={menuOpen}
           aria-controls="menu-mobile"
-          aria-label={menuOpen ? "Fechar menu" : "Abrir menu"}
           onClick={() => setMenuOpen((open) => !open)}
         >
-          {menuOpen ? <X size={22} /> : <Menu size={22} />}
+          {menuOpen ? "Fechar" : "Menu"}
         </button>
       </div>
 
       <nav
         id="menu-mobile"
-        aria-label="Navegação mobile"
-        className={cn("mobile-menu md:hidden", menuOpen && "is-open")}
+        aria-label="Navegação"
+        className="mobile-menu md:hidden"
         hidden={!menuOpen}
       >
         {navigation.map((item) => (
@@ -65,6 +55,9 @@ export function Header() {
             {item.label}
           </a>
         ))}
+        <a href="#contato" className="button mt-6 w-full" onClick={closeMenu}>
+          {site.primaryAction}
+        </a>
       </nav>
     </header>
   );

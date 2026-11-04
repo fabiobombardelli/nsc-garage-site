@@ -1,29 +1,42 @@
 /**
- * Geometria da pista em "S" da linha do tempo.
+ * Geometria da pista da Trajetória.
  *
- * O desenho é feito num sistema de coordenadas fixo (viewBox 360 × 3000)
- * e esticado via CSS para ocupar toda a altura da seção.
+ * O traçado é montado em tempo real a partir da posição de cada marco:
+ * cada marco vira o ápice de uma curva, alternando de lado. Tudo em
+ * pixels da própria seção, sem esticar o desenho.
  */
-export const TRACK_VIEWBOX = { width: 360, height: 3000 } as const;
 
-export const TRACK_PATH =
-  "M180 0 C75 130 75 270 180 380 S285 650 180 760 S75 1030 180 1140 S285 1410 180 1520 " +
-  "S75 1790 180 1900 S285 2170 180 2280 S75 2550 180 2660 S285 2890 180 3000";
+export type TrackPoint = { x: number; y: number };
 
-/** Ângulo extra (graus) aplicado ao carro: base nas retas + máximo nas curvas. */
+/** Ângulo extra (graus) do carro: um mínimo nas retas e um máximo nas curvas fechadas. */
 const DRIFT_BASE_ANGLE = 10;
 const DRIFT_MAX_EXTRA_ANGLE = 31;
 /** Quanto a curvatura da pista amplifica a "força" do drift (0–1). */
 const DRIFT_SENSITIVITY = 3.6;
 
-const toDegrees = (radians: number) => (radians * 180) / Math.PI;
-const angleBetween = (a: DOMPoint, b: DOMPoint) => Math.atan2(b.y - a.y, b.x - a.x);
+/**
+ * Liga os pontos com curvas suaves. A tangente é vertical em cada ponto,
+ * então cada ponto é exatamente o ápice de uma curva.
+ */
+export function buildTrackPath(points: TrackPoint[]): string {
+  const [first, ...rest] = points;
+  if (!first) return "";
 
-/** Encontra, por busca binária, o ponto do traçado cuja altura (y) é `targetY`. */
+  let d = `M${first.x} ${first.y}`;
+  let previous = first;
+  for (const point of rest) {
+    const handle = (point.y - previous.y) / 2;
+    d += ` C${previous.x} ${previous.y + handle} ${point.x} ${point.y - handle} ${point.x} ${point.y}`;
+    previous = point;
+  }
+  return d;
+}
+
+/** Encontra, por busca binária, o comprimento do traçado em que a altura (y) vale `targetY`. */
 function lengthAtY(path: SVGPathElement, targetY: number, totalLength: number): number {
   let low = 0;
   let high = totalLength;
-  for (let i = 0; i < 12; i += 1) {
+  for (let i = 0; i < 14; i += 1) {
     const middle = (low + high) / 2;
     if (path.getPointAtLength(middle).y < targetY) low = middle;
     else high = middle;
@@ -31,10 +44,15 @@ function lengthAtY(path: SVGPathElement, targetY: number, totalLength: number): 
   return (low + high) / 2;
 }
 
+const toDegrees = (radians: number) => (radians * 180) / Math.PI;
+const angleBetween = (a: DOMPoint, b: DOMPoint) => Math.atan2(b.y - a.y, b.x - a.x);
+
 export type CarPose = {
-  /** Posição no sistema de coordenadas do viewBox. */
   x: number;
   y: number;
+  /** Quanto do traçado o carro já percorreu, em pixels. */
+  length: number;
+  totalLength: number;
   /** Rotação final do carro, em graus. */
   rotation: number;
   /** Intensidade do drift, de 0 (reta) a 1 (curva fechada). */
@@ -43,7 +61,7 @@ export type CarPose = {
   driftDirection: number;
 };
 
-/** Calcula posição e atitude do carro para uma altura `targetY` da pista. */
+/** Calcula posição e atitude do carro na altura `targetY` da pista. */
 export function getCarPose(path: SVGPathElement, targetY: number): CarPose {
   const totalLength = path.getTotalLength();
   const length = lengthAtY(path, targetY, totalLength);
@@ -66,6 +84,8 @@ export function getCarPose(path: SVGPathElement, targetY: number): CarPose {
   return {
     x: point.x,
     y: point.y,
+    length,
+    totalLength,
     rotation: heading - 90 + driftAngle,
     driftForce,
     driftDirection,

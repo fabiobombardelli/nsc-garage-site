@@ -1,11 +1,10 @@
-import { Send } from "lucide-react";
 import type { FormEvent } from "react";
 import { services } from "@/content/services";
 import { whatsappLink } from "@/lib/whatsapp";
 
 /**
- * Formulário sem servidor: monta uma mensagem com os dados preenchidos
- * e abre a conversa no WhatsApp da oficina.
+ * Formulário sem servidor: monta uma mensagem com os dados preenchidos e
+ * abre a conversa no WhatsApp da oficina.
  */
 export function ContactForm() {
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
@@ -26,44 +25,50 @@ export function ContactForm() {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="contact-form">
-      <div className="grid gap-5 sm:grid-cols-2">
-        <label className="field">
-          <span>Nome</span>
-          <input name="name" type="text" autoComplete="name" required placeholder="Seu nome" />
-        </label>
-
-        <label className="field">
-          <span>Carro</span>
-          <input name="car" type="text" placeholder="Modelo e ano" />
-        </label>
-      </div>
-
-      <label className="field">
-        <span>Serviço de interesse</span>
-        <select name="service" defaultValue="">
-          <option value="">Selecione (opcional)</option>
-          {services.map((service) => (
-            <option key={service.title} value={service.title}>
-              {service.title}
-            </option>
-          ))}
-          <option value="Outro">Outro</option>
-        </select>
+    <form className="coupon-form" onSubmit={handleSubmit}>
+      <label className="sr-only-text" htmlFor="contact-name">
+        Nome
       </label>
+      <input
+        id="contact-name"
+        name="name"
+        type="text"
+        autoComplete="name"
+        required
+        placeholder="Seu nome"
+      />
 
-      <label className="field">
-        <span>Mensagem</span>
-        <textarea
-          name="message"
-          rows={5}
-          required
-          placeholder="Conte um pouco sobre o seu projeto ou o que o carro precisa."
-        />
+      <label className="sr-only-text" htmlFor="contact-car">
+        Carro
       </label>
+      <input id="contact-car" name="car" type="text" placeholder="Carro, modelo e ano" />
 
-      <button type="submit" className="btn btn-primary">
-        Enviar pelo WhatsApp <Send size={16} aria-hidden="true" />
+      <label className="sr-only-text" htmlFor="contact-service">
+        Serviço
+      </label>
+      <select id="contact-service" name="service" defaultValue="">
+        <option value="">Serviço de interesse</option>
+        {services.map((service) => (
+          <option key={service.title} value={service.title}>
+            {service.title}
+          </option>
+        ))}
+        <option value="Outro">Outro</option>
+      </select>
+
+      <label className="sr-only-text" htmlFor="contact-message">
+        Mensagem
+      </label>
+      <textarea
+        id="contact-message"
+        name="message"
+        rows={3}
+        required
+        placeholder="O que o carro precisa?"
+      />
+
+      <button type="submit" className="button coupon-submit">
+        Enviar pelo WhatsApp
       </button>
     </form>
   );

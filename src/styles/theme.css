@@ -1,50 +1,100 @@
 /*
- * Tokens de design. Cada cor declarada em @theme vira classe do Tailwind:
- * --color-primary → bg-primary, text-primary, border-primary...
+ * Tokens de design da NSC Garage.
+ *
+ * O mundo visual é a ficha de julgamento de uma bateria de drift:
+ * papel claro, tinta carbono e o vermelho da marca como a caneta do juiz.
+ * Cada cor declarada aqui vira classe do Tailwind (--color-ink → text-ink).
  */
 @theme {
-  --font-display: "Anton", sans-serif;
-  --font-sans: "Space Grotesk", sans-serif;
+  /* Uma família, dois pesos (400 e 500). */
+  --font-sans: "Hanken Grotesk", ui-sans-serif, system-ui, sans-serif;
 
-  --color-background: oklch(0.1 0 0);
-  --color-foreground: oklch(0.95 0 0);
-  --color-card: oklch(0.14 0 0);
-  --color-secondary: oklch(0.16 0 0);
-  --color-muted-foreground: oklch(0.62 0 0);
-  --color-border: oklch(1 0 0 / 12%);
+  /* Papel: o fundo de quase toda a página. Frio, nunca creme. */
+  --color-paper: oklch(0.952 0.004 240);
+  /* Um tom abaixo do papel: seções alternadas e campos. */
+  --color-surface: oklch(0.912 0.005 240);
+  /* Tinta: todo o texto corrido. */
+  --color-ink: oklch(0.19 0.006 250);
+  /* Tinta secundária: notas e descrições curtas. */
+  --color-muted: oklch(0.43 0.008 250);
+  /* Vermelho da marca: só na ação principal, nos clipping points e no rodapé. */
+  --color-accent: oklch(0.55 0.215 28);
+  --color-accent-strong: oklch(0.49 0.2 28);
+  /* Asfalto da pista e o cartão de inscrição. */
+  --color-asphalt: oklch(0.28 0.006 250);
+  --color-asphalt-raised: oklch(0.34 0.006 250);
+  /* Borracha deixada pelos pneus. */
+  --color-rubber: oklch(0.12 0.004 250);
 
-  /* Vermelho da marca */
-  --color-primary: oklch(0.58 0.2 27);
+  /* Cinco tamanhos, e só eles. */
+  --text-small: clamp(0.8125rem, 0.79rem + 0.1vw, 0.875rem);
+  --text-body: clamp(1.0625rem, 1rem + 0.25vw, 1.1875rem);
+  --text-lead: clamp(1.375rem, 1.15rem + 0.9vw, 1.875rem);
+  --text-head: clamp(2.25rem, 1.2rem + 4.2vw, 4.25rem);
+  --text-display: clamp(3rem, 0.4rem + 10.2vw, 9.5rem);
 
-  /* Pista da linha do tempo */
-  --color-asphalt: oklch(0.22 0 0);
-  --color-track-line: oklch(0.55 0 0);
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-expo: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-in-out: cubic-bezier(0.76, 0, 0.24, 1);
+  --ease-soft: cubic-bezier(0.33, 1, 0.68, 1);
+}
+
+:root {
+  --page-margin: 1.25rem;
+  --section-gap: 7.5rem;
+  --header-height: 4.25rem;
+
+  @media (width >= 48rem) {
+    --page-margin: 2rem;
+    --section-gap: 10rem;
+  }
 }
 
 @layer base {
   html {
-    color-scheme: dark;
+    color-scheme: light;
+    /* Superfícies do navegador também seguem a marca. */
+    accent-color: var(--color-accent);
+    caret-color: var(--color-accent);
+    scrollbar-color: var(--color-muted) var(--color-paper);
     scroll-behavior: smooth;
-    background-color: var(--color-background);
-    color: var(--color-foreground);
+    background-color: var(--color-paper);
+    color: var(--color-ink);
     font-family: var(--font-sans);
+    font-size: 100%;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
   }
 
   body {
-    background-color: var(--color-background);
+    background-color: var(--color-paper);
+    font-size: var(--text-body);
+    line-height: 1.5;
+    letter-spacing: -0.005em;
   }
 
-  * {
-    border-color: var(--color-border);
+  h1,
+  h2,
+  h3 {
+    font-weight: 500;
+    text-wrap: balance;
   }
 
-  /* Compensa a altura do header fixo ao navegar pelas âncoras do menu. */
+  p {
+    text-wrap: pretty;
+  }
+
   section[id] {
-    scroll-margin-top: 4.5rem;
+    scroll-margin-top: var(--header-height);
+  }
+
+  ::selection {
+    background: var(--color-accent);
+    color: var(--color-paper);
   }
 
   :focus-visible {
-    outline: 2px solid var(--color-primary);
+    outline: 2px solid var(--color-accent);
     outline-offset: 3px;
   }
 
@@ -55,34 +105,49 @@
   }
 }
 
-/* Largura máxima e respiro lateral padrão das seções. */
+/* Largura útil e margens laterais iguais em toda a página. */
 @utility container-site {
   margin-inline: auto;
   width: 100%;
-  max-width: 1440px;
-  padding-inline: 1.25rem;
-
-  @media (width >= 40rem) {
-    padding-inline: 2.5rem;
-  }
+  max-width: 96rem;
+  padding-inline: var(--page-margin);
 }
 
-/* Rótulo pequeno em vermelho acima dos títulos de seção. */
-@utility eyebrow {
-  font-size: 0.68rem;
-  font-weight: 600;
-  letter-spacing: 0.35em;
-  text-transform: uppercase;
-  color: var(--color-primary);
+/* Grade de 12 colunas usada pelas seções. */
+@utility grid-site {
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  column-gap: 1.5rem;
 }
 
-@utility section-title {
-  font-family: var(--font-display);
-  font-size: var(--text-4xl);
-  line-height: 1.25;
-  text-transform: uppercase;
+@utility type-head {
+  font-size: var(--text-head);
+  font-weight: 500;
+  line-height: 0.98;
+  letter-spacing: -0.04em;
+}
 
-  @media (width >= 40rem) {
-    font-size: var(--text-6xl);
-  }
+@utility type-display {
+  font-size: var(--text-display);
+  font-weight: 500;
+  line-height: 0.9;
+  letter-spacing: -0.05em;
+}
+
+@utility type-lead {
+  font-size: var(--text-lead);
+  line-height: 1.22;
+  letter-spacing: -0.02em;
+}
+
+@utility sr-only-text {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
 }

@@ -7,3 +7,9 @@ dist
 .vscode/*
 !.vscode/extensions.json
 *.zip
+
+# Ferramentas de design (skills) e seus arquivos de trabalho
+.claude/skills/
+.taste-skill/
+.impeccable/review/
+.impeccable/questions/

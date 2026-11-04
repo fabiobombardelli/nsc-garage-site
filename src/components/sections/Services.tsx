@@ -1,29 +1,57 @@
+import cornerPhoto from "@/assets/images/footage/corner-69.webp";
 import { services } from "@/content/services";
+import { whatsappLink } from "@/lib/whatsapp";
 
+/** Serviços como uma tabela de critérios: cada linha abre um orçamento no WhatsApp. */
 export function Services() {
   return (
-    <section id="servicos" className="relative z-30 bg-background py-20 sm:py-28">
+    <section id="servicos" className="services">
       <div className="container-site">
-        <div className="mb-12 flex flex-col gap-4 md:mb-16 md:flex-row md:items-end md:justify-between">
-          <div>
-            <p className="eyebrow">O que fazemos</p>
-            <h2 className="section-title mt-3">Serviços</h2>
-          </div>
-          <p className="max-w-[44ch] text-sm leading-relaxed text-muted-foreground">
-            Do carro de rua ao de competição, cada projeto recebe o mesmo método: diagnóstico,
-            planejamento, execução e validação.
-          </p>
-        </div>
+        <h2 className="services-title type-head" data-reveal="drift">
+          Do carro de rua <br className="hidden md:block" />
+          ao carro de pista.
+        </h2>
 
-        <ul className="grid gap-px overflow-hidden border border-border bg-border sm:grid-cols-2 lg:grid-cols-3">
-          {services.map(({ title, description, icon: Icon }) => (
-            <li key={title} className="service-card reveal">
-              <Icon className="text-primary" size={28} strokeWidth={1.5} aria-hidden="true" />
-              <h3 className="mt-6 text-lg font-semibold">{title}</h3>
-              <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{description}</p>
-            </li>
-          ))}
-        </ul>
+        <div className="grid-site services-grid">
+          <figure className="services-photo" data-reveal="shutter">
+            <div className="shutter">
+              <img src={cornerPhoto} alt="" width={960} height={1200} loading="lazy" />
+            </div>
+            <figcaption>O 350Z #69 da equipe contornando a curva.</figcaption>
+          </figure>
+
+          <ul className="services-list">
+            {services.map((service, index) => {
+              const startsGroup = services[index - 1]?.group !== service.group;
+              return (
+                <li
+                  key={service.title}
+                  className="service-row"
+                  data-group-start={startsGroup || undefined}
+                  data-reveal="rise"
+                  style={{ "--reveal-order": index % 4 } as React.CSSProperties}
+                >
+                  <span className="service-group">{startsGroup ? service.group : ""}</span>
+                  <div>
+                    <h3 className="service-name">{service.title}</h3>
+                    <p className="service-description">{service.description}</p>
+                  </div>
+                  <a
+                    className="service-quote text-link"
+                    href={whatsappLink(
+                      `Olá! Quero um orçamento de ${service.title.toLowerCase()}.`,
+                    )}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label={`Pedir orçamento de ${service.title.toLowerCase()} pelo WhatsApp`}
+                  >
+                    Orçar
+                  </a>
+                </li>
+              );
+            })}
+          </ul>
+        </div>
       </div>
     </section>
   );

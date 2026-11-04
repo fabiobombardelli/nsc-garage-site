@@ -1,0 +1,103 @@
+/* Botões, links e acessibilidade. Um só formato de botão: retangular, cantos retos. */
+
+@layer components {
+  .button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.6rem;
+    min-height: 3.25rem;
+    padding: 0 1.5rem;
+    background: var(--color-accent);
+    color: var(--color-paper);
+    font-size: var(--text-body);
+    font-weight: 500;
+    letter-spacing: -0.01em;
+    transition:
+      transform 140ms var(--ease-out),
+      background-color 180ms ease;
+
+    &:active {
+      transform: scale(0.97);
+    }
+
+    @media (hover: hover) and (pointer: fine) {
+      &:hover {
+        background: var(--color-accent-strong);
+      }
+    }
+  }
+
+  .button-small {
+    min-height: 2.5rem;
+    padding: 0 1rem;
+    font-size: var(--text-small);
+  }
+
+  /* Link de texto: sublinhado discreto que ganha força sob o ponteiro. */
+  .text-link {
+    text-decoration: underline;
+    text-decoration-thickness: 0.07em;
+    text-underline-offset: 0.22em;
+    text-decoration-color: color-mix(in oklab, currentColor 40%, transparent);
+    transition: text-decoration-color 180ms ease;
+
+    @media (hover: hover) and (pointer: fine) {
+      &:hover {
+        text-decoration-color: currentColor;
+      }
+    }
+  }
+
+  /* Visível só ao navegar pelo teclado (Tab). */
+  .skip-link {
+    position: fixed;
+    top: 0.75rem;
+    left: 0.75rem;
+    z-index: 100;
+    padding: 0.75rem 1rem;
+    background: var(--color-ink);
+    color: var(--color-paper);
+    font-size: var(--text-small);
+    transform: translateY(-200%);
+
+    &:focus {
+      transform: none;
+    }
+  }
+
+  /* Atalho fixo para o WhatsApp. Some quando o rodapé (com o número) aparece. */
+  .whatsapp-button {
+    position: fixed;
+    right: calc(1rem + env(safe-area-inset-right, 0px));
+    bottom: calc(1rem + env(safe-area-inset-bottom, 0px));
+    z-index: 60;
+    display: grid;
+    place-items: center;
+    width: 3.5rem;
+    height: 3.5rem;
+    background: var(--color-accent);
+    color: var(--color-paper);
+    box-shadow: 0 10px 24px oklch(0.19 0.006 250 / 28%); /* taste-skill-ignore: flutua sobre o conteúdo */
+    transition:
+      transform 240ms var(--ease-out),
+      opacity 240ms ease,
+      background-color 180ms ease;
+
+    &:active {
+      transform: scale(0.95);
+    }
+
+    &.is-hidden {
+      opacity: 0;
+      transform: translateY(1rem);
+      pointer-events: none;
+    }
+
+    @media (hover: hover) and (pointer: fine) {
+      &:hover {
+        background: var(--color-accent-strong);
+      }
+    }
+  }
+}

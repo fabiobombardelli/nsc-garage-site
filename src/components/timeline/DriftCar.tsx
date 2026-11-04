@@ -1,12 +1,20 @@
 import type { Ref } from "react";
 import carImage from "@/assets/images/drift-car-top.webp";
+import { cn } from "@/lib/cn";
 
-type DriftCarProps = { ref: Ref<HTMLDivElement> };
+type DriftCarProps = {
+  ref?: Ref<HTMLDivElement>;
+  className?: string;
+};
 
-/** Carro visto de cima, com fumaça saindo dos pneus traseiros. */
-export function DriftCar({ ref }: DriftCarProps) {
+/**
+ * O 350Z #69 visto de cima, com fumaça saindo dos pneus traseiros.
+ * A posição vem de fora: na Trajetória pelo hook useDriftCar, no rodapé
+ * pela animação do zerinho.
+ */
+export function DriftCar({ ref, className }: DriftCarProps) {
   return (
-    <div ref={ref} className="drift-car" aria-hidden="true">
+    <div ref={ref} className={cn("drift-car", className)} aria-hidden="true">
       <div className="drift-car-smoke">
         {Array.from({ length: 4 }, (_, index) => (
           <span key={index} className="drift-car-puff" />
