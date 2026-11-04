@@ -1,28 +1,30 @@
 import { Logo } from "@/components/ui/Logo";
-import { site } from "@/content/site";
+import { navigation, site } from "@/content/site";
 
 export function Footer() {
   return (
-    <footer id="contato" className="bg-card">
-      <div className="container-site flex flex-col gap-6 py-10 sm:flex-row sm:items-end sm:justify-between sm:py-12">
+    <footer className="bg-card">
+      <div className="container-site flex flex-col gap-8 py-12 md:flex-row md:items-center md:justify-between">
         <div>
-          <Logo className="h-12 sm:h-14 lg:h-16" />
-          <p className="mt-2 text-sm text-muted-foreground">{site.shortDescription}</p>
+          <Logo className="h-14" />
+          <p className="mt-3 max-w-[40ch] text-sm text-muted-foreground">{site.shortDescription}</p>
         </div>
 
-        <div className="text-sm text-muted-foreground">
-          <p>Contato e endereço serão inseridos na próxima revisão.</p>
-          <a
-            href="#inicio"
-            className="mt-3 inline-block font-semibold tracking-[0.18em] text-foreground uppercase"
-          >
-            Voltar ao topo ↑
-          </a>
-        </div>
+        <nav aria-label="Rodapé" className="flex flex-wrap gap-x-6 gap-y-3">
+          {navigation.map((item) => (
+            <a
+              key={item.href}
+              href={item.href}
+              className="text-xs font-semibold tracking-[0.18em] text-muted-foreground uppercase transition-colors hover:text-foreground"
+            >
+              {item.label}
+            </a>
+          ))}
+        </nav>
       </div>
 
       <div className="border-t border-border px-5 py-5 text-center text-[10px] tracking-[0.2em] text-muted-foreground uppercase">
-        © {new Date().getFullYear()} {site.name}
+        © {new Date().getFullYear()} {site.name} · Todos os direitos reservados
       </div>
     </footer>
   );

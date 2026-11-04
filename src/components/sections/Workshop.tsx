@@ -26,6 +26,9 @@ export function Workshop() {
             cada motor ligado e a cada pneu que toca o asfalto. A última curva ainda está longe, e
             nós temos a estrutura perfeita para você acelerar conosco nessa reta.
           </p>
+          <a href="#contato" className="btn btn-primary">
+            Fale com a equipe
+          </a>
         </div>
       </div>
     </section>

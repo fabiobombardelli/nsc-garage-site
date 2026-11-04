@@ -1,3 +1,4 @@
+import { ArrowRight } from "lucide-react";
 import { heroVideo } from "@/lib/assets";
 
 export function Hero() {
@@ -15,8 +16,9 @@ export function Hero() {
         playsInline
         aria-label="Carro preparado realizando drift em pista noturna"
       >
-        <source src={heroVideo.webm} type="video/webm" />
-        <source src={heroVideo.mp4} type="video/mp4" />
+        {heroVideo.sources.map((source) => (
+          <source key={source.src} {...source} />
+        ))}
       </video>
       <div className="hero-shade absolute inset-0" />
 
@@ -30,6 +32,20 @@ export function Hero() {
               Competir é a <span className="text-primary">obsessão.</span>
             </span>
           </h1>
+
+          <p className="mt-5 max-w-[52ch] text-base leading-relaxed text-foreground/80 sm:text-lg">
+            Manutenção premium e preparação de carros de competição e drift, com a mesma exigência
+            dentro e fora da pista.
+          </p>
+
+          <div className="mt-8 flex flex-wrap gap-3">
+            <a href="#contato" className="btn btn-primary">
+              Agende uma avaliação <ArrowRight size={16} aria-hidden="true" />
+            </a>
+            <a href="#servicos" className="btn btn-outline">
+              Nossos serviços
+            </a>
+          </div>
         </div>
       </div>
 

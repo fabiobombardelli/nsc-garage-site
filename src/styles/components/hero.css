@@ -22,7 +22,8 @@
   .scroll-cue {
     position: absolute;
     right: 2.5rem;
-    bottom: 2.5rem;
+    /* Acima do botão flutuante do WhatsApp. */
+    bottom: 7rem;
     display: flex;
     align-items: center;
     gap: 0.8rem;

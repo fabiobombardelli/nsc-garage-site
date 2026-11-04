@@ -10,7 +10,7 @@ export function MilestoneCard({ milestone, position }: MilestoneCardProps) {
   const shortYear = String(milestone.year).slice(-2);
 
   return (
-    <article className="milestone-card">
+    <article className="milestone-card reveal">
       <img src={milestone.image} alt={milestone.title} width={1200} height={900} loading="lazy" />
       <div className="p-6">
         <span className="font-display text-5xl leading-none text-primary sm:text-6xl">

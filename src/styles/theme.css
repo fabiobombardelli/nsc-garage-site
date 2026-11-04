@@ -33,6 +33,16 @@
     border-color: var(--color-border);
   }
 
+  /* Compensa a altura do header fixo ao navegar pelas âncoras do menu. */
+  section[id] {
+    scroll-margin-top: 4.5rem;
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-primary);
+    outline-offset: 3px;
+  }
+
   @media (prefers-reduced-motion: reduce) {
     html {
       scroll-behavior: auto;
@@ -50,6 +60,15 @@
   @media (width >= 40rem) {
     padding-inline: 2.5rem;
   }
+}
+
+/* Rótulo pequeno em vermelho acima dos títulos de seção. */
+@utility eyebrow {
+  font-size: 0.68rem;
+  font-weight: 600;
+  letter-spacing: 0.35em;
+  text-transform: uppercase;
+  color: var(--color-primary);
 }
 
 @utility section-title {

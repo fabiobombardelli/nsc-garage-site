@@ -11,9 +11,13 @@ export function Timeline() {
     <section id="trajetoria" className="relative z-0 py-20 sm:py-28">
       <div className="container-site">
         <div className="relative z-20 mb-20 flex items-end justify-between gap-6">
-          <h2 className="section-title">Nossa trajetória</h2>
-          <p className="hidden max-w-[31ch] text-sm leading-relaxed text-muted-foreground md:block">
-            Estrutura feita para competir. Os marcos abaixo são provisórios para a próxima revisão.
+          <div>
+            <p className="eyebrow">Desde {milestones[0]?.year}</p>
+            <h2 className="section-title mt-3">Nossa trajetória</h2>
+          </div>
+          <p className="hidden max-w-[34ch] text-sm leading-relaxed text-muted-foreground md:block">
+            Uma estrutura construída para competir. Cada marco abaixo é uma curva do caminho que nos
+            trouxe até aqui.
           </p>
         </div>
 

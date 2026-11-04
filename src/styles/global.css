@@ -8,6 +8,8 @@
  */
 @import "tailwindcss";
 @import "./theme.css";
+@import "./components/ui.css";
 @import "./components/layout.css";
 @import "./components/hero.css";
 @import "./components/timeline.css";
+@import "./components/contact.css";
