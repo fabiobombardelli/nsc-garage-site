@@ -1,5 +1,5 @@
 import { m } from "motion/react";
-import slidePhoto from "@/assets/images/footage/slide-square.webp";
+import slidePhoto from "@/assets/images/footage/slide-wide.webp";
 import { DriftCar } from "@/components/timeline/DriftCar";
 import { FloorLane } from "@/components/timeline/FloorLane";
 import { Milestone } from "@/components/timeline/Milestone";
@@ -35,21 +35,20 @@ export function Timeline() {
     <section id="trajetoria" className="timeline" aria-labelledby="trajetoria-title">
       {/* Faixa escura de ponta a ponta: a pista e o carro saem de baixo dela. */}
       <div className="timeline-opening">
-        <div className="plate container-site">
-          <figure className="plate-photo">
-            <m.img
-              src={slidePhoto}
-              alt="O 350Z #69 da NSC passando de lado em meio à fumaça"
-              width={1100}
-              height={1100}
-              loading="lazy"
-              initial={{ opacity: 0, scale: 1.08 }}
-              whileInView={{ opacity: 1, scale: 1 }}
-              viewport={{ once: true, margin: "0px 0px -15% 0px" }}
-              transition={{ duration: 1.4, ease: [0.33, 1, 0.68, 1] }}
-            />
-          </figure>
-
+        <figure className="plate-photo">
+          <m.img
+            src={slidePhoto}
+            alt="O 350Z #69 da NSC passando de lado em meio à fumaça"
+            width={1920}
+            height={1080}
+            loading="lazy"
+            initial={{ opacity: 0, scale: 1.08 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            viewport={{ once: true, margin: "0px 0px -15% 0px" }}
+            transition={{ duration: 1.4, ease: [0.33, 1, 0.68, 1] }}
+          />
+        </figure>
+        <div className="plate container-site grid-site">
           <div className="plate-text">
             <nav aria-label="Épocas da trajetória" className="plate-tabs">
               {eras.map((era) => (

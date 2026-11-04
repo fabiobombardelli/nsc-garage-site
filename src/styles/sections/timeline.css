@@ -13,41 +13,57 @@
     background: var(--color-floor);
   }
 
-  /* ---------- Abertura: foto quadrada e texto ---------- */
+  /* ---------- Abertura: foto grande e texto, numa faixa escura ---------- */
 
   /* Faixa mais escura que o piso, de ponta a ponta. Fica por cima do começo
      da pista: a borda dela é de onde a pista e o carro saem. */
   .timeline-opening {
     position: relative;
     z-index: 30;
+    overflow: clip;
     padding-top: var(--section-gap);
     background: var(--color-carbon-deep);
   }
 
-  .plate {
-    display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 2.5rem;
-    min-height: 88svh;
-    padding-bottom: 6rem;
-  }
-
-  /* Fade pedido pelo cliente: a foto se dissolve em direção ao texto. */
+  /* A foto ocupa quase toda a faixa, presa à direita. Fade pedido pelo
+     cliente: a metade esquerda se dissolve no preto, onde fica o texto, e o
+     alto e a base somem na faixa. A largura diminui em telas menores para o
+     texto nunca ficar sobre a parte visível da foto. */
   .plate-photo {
-    align-self: center;
-    aspect-ratio: 1;
-    overflow: hidden;
+    position: absolute;
+    inset: 0 0 0 auto;
+    width: 68%;
+    margin: 0;
     /* prettier-ignore */
-    mask-image: linear-gradient(to right, #000 52%, transparent 98%); /* taste-skill-ignore: fade pedido pelo cliente */
+    mask-image: linear-gradient(to right, transparent 0%, #000 45%), linear-gradient(to bottom, transparent 0%, #000 14%, #000 72%, transparent 100%); /* taste-skill-ignore: fade pedido pelo cliente */
+    mask-composite: intersect;
 
     & img {
       width: 100%;
       height: 100%;
       object-fit: cover;
+      object-position: 60% center;
+    }
+
+    /* Foto mais estreita: o recorte anda para a direita para a frente do
+       carro continuar inteira. */
+    @media (width < 90rem) {
+      width: 60%;
+
+      & img {
+        object-position: 75% center;
+      }
     }
   }
 
+  .plate {
+    position: relative;
+    min-height: 76svh;
+    padding-bottom: 6rem;
+  }
+
   .plate-text {
+    grid-column: 1 / span 5;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -121,16 +137,39 @@
     }
   }
 
-  @media (width < 48rem) {
-    .plate {
-      grid-template-columns: minmax(0, 1fr);
-      min-height: 0;
-      gap: 1.5rem;
+  /* Celular e tablet em pé: a foto vem primeiro, na largura toda, e se
+     dissolve para baixo até o preto. */
+  @media (width < 64rem) {
+    .timeline-opening {
+      padding-top: 0;
     }
 
     .plate-photo {
+      position: relative;
+      inset: auto;
+      width: auto;
+      aspect-ratio: 16 / 10;
       /* prettier-ignore */
-      mask-image: linear-gradient(to bottom, #000 58%, transparent 98%); /* taste-skill-ignore: fade pedido pelo cliente */
+      mask-image: linear-gradient(to bottom, transparent 0%, #000 12%, #000 50%, transparent 100%); /* taste-skill-ignore: fade pedido pelo cliente */
+
+      & img {
+        object-position: 65% center;
+      }
+    }
+
+    .plate {
+      min-height: 0;
+      margin-top: -2rem;
+    }
+
+    .plate-text {
+      grid-column: 1 / -1;
+    }
+  }
+
+  @media (width < 48rem) {
+    .plate-photo {
+      aspect-ratio: 1;
     }
 
     .plate-text {
@@ -151,6 +190,7 @@
     --track-amplitude: 104;
     --track-half-width: 76;
     --cone-gap: 22;
+    --barrier-gap: 24;
     --track-overhang-top: 220;
     --track-overhang-bottom: 320;
     --tyre-offset: 13px;
@@ -208,7 +248,7 @@
   .floor-lane-rubber path {
     fill: none;
     stroke: var(--color-rubber);
-    stroke-opacity: 0.9;
+    stroke-opacity: 1;
     stroke-width: calc(var(--tyre-offset) * 0.5);
     stroke-linecap: round;
   }
@@ -219,6 +259,38 @@
 
   .rubber-right {
     transform: translateX(var(--tyre-offset));
+  }
+
+  /* ---------- Barreiras de pneus, do lado de fora das curvas ---------- */
+
+  .tyre-tread {
+    fill: var(--color-rubber);
+  }
+
+  .tyre-hole {
+    fill: var(--color-floor);
+  }
+
+  /* No muro, os pneus são pintados alternando branco e vermelho. */
+  .barrier-wall {
+    & .tyre:nth-child(odd) .tyre-tread {
+      fill: var(--color-paint);
+    }
+
+    & .tyre:nth-child(even) .tyre-tread {
+      fill: var(--color-accent);
+    }
+
+    & .tyre-hole {
+      fill: var(--color-rubber);
+    }
+  }
+
+  /* No celular a pista corre colada à margem e não há espaço do lado de fora. */
+  @media (width < 64rem) {
+    .trackside {
+      display: none;
+    }
   }
 
   /* ---------- Cones: apagados até o carro passar ---------- */

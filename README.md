@@ -36,9 +36,10 @@ luz branca de LED e o vermelho do carrinho de ferramentas. Os detalhes estão em
 1. **Topo:** o vídeo da equipe em tela cheia com o slogan completo, "Carros são nossa paixão.
    Competir é a obsessão.", uma frase em cada canto. Ao rolar, o vídeo fica preso enquanto as duas
    frases saem pelas laterais, e só então a página segue.
-2. **Trajetória:** a foto do 350Z se dissolve em direção ao texto. Abaixo, o carro desce o piso do
-   box por uma pista de asfalto preto conforme a página rola, deixa marcas de pneu e acende o cone
-   de cada marco.
+2. **Trajetória:** numa faixa escura, a foto grande do 350Z se dissolve no preto em direção ao
+   texto. Abaixo, saindo de trás da faixa, o carro desce o piso do
+   box por uma pista de asfalto conforme a página rola, deixa marcas de pneu, acende o cone de cada
+   marco e passa por barreiras de pneus do lado de fora das curvas.
 3. **Oficina:** quem é a NSC: foto do box, o bloco "Pioneiros do drift no Brasil" e os fatos.
 4. **Serviços:** o carrinho de ferramentas. Cada gaveta abre no lugar com o que o serviço inclui e o
    pedido de orçamento pelo WhatsApp.

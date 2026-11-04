@@ -1,6 +1,6 @@
 {
   "schemaVersion": 2,
-  "generatedAt": "2026-11-04T16:16:50Z",
+  "generatedAt": "2026-11-04T16:36:32Z",
   "title": "Design System: NSC Garage",
   "extensions": {
     "colorMeta": {
@@ -217,7 +217,7 @@
       "asphalt": {
         "role": "neutral",
         "displayName": "Asfalto",
-        "canonical": "oklch(0.165 0.004 250)",
+        "canonical": "oklch(0.21 0.004 250)",
         "tonalRamp": [
           "oklch(0.15 0.006 250)",
           "oklch(0.26 0.006 250)",

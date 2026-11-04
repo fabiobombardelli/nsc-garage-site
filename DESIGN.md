@@ -14,7 +14,7 @@ colors:
   on-accent: "oklch(0.985 0.002 250)"
   on-light: "oklch(0.18 0.004 250)"
   paint: "oklch(0.93 0.003 250)"
-  asphalt: "oklch(0.165 0.004 250)"
+  asphalt: "oklch(0.21 0.004 250)"
   rubber: "oklch(0.1 0.003 250)"
   focus: "oklch(0.88 0.17 95)"
   danger: "oklch(0.76 0.15 25)"
@@ -173,8 +173,8 @@ Uma escala de grafite frio em quatro degraus, luz de LED para todo o texto e um 
 - **Luz de LED** (`ink`): todo o texto (16:1 sobre o grafite). Também é o **painel de luz**: a nota sobre a foto da Oficina, a célula clara da Trajetória e os atalhos de acesso.
 - **LED difuso** (`muted`): texto secundário, como descrições dos marcos, rótulos dos fatos e dicas de campo (9:1 sobre o grafite, 6,7:1 sobre a bancada).
 - **Tinta sobre o vermelho** (`on-accent`) e **tinta sobre a luz** (`on-light`): o texto que vai sobre o vermelho e sobre os painéis de luz.
-- **Tinta de piso** (`paint`): as bordas e a faixa central da pista, a faixa branca dos cones e a fumaça.
-- **Asfalto** (`asphalt`): a superfície da pista, mais escura que o piso em volta para a pista se destacar como uma pista de verdade.
+- **Tinta de piso** (`paint`): as bordas e a faixa central da pista, a faixa branca dos cones, os pneus brancos das barreiras e a fumaça.
+- **Asfalto** (`asphalt`): a superfície da pista, um pouco mais escura que o piso em volta para a pista se destacar, e clara o bastante para a borracha (`rubber`) aparecer por cima.
 - **Borracha** (`rubber`): marcas de pneu e base dos cones.
 
 ### Functional
@@ -220,7 +220,7 @@ Grade de 12 colunas com espaço de `min(1.5rem, 2vw)` entre colunas, largura út
 Cada seção tem composição própria:
 
 - **Topo:** vídeo em tela cheia com as duas frases do slogan em cantos opostos e nada entre elas. Com movimento liberado, a seção tem duas telas de altura e o palco fica preso (sticky) durante a primeira: as frases saem, o vídeo fica sozinho e depois sobe. Se o slogan não couber na altura da tela (fonte muito ampliada), o topo não fica preso e cresce além da tela em vez de cortar.
-- **Trajetória:** a abertura (foto quadrada que se dissolve em direção ao texto) fica numa faixa de grafite profundo de ponta a ponta, por cima do começo da pista. Abaixo, o piso com a pista em S no centro, saindo de baixo da faixa, e os marcos alternando de lado; abaixo de 64rem, a pista corre pela esquerda.
+- **Trajetória:** a abertura fica numa faixa de grafite profundo de ponta a ponta, por cima do começo da pista. A foto ocupa quase toda a faixa, presa à direita (68% da largura; 60% abaixo de 90rem), e a metade esquerda dela se dissolve no preto, onde fica o texto (5 colunas). Abaixo de 64rem a foto vem primeiro, na largura toda (16:10; quadrada no celular), e se dissolve para baixo. Abaixo, o piso com a pista em S no centro, saindo de baixo da faixa, e os marcos alternando de lado; abaixo de 64rem, a pista corre pela esquerda.
 - **Oficina:** foto larga de 8 colunas com a nota em painel de luz no canto, e a coluna lateral com o bloco vermelho e os fatos.
 - **Serviços:** coluna central estreita (42rem) com o título de ponta a ponta e as gavetas.
 - **Contato:** o cupom da ordem de serviço em 10 colunas, com picote a 42%.
@@ -285,6 +285,7 @@ O texto em `on-light` sobre um painel em `ink`, como uma placa iluminada: a nota
 O traçado em S é calculado a partir dos marcos, com um ápice por marco alternando de lado. É desenhado em três camadas, como uma pista de verdade: bordas brancas (`paint` a 70%, 3px de cada lado), o asfalto preto (`asphalt`) e uma faixa central tracejada bem sutil (`paint` a 30%, 3px). A pista tem 152px de largura no desktop e 64px abaixo de 64rem, cerca de três vezes a largura do carro.
 
 - **Borracha:** duas faixas em `rubber` são reveladas até o carro.
+- **Barreiras de pneus:** do lado de fora de cada curva (o cone fica do lado de dentro), alternando um muro de seis pneus pintados de branco e vermelho e uma pilha de três pneus pretos. Só a partir de 64rem; no celular a pista corre colada à margem.
 - **Cones:** um por marco, na borda voltada para o conteúdo. Ficam apagados (0.45) e acendem (1.0, com um anel que pulsa uma vez) quando o carro passa.
 - **Carro:** o 350Z (48px; 32px no celular) tem o ângulo de drift calculado pela curvatura e solta fumaça só enquanto a página rola.
 - **Anos:** os dígitos giram como um contador mecânico (1100ms, 70ms por coluna); leitores de tela recebem o ano inteiro.

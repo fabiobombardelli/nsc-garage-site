@@ -34,7 +34,7 @@
   --color-on-light: oklch(0.18 0.004 250);
   /* Pintura de piso, asfalto da pista, borracha e foco. */
   --color-paint: oklch(0.93 0.003 250);
-  --color-asphalt: oklch(0.165 0.004 250);
+  --color-asphalt: oklch(0.21 0.004 250);
   --color-rubber: oklch(0.1 0.003 250);
   --color-focus: oklch(0.88 0.17 95);
   /* Erros de formulário: vermelho claro, legível sobre o grafite (7,7:1) e sobre a ordem de serviço (5,8:1). */

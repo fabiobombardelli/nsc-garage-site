@@ -8,6 +8,9 @@ const IDLE_AFTER_MS = 220;
 
 export type ConePoint = TrackPoint & { id: number };
 
+/** Barreira de pneus do lado de fora de uma curva: muro pintado ou pilha solta. */
+export type BarrierPoint = TrackPoint & { id: number; kind: "wall" | "stack" };
+
 export type TrackGeometry = {
   width: number;
   height: number;
@@ -15,6 +18,7 @@ export type TrackGeometry = {
   overhangTop: number;
   path: string;
   cones: ConePoint[];
+  barriers: BarrierPoint[];
 };
 
 /** Lê um número declarado como variável CSS na área da pista (ver timeline.css). */
@@ -23,9 +27,11 @@ function cssNumber(element: Element, name: string): number {
 }
 
 /**
- * Desenha a faixa no piso do box a partir das posições dos marcos e faz o
+ * Desenha a pista no piso do box a partir das posições dos marcos e faz o
  * carro percorrê-la conforme a página rola: ele deixa borracha, solta
  * fumaça enquanto se move e acende o cone de cada marco por onde passa.
+ * Cada curva tem o cone do lado de dentro e uma barreira de pneus do lado
+ * de fora.
  *
  * O carro recebe a posição como variáveis CSS (--car-x, --car-y,
  * --car-rotation, --drift-force, --smoke-sway) e o atributo data-moving;
@@ -50,7 +56,9 @@ export function useDriftCar() {
     const overhangTop = cssNumber(stage, "--track-overhang-top");
     const overhangBottom = cssNumber(stage, "--track-overhang-bottom");
     const amplitude = cssNumber(stage, "--track-amplitude");
-    const coneGap = cssNumber(stage, "--track-half-width") + cssNumber(stage, "--cone-gap");
+    const halfWidth = cssNumber(stage, "--track-half-width");
+    const coneGap = halfWidth + cssNumber(stage, "--cone-gap");
+    const barrierGap = halfWidth + cssNumber(stage, "--barrier-gap");
     const centerX =
       width * cssNumber(stage, "--track-center-fraction") +
       cssNumber(stage, "--track-center-offset");
@@ -60,6 +68,7 @@ export function useDriftCar() {
     const items = Array.from(list.children) as HTMLElement[];
     const points: TrackPoint[] = [{ x: centerX, y: 0 }];
     const cones: ConePoint[] = [];
+    const barriers: BarrierPoint[] = [];
 
     items.forEach((item, index) => {
       // O cone fica na borda da faixa voltada para o conteúdo do marco.
@@ -74,10 +83,17 @@ export function useDriftCar() {
       const x = centerX + apexSide * amplitude;
       points.push({ x, y });
       cones.push({ id: index, x: x + contentSide * coneGap, y });
+      // Do lado de fora da curva, uma barreira: muros e pilhas se alternam.
+      barriers.push({
+        id: index,
+        x: x - contentSide * barrierGap,
+        y,
+        kind: index % 2 === 0 ? "wall" : "stack",
+      });
     });
     points.push({ x: centerX, y: height });
 
-    setGeometry({ width, height, overhangTop, path: buildTrackPath(points), cones });
+    setGeometry({ width, height, overhangTop, path: buildTrackPath(points), cones, barriers });
   }, []);
 
   useLayoutEffect(() => {
