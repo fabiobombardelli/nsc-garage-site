@@ -3,12 +3,12 @@
 Este guia leva o site do GitHub para o domínio da oficina, com o agendamento gravando num banco de
 dados de verdade. São quatro peças, todas com plano gratuito:
 
-| Peça          | Para quê                                                       | Serviço                    |
-| ------------- | -------------------------------------------------------------- | -------------------------- |
-| Código        | A fonte única do projeto; cada envio para `main` vai para o ar | GitHub                     |
-| Banco e login | Guardar os agendamentos e deixar só a oficina entrar           | Supabase                   |
-| Hospedagem    | Gerar o site a partir do GitHub e servir com HTTPS             | Cloudflare Pages           |
-| Domínio       | O endereço `nsc.vox.dev.br` apontando para a hospedagem        | Registro.br (`vox.dev.br`) |
+| Peça          | Para quê                                                       | Serviço                          |
+| ------------- | -------------------------------------------------------------- | -------------------------------- |
+| Código        | A fonte única do projeto; cada envio para `main` vai para o ar | GitHub                           |
+| Banco e login | Guardar os agendamentos e deixar só a oficina entrar           | Supabase                         |
+| Hospedagem    | Gerar o site a partir do GitHub e servir com HTTPS             | Cloudflare Pages                 |
+| Domínio       | O endereço `nsc.vox.dev.br` apontando para a hospedagem        | DNS do `vox.dev.br` (Cloudflare) |
 
 ```mermaid
 flowchart LR
@@ -157,7 +157,9 @@ repositório, gera o site e publica sozinha a cada envio para a branch `main`.
    lá antes do domínio.
 
 A Cloudflare lê a versão do Node em `.node-version` e instala com `npm ci`. O arquivo
-`public/_headers` liga cabeçalhos de segurança e o cache longo dos arquivos com hash. Como a
+`public/_headers` liga cabeçalhos de segurança (HSTS e a política de conteúdo, CSP) e o cache
+longo dos arquivos com hash. A CSP só libera o endereço do projeto no Supabase em `connect-src`:
+se trocar de projeto, atualize esse endereço, senão a agenda online deixa de carregar. Como a
 navegação usa `#/`, não é preciso nenhuma regra de redirecionamento.
 
 No GitHub, o fluxo **Verificação** (`.github/workflows/ci.yml`) roda formatação, tipos, lint, os
@@ -171,9 +173,13 @@ nsc-garage`. Só que aí cada atualização também é manual.
 
 ## 4. Apontar o domínio
 
-### Num subdomínio, mantendo o DNS no Registro.br (o caso da NSC: `nsc.vox.dev.br`)
+### Num subdomínio, mantendo o DNS no Registro.br
 
 Só um registro novo; o resto do domínio (site principal, e-mail) não muda.
+
+> **Caso da NSC (`nsc.vox.dev.br`):** o `vox.dev.br` já usa os servidores DNS da Cloudflare, na
+> mesma conta. Ao cadastrar o domínio no Pages (passo 1), a própria Cloudflare cria o CNAME `nsc`
+> e o passo 2 não é preciso. Se já houver um registro `nsc` (A ou CNAME), apague só ele antes.
 
 1. **Primeiro na Cloudflare:** no projeto do Pages, **Custom domains → Set up a custom domain**,
    digite `nsc.vox.dev.br` e siga até ela mostrar o registro CNAME a criar. Nessa ordem: um CNAME

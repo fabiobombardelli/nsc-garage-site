@@ -47,7 +47,8 @@ economizar tokens). Código, commits e docs ficam em texto normal.
 - `src/lib/accessibility.ts`: preferências (`data-motion`, `data-contrast`, `--font-scale`), evento
   de mudança; painel visível em `components/a11y/AccessibilityPanel.tsx`.
 - `src/app/`: rotas por hash (`#/agendar`, `#/meus-agendamentos`, `#/painel`, `#/acessibilidade`,
-  `#/privacidade`), foco e título a cada troca (`useRouteFocus`). Links para seções da inicial usam
+  `#/privacidade`), foco e título a cada troca (`useRouteFocus`). Telas internas sob demanda
+  (`lazyPage.tsx`, baixadas logo depois da inicial); o vídeo do topo só baixa depois do `load`. Links para seções da inicial usam
   `sectionHref`.
 - `src/pages/`: uma página por tela. `src/features/scheduling/`: domínio puro + testes (`domain/`),
   contrato `SchedulingService` (`services/contract.ts`) com duas versões: demonstração
@@ -130,4 +131,4 @@ painel de acessibilidade; agendamentos de teste apagados).
   rápida. Mudança grande: branch + pull request (a prévia da branch roda em modo demonstração).
   Commits em português, autor "NSC Garage".
 - Próximas fases: notificação automática, anti-robô no
-  agendamento, testes manuais com leitores de tela, medir desempenho (RNF-03).
+  agendamento, testes manuais com leitores de tela, pré-renderizar a inicial (Lighthouse ≥ 90).

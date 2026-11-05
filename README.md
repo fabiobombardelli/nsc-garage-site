@@ -710,7 +710,10 @@ ffmpeg -ss 1 -i original.mp4 -frames:v 1 -vf scale=1920:-2 public/media/hero-pos
 - **Notificações:** o site prepara a mensagem e abre o WhatsApp; não envia sozinho.
 - **Conteúdo provisório:** WhatsApp e horário, itens dos serviços e a foto do box. As fotos da
   Trajetória são de terceiros, com crédito: precisam de autorização (ou do acervo da NSC).
-- **Desempenho (RNF-03)** ainda não foi medido com Lighthouse em 4G.
+- **Desempenho (RNF-03):** em 4G a página inicial mostra o slogan entre 1,5 e 2,5 s (celular
+  simulado com processador 4× mais lento). No teste mais duro do Lighthouse (4G lento, 1,6 Mb/s)
+  a nota fica entre 60 e 71, com o slogan em 4,8 s: o site é montado pelo navegador, e só gerar
+  o HTML no build resolveria isso.
 - **Leitores de tela:** os testes automáticos passam; falta o roteiro manual com NVDA, VoiceOver e
   TalkBack.
 
@@ -720,7 +723,7 @@ ffmpeg -ss 1 -i original.mp4 -frames:v 1 -vf scale=1920:-2 public/media/hero-pos
 2. Envio automático de confirmação pelo WhatsApp (API oficial) ou por e-mail.
 3. Desafio anti-robô no agendamento (Cloudflare Turnstile) e limite de pedidos por telefone.
 4. Testes manuais com leitores de tela e com pessoas usuárias.
-5. Medir e otimizar o carregamento (vídeo e fontes) para o RNF-03.
+5. Gerar o HTML da página inicial no build (pré-renderização) para passar de 90 no Lighthouse.
 
 ---
 
