@@ -129,8 +129,8 @@ Uma demonstração de cerca de 10 minutos, que passa pelas duas disciplinas.
    na hora e o layout não quebra.
 3. **Agendar.** Em Serviços, abra a gaveta "Preparação para drift" e clique em "Agendar avaliação".
    A cada etapa o carro dirige até o próximo cone. Tente avançar com campos vazios para mostrar os
-   erros (texto, ícone e foco no primeiro campo). Confirme na revisão: o carro faz um "zerinho" em
-   volta do cone e o protocolo aparece.
+   erros (texto, ícone e foco no primeiro campo). Confirme na revisão: o carro fica fazendo "zerinhos"
+   em volta do cone (com botão de pausa) e o protocolo aparece.
 4. **Tempo real.** Abra o agendamento em duas abas e escolha o mesmo horário: quando uma aba
    confirma, a outra desmarca o horário e avisa (RF-014 e RNF-06).
 5. **Painel da oficina.** Entre em `#/painel` (senha de demonstração: `oficina2026`), carregue os
@@ -473,7 +473,7 @@ O carro é o fio condutor do movimento, sempre contando algo:
 - **Trajetória:** o 350Z desce a pista conforme a página rola, acendendo um cone por marco.
 - **Agendamento:** a pista de box tem um cone por etapa; a cada "Continuar" o carro dirige até o
   próximo (e volta de ré no "Voltar").
-- **Comprovante:** o carro faz um "zerinho" em volta do cone, uma vez, e deixa a borracha no chão.
+- **Comprovante:** o carro fica fazendo "zerinhos" em volta do cone, sem parar, com botão de pausa.
 - **Estado vazio:** o carro estacionado de ré numa vaga pintada.
 - **Rodapé:** oitos em volta de dois cones, com botão de pausa.
 

@@ -70,6 +70,9 @@ economizar tokens). Código, commits e docs ficam em texto normal.
   `data-motion="reduce"`, grades de uma coluna com `minmax(0, 1fr)`, foco visível que o header nunca
   cobre, erros com texto e ícone, controles com borda `--color-edge`, foco no título a cada tela e
   etapa, confirmação no lugar (sem modal). As 11 regras estão no topo de `ACESSIBILIDADE.md`.
+- Animação de carro que é cena (oito do rodapé, zerinho do comprovante) roda em loop contínuo, com
+  pausa, parada fora da tela e versão parada no movimento reduzido (pedido do cliente). Carro que
+  mostra estado (pistas) só anda quando o estado muda.
 - Regras de negócio só em `features/scheduling/domain/` (nunca em componente), cada uma com teste
   que cita o TC. Painel: senha de demonstração `oficina2026` (protótipo, documentado no README).
 - Integrantes do grupo: o README tem espaço reservado; não invente nomes.

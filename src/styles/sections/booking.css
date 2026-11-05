@@ -393,6 +393,18 @@
     }
   }
 
+  .donut-finish-wrap {
+    position: relative;
+    display: grid;
+    gap: 0.75rem;
+  }
+
+  /* Pausa do zerinho, no canto da cena (o carro gira sem parar). */
+  .donut-finish-toggle {
+    justify-self: end;
+    border-color: var(--color-edge);
+  }
+
   .donut-finish {
     position: relative;
     width: 100%;

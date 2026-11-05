@@ -363,7 +363,9 @@ A mesma pista da Trajetória, deitada: corre da esquerda para a direita com um �
 
 ### O zerinho (comprovante)
 
-No comprovante, o carro entra pela esquerda e dá uma volta e um quarto em volta de um cone, desacelerando (2,6s, uma vez só, menos que os 5s que pediriam pausa), e a borracha fica marcada no chão. Com movimento reduzido, a cena já aparece pronta.
+No comprovante, o carro entra pela esquerda e fica fazendo "zerinhos" em volta de um cone sem parar (uma volta a cada ~2s), e a borracha escurece a cada volta. Como o oito do rodapé, tem botão de pausa, para quando sai da tela e, com movimento reduzido, aparece parado com o círculo já marcado.
+
+**A Regra do Loop.** Animação de carro que é cena (oito do rodapé, zerinho do comprovante) roda continuamente, sempre com pausa, parada fora da tela e versão parada no movimento reduzido. Já o carro que mostra um estado (pista da Trajetória, pista de etapas) só anda quando o estado muda.
 
 ### O carrinho de ferramentas
 
@@ -382,8 +384,8 @@ Uma lemniscata (640×300, raios de 270×112) com dois cones brancos de faixa gra
 - **Entradas:** blocos sobem 24px e aparecem (900ms, ease-expo, 80ms por item); títulos sobem de dentro de uma máscara (1s); fotos abrem como persiana (1100ms, ease-in-out).
 - **Topo preso:** durante uma tela de rolagem, as frases saem pelas laterais (até ±115%, acelerando e inclinando até 10°), o scrim do vídeo cai de 1 para 0.3 e o vídeo se assenta (1.08 → 1); no último terço só o vídeo aparece.
 - **Rolagem:** o nome do rodapé cresce de 0.94 a 1.
-- **Agendamento:** o carro dirige de cone em cone a cada etapa (1s) e faz o zerinho no comprovante (2,6s). É o movimento contando o estado, não enfeite.
-- **Movimento reduzido:** com `data-motion="reduce"` ou `prefers-reduced-motion`, transformações viram troca instantânea, o topo não fica preso, o vídeo não toca sozinho, a fumaça some, o carro do rodapé fica parado e o carro do agendamento aparece direto no cone (e o zerinho já pronto).
+- **Agendamento:** o carro dirige de cone em cone a cada etapa (1s) e, no comprovante, fica fazendo zerinhos sem parar (com pausa).
+- **Movimento reduzido:** com `data-motion="reduce"` ou `prefers-reduced-motion`, transformações viram troca instantânea, o topo não fica preso, o vídeo não toca sozinho, a fumaça some, o carro do rodapé fica parado e o carro do agendamento aparece direto no cone e o zerinho fica parado, já marcado.
 
 ## Do's and Don'ts
 
