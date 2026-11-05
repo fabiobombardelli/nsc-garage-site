@@ -30,7 +30,7 @@ function CurrentPage({ route }: { route: Route }) {
 
 /**
  * Estrutura comum a todas as telas: atalhos de acesso, header, o conteúdo
- * principal da tela atual, rodapé e o atalho do WhatsApp.
+ * principal da tela atual e rodapé (mais o atalho do WhatsApp na inicial).
  *
  * As animações usam a biblioteca Motion; com movimento reduzido,
  * MotionConfig remove os deslocamentos e mantém só as mudanças de opacidade.
@@ -43,13 +43,15 @@ export function App() {
   return (
     <LazyMotion features={domAnimation} strict>
       <MotionConfig reducedMotion={reduceMotion ? "always" : "never"}>
-        <AccessShortcuts />
+        <AccessShortcuts route={route} />
         <Header route={route} />
         <main id="conteudo" tabIndex={-1} className="isolate overflow-x-clip">
           <CurrentPage key={route.key} route={route} />
         </main>
-        <Footer />
-        <WhatsAppButton key={route.name} />
+        <Footer route={route} />
+        {/* Nas telas internas o botão flutuante cobriria as ações do formulário; o
+            WhatsApp continua no rodapé, no mesmo lugar em todas as telas (WCAG 3.2.6). */}
+        {route.name === "inicio" && <WhatsAppButton />}
       </MotionConfig>
     </LazyMotion>
   );

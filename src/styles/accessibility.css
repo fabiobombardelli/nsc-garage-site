@@ -88,15 +88,10 @@
     }
   }
 
-  /* Abaixo de 80rem o texto some da tela, mas continua sendo o nome do botão. */
+  /* Abaixo de 80rem só o ícone; o nome do botão continua no aria-label. */
   @media (width < 80rem) {
     .a11y-toggle-text {
-      position: absolute;
-      width: 1px;
-      height: 1px;
-      overflow: hidden;
-      clip-path: inset(50%);
-      white-space: nowrap;
+      display: none;
     }
   }
 

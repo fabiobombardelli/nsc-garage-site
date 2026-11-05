@@ -58,6 +58,8 @@
   --text-body: clamp(1.0625rem, 1rem + 0.25vw, 1.1875rem);
   --text-lead: clamp(1.25rem, 1.1rem + 0.7vw, 1.625rem);
   --text-head: clamp(2.25rem, 1.4rem + 3vw, 4.25rem);
+  /* Numeral: dia do mês e hora na agenda, em Archivo comprimida 800 (lidos de relance). */
+  --text-numeral: 2rem;
   /* Monumento: o slogan do topo. Medido pela largura útil do container
      (cqw; sem container, vale a largura da tela): "Carros são nossa paixão."
      mede 9,92em e ocupa 79% da largura, deixando o vídeo respirar. */
@@ -81,8 +83,10 @@
     caret-color: var(--color-ink);
     scrollbar-color: var(--color-raised-strong) var(--color-carbon);
     scroll-behavior: smooth;
-    /* Âncoras e o foco do teclado param abaixo do header fixo (WCAG 2.4.11). */
+    /* Âncoras e o foco do teclado param abaixo do header fixo e acima do botão
+       flutuante do WhatsApp (WCAG 2.4.11). */
     scroll-padding-top: var(--header-height);
+    scroll-padding-bottom: 5.5rem;
     background-color: var(--color-carbon);
     color: var(--color-ink);
     font-family: var(--font-sans);

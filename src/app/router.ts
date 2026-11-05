@@ -11,6 +11,8 @@ import { routes, type RouteName } from "./routes";
  *
  *   "#/agendar?servico=drift"  → tela "agendar", parâmetro servico=drift
  *   "#servicos" ou ""          → página inicial (âncora "servicos")
+ *   "#/?secao=servicos"        → página inicial, rolando até "servicos"
+ *                                (usado nos links das telas internas)
  */
 
 export type Route = {
@@ -35,7 +37,9 @@ export function parseHash(hash: string): Route {
 
   const [path = "", query = ""] = hash.slice(2).split("?");
   const name = ROUTE_BY_PATH.get(path.replace(/\/$/, "")) ?? "inicio";
-  return { name, params: new URLSearchParams(query), anchor: null, key: `${name}?${query}` };
+  const params = new URLSearchParams(query);
+  if (name === "inicio") return { name, params, anchor: params.get("secao"), key: "inicio" };
+  return { name, params, anchor: null, key: `${name}?${query}` };
 }
 
 /** Monta o endereço de uma tela, com parâmetros opcionais. */
@@ -43,6 +47,17 @@ export function href(name: RouteName, params?: Record<string, string>): string {
   if (name === "inicio") return "#inicio";
   const query = params ? `?${new URLSearchParams(params)}` : "";
   return `#/${routes[name].path}${query}`;
+}
+
+/**
+ * Link para uma seção da página inicial ("#servicos") que funciona em
+ * qualquer tela. Na inicial, continua sendo a âncora (o navegador rola);
+ * nas outras telas, a seção não existe, então o link abre a inicial nela.
+ */
+export function sectionHref(hash: `#${string}`, current: Route): string {
+  if (hash.startsWith("#/") || current.name === "inicio") return hash;
+  const id = hash.slice(1);
+  return id === "inicio" ? "#/" : `#/?secao=${id}`;
 }
 
 /** Vai para uma tela pelo código (depois de enviar um formulário, por exemplo). */

@@ -36,7 +36,9 @@ export function BookingReceipt({ appointment, onBookAnother }: BookingReceiptPro
 
   return (
     <section className="receipt" aria-labelledby="comprovante-titulo">
-      <DonutFinish />
+      <div className="receipt-scene">
+        <DonutFinish />
+      </div>
 
       <div className="receipt-body">
         <div className="receipt-head">

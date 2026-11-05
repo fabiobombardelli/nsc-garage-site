@@ -1,0 +1,80 @@
+# Matriz de rastreabilidade
+
+Liga cada requisito ao caso de uso, ao código que o implementa e ao teste que o verifica. Os IDs
+seguem a revisão de requisitos de 23/10/2026 ("NSC Garage — Revisão Crítica de Requisitos e Casos
+de Uso"); os nomes dos RF estão como na revisão e devem ser conferidos com o JSON 2.0 da equipe.
+
+**Situação** segue o ciclo proposto na revisão: Proposto → Aprovado → Em desenvolvimento →
+Implementado → **Verificado** (só depois que o teste passa).
+
+Caminhos abreviados: `sched/` = `src/features/scheduling/`.
+
+## Requisitos funcionais
+
+| RF     | Requisito                                                  | Caso de uso                   | Onde está no código                                                                               | Teste                                                              | Situação                                                  |
+| ------ | ---------------------------------------------------------- | ----------------------------- | ------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------ | --------------------------------------------------------- |
+| RF-001 | Apresentação da oficina                                    | —                             | `components/sections/Hero.tsx`, `Timeline.tsx`, `About.tsx`                                       | `axe.cjs`, `layout.cjs`                                            | Implementado (conteúdo provisório)                        |
+| RF-002 | Galeria de serviços                                        | —                             | `components/sections/Services.tsx`, `content/services.ts`                                         | `keyboard.cjs` (gavetas)                                           | Parcial: sem ficha técnica por projeto                    |
+| RF-003 | Acessar o formulário de contato                            | UC-04 (passo 1)               | `components/sections/Contact.tsx`                                                                 | `keyboard.cjs` (atalho Alt + 3)                                    | Verificado                                                |
+| RF-004 | Campos do contato (inclui o carro)                         | UC-04 (passo 2)               | `components/contact/WorkOrderForm.tsx`                                                            | `keyboard.cjs`                                                     | Verificado                                                |
+| RF-005 | Validar os dados do contato                                | UC-04 → UC-20                 | `WorkOrderForm.tsx`                                                                               | `keyboard.cjs` (envio vazio, foco, `aria-invalid`)                 | Verificado                                                |
+| RF-006 | Encaminhar ao canal de atendimento                         | UC-04 (passo 5)               | `lib/whatsapp.ts` (destino: WhatsApp, decisão 4)                                                  | `keyboard.cjs` (abre o WhatsApp com a mensagem)                    | Verificado                                                |
+| RF-007 | Confirmação do envio                                       | UC-04 (passo 6)               | `WorkOrderForm.tsx` (`role="status"`)                                                             | `keyboard.cjs`                                                     | Verificado                                                |
+| RF-008 | Canais de atendimento                                      | —                             | `components/layout/Footer.tsx`, `content/site.ts`                                                 | `axe.cjs`                                                          | Implementado (dados provisórios)                          |
+| RF-009 | Redes sociais                                              | —                             | `Footer.tsx` (Instagram aparece quando `contact.instagram` é preenchido)                          | —                                                                  | Parcial: falta o usuário do Instagram                     |
+| RF-010 | Leitores de tela → **RNF-01**                              | (requisito especial de todos) | Semântica em todas as telas; ver `ACESSIBILIDADE.md`                                              | `axe.cjs`, `telas.cjs`, `keyboard.cjs`, `agendamento.cjs`          | Verificado por automação; manual pendente                 |
+| RF-011 | Texto alternativo → **RNF-01**                             | (requisito especial de todos) | `alt` nas fotos; desenhos decorativos com `aria-hidden`                                           | `axe.cjs`, `telas.cjs` (regra `image-alt`)                         | Verificado                                                |
+| RF-012 | Acessar a área de agendamento                              | UC-12 (passo 1)               | `app/routes.ts`, `pages/BookingPage.tsx`, botão do header e das gavetas                           | `agendamento.cjs`, `telas.cjs`                                     | Verificado                                                |
+| RF-013 | Escolher serviço, dia e horário                            | UC-12 (passos 2 e 3)          | `sched/components/booking/ServiceStep.tsx`, `DateTimeStep.tsx`; `domain/rules.ts`                 | `rules.test.ts` (RN-01, RN-03), `agendamento.cjs`                  | Verificado                                                |
+| RF-014 | Verificar disponibilidade (ao escolher e ao gravar)        | UC-12 → UC-21                 | `domain/rules.ts` (`slotState`), `services/schedulingService.ts` (`book`), `hooks/useAgenda.ts`   | TC-014.1 a TC-014.8 (`rules.test.ts`, `schedulingService.test.ts`) | Verificado                                                |
+| RF-015 | Identificação do cliente e do carro                        | UC-12 → UC-20                 | `booking/CustomerStep.tsx`, `domain/validation.ts`                                                | TC-015.1 a TC-015.5 (`validation.test.ts`)                         | Verificado                                                |
+| RF-016 | Comprovante com protocolo                                  | UC-12 (pós-condição)          | `booking/BookingReceipt.tsx`, `domain/protocol.ts`                                                | TC-016.1 e TC-016.2, `agendamento.cjs`                             | Verificado                                                |
+| RF-017 | Notificar o agendamento                                    | UC-12 → UC-22                 | `services/messages.ts` (`receiptMessage`), botão "Enviar comprovante pelo WhatsApp"               | —                                                                  | Parcial: o cliente envia; envio automático exige servidor |
+| RF-018 | Cancelar com antecedência                                  | UC-16 (estende UC-18)         | `domain/rules.ts` (`canCustomerCancel`), `customer/CustomerAppointmentCard.tsx`                   | TC-018.1 a TC-018.4, `agendamento.cjs`                             | Verificado                                                |
+| RF-019 | Gerenciar a agenda (listar, confirmar, concluir, cancelar) | UC-17                         | `admin/AdminAgenda.tsx`, `admin/AgendaItem.tsx`, `services/schedulingService.ts` (`changeStatus`) | TC-020 (`schedulingService.test.ts`), `telas.cjs`                  | Verificado                                                |
+| RF-020 | Consultar os próprios agendamentos                         | UC-18                         | `pages/MyAppointmentsPage.tsx`, `customer/LookupForm.tsx`, `lookup` no serviço                    | `schedulingService.test.ts` (UC-18), `agendamento.cjs`             | Verificado                                                |
+| RF-021 | Avaliar o atendimento concluído                            | UC-19 (estende UC-18)         | `domain/rules.ts` (`canRate`), `customer/RatingForm.tsx`                                          | TC-021.1 a TC-021.3, `schedulingService.test.ts`                   | Verificado                                                |
+| RF-022 | Autenticar o administrador (proposto)                      | UC-17 (pré-condição)          | `services/adminAuth.ts`, `admin/AdminLogin.tsx`                                                   | `agendamento.cjs` (senha errada e certa)                           | Protótipo: produção exige servidor                        |
+| RF-023 | Identificar o cliente para consulta (proposto)             | UC-18                         | `findOwned` em `services/schedulingService.ts` (telefone + protocolo)                             | `schedulingService.test.ts` (mesma mensagem nos dois erros)        | Verificado                                                |
+| RF-024 | Notificar mudança de situação (proposto)                   | UC-17 → UC-22                 | `services/messages.ts` (`statusMessage`), "Avisar cliente pelo WhatsApp"                          | —                                                                  | Parcial: a oficina envia pelo link                        |
+| RF-025 | Manter catálogo de serviços (proposto)                     | —                             | —                                                                                                 | —                                                                  | Fora desta versão (lista fixa, decisão 5)                 |
+
+## Regras de negócio
+
+| RN    | Regra                                     | Código                                            | Teste                                   |
+| ----- | ----------------------------------------- | ------------------------------------------------- | --------------------------------------- |
+| RN-01 | Horários de funcionamento em blocos fixos | `content/scheduling.ts`, `slotsForDay`            | `rules.test.ts` "RN-01 Horários do dia" |
+| RN-02 | Capacidade por horário                    | `slotState` (`capacityPerSlot`)                   | TC-014.2, TC-014.3, TC-014.7            |
+| RN-03 | Sem passado, 2 h de antecedência, 30 dias | `slotState`, `isWithinBookingWindow`              | TC-014.4, TC-014.5, TC-014.6            |
+| RN-04 | Cliente cancela até 24 h antes            | `canCustomerCancel`                               | TC-018.1 a TC-018.4                     |
+| RN-05 | Avaliar só concluído, uma vez, nota 1 a 5 | `canRate`, `rate` no serviço, `domain/rating.ts`  | TC-021.1 a TC-021.3                     |
+| RN-06 | Só as transições do ciclo de vida         | `domain/status.ts` (`TRANSITIONS`)                | TC-019.1 a TC-019.5, TC-020             |
+| RN-07 | Protocolo único                           | `domain/protocol.ts`, laço de unicidade em `book` | TC-016.1, TC-016.2                      |
+
+## Requisitos não funcionais
+
+| RNF    | Categoria       | Requisito                                              | Como foi atendido                                                                                | Situação                           |
+| ------ | --------------- | ------------------------------------------------------ | ------------------------------------------------------------------------------------------------ | ---------------------------------- |
+| RNF-01 | Acessibilidade  | WCAG 2.2 AA e eMAG 3.1 (absorve RF-010 e RF-011)       | Padrão em `ACESSIBILIDADE.md`; painel e declaração de acessibilidade                             | Verificado por automação           |
+| RNF-02 | Usabilidade     | Responsivo a partir de 360 px                          | Testado de 320 a 1920 px, também com fonte 150%                                                  | Verificado (`layout.cjs`)          |
+| RNF-03 | Desempenho      | Página inicial em até 3 s no 4G                        | Build estático, vídeo 720p no celular, fonte do próprio site                                     | A medir (Lighthouse)               |
+| RNF-04 | Segurança       | HTTPS; senha em hash; controle de acesso no banco      | Senha comparada por SHA-256 no protótipo; HTTPS depende da hospedagem                            | Pendente: precisa de servidor      |
+| RNF-05 | Privacidade     | Aviso e consentimento antes de enviar dados (LGPD)     | Caixa de autorização obrigatória e aviso de uso dos dados no agendamento                         | Parcial: falta a política completa |
+| RNF-06 | Confiabilidade  | Dois clientes nunca ficam com o mesmo horário          | Revalidação ao gravar (`book`) e atualização em tempo real entre abas                            | Verificado no protótipo (TC-014.8) |
+| RNF-07 | Compatibilidade | Duas últimas versões de Chrome, Firefox, Safari e Edge | Recursos padrão da web (CSS `:has` e container queries, presentes nas versões atuais dos quatro) | Parcial: testado só no Chromium    |
+
+## Casos de teste automatizados
+
+Os IDs dos testes aparecem no nome de cada teste (`npm test` lista todos):
+
+| TC     | Técnica                            | Arquivo                                                      | Cenários                                                                                                                 |
+| ------ | ---------------------------------- | ------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------ |
+| TC-014 | Tabela de decisão + concorrência   | `domain/rules.test.ts`, `services/schedulingService.test.ts` | livre, ocupado, cancelado libera, passado, antecedência (limite), janela de 30 dias, dia lotado, segundo pedido recusado |
+| TC-015 | Partição de equivalência + limite  | `domain/validation.test.ts`                                  | campos válidos, todos vazios, 7 telefones, e-mail, anos 1949/1950/2027/2028                                              |
+| TC-016 | Partição de equivalência           | `domain/validation.test.ts`                                  | formato e alfabeto do protocolo, digitação de vários jeitos                                                              |
+| TC-018 | Valor-limite                       | `domain/rules.test.ts`                                       | exatamente 24 h, 1 min antes, 1 min depois, status finais                                                                |
+| TC-019 | Transição de estados               | `domain/status.test.ts`                                      | 4 transições válidas, todas as 16 combinações, finais                                                                    |
+| TC-020 | Transição de estados (caso de uso) | `services/schedulingService.test.ts`                         | ciclo completo e transições recusadas                                                                                    |
+| TC-021 | Partição de equivalência           | `domain/rules.test.ts`, `schedulingService.test.ts`          | só concluído, uma vez                                                                                                    |
+| TC-010 | Inspeção automática + roteiro      | `scripts/qa/*.cjs`                                           | axe em todas as telas e modos; teclado; foco; layout                                                                     |
+| TC-011 | Inspeção automática                | `scripts/qa/axe.cjs`, `telas.cjs`                            | texto alternativo das imagens                                                                                            |

@@ -18,6 +18,7 @@ colors:
   rubber: "oklch(0.1 0.003 250)"
   focus: "oklch(0.88 0.17 95)"
   danger: "oklch(0.76 0.15 25)"
+  edge: "oklch(0.62 0.006 250)"
 typography:
   monument:
     fontFamily: "Archivo Variable, Archivo, ui-sans-serif, system-ui, sans-serif"
@@ -48,6 +49,12 @@ typography:
     fontSize: "0.875rem"
     fontWeight: 600
     lineHeight: 1.55
+  numeral:
+    fontFamily: "Archivo Variable, Archivo, ui-sans-serif, system-ui, sans-serif"
+    fontSize: "2rem"
+    fontWeight: 800
+    lineHeight: 1
+    fontVariation: "'wdth' 62"
 rounded:
   none: "0px"
   full: "999px"
@@ -85,6 +92,29 @@ components:
     height: "3.25rem"
   button-quiet-hover:
     backgroundColor: "{colors.raised-strong}"
+  button-outline:
+    backgroundColor: "transparent"
+    textColor: "{colors.ink}"
+    borderColor: "{colors.edge}"
+    typography: "{typography.body}"
+    rounded: "{rounded.none}"
+    padding: "0 1.5rem"
+    height: "3.25rem"
+  choice:
+    backgroundColor: "{colors.carbon}"
+    textColor: "{colors.ink}"
+    borderColor: "{colors.edge}"
+    rounded: "{rounded.none}"
+    padding: "1rem 1.125rem 1rem 3.25rem"
+  choice-checked:
+    backgroundColor: "{colors.accent}"
+    textColor: "{colors.on-accent}"
+    borderColor: "{colors.ink}"
+  filter-button-pressed:
+    backgroundColor: "{colors.ink}"
+    textColor: "{colors.on-light}"
+    typography: "{typography.small}"
+    height: "2.75rem"
   icon-button:
     backgroundColor: "{colors.carbon}"
     textColor: "{colors.ink}"
@@ -181,6 +211,7 @@ Uma escala de grafite frio em quatro degraus, luz de LED para todo o texto e um 
 
 - **Amarelo de foco** (`focus`): o anel de foco do teclado, 3px, com 9:1 ou mais sobre qualquer grafite. No rodapé vermelho o anel passa a `ink`.
 - **Vermelho de alerta** (`danger`): borda e texto de erro nos campos (7,7:1 sobre o grafite, 5,8:1 sobre a bancada). Mais claro que a laca, porque é texto.
+- **Borda de controle** (`edge`): o contorno de 2px de todo controle (campos, opções, filtros, botão de contorno, chaves): 3,7:1 sobre a bancada e 4,9:1 sobre o grafite, acima dos 3:1 do WCAG 1.4.11. Também desenha as estrelas vazias da avaliação. No alto contraste vira branco.
 
 ### Named Rules
 
@@ -204,6 +235,8 @@ Uma escala de grafite frio em quatro degraus, luz de LED para todo o texto e um 
 - **Lead** (400, `clamp(1.25rem, 1.1rem + 0.7vw, 1.625rem)`, 1.35): frase do topo, aberturas de seção, títulos dos marcos (600) e contatos do rodapé (600).
 - **Body** (400, `clamp(1.0625rem, 1rem + 0.25vw, 1.1875rem)`, 1.55): texto corrido, com 34–52ch de medida. Botões e rótulos de campo usam 600.
 - **Small** (600, 0.875rem, 1.55): menu (com 0.01em), dicas, rótulos dos fatos, legenda do vídeo e textos legais. Notas em 400.
+- **Numeral** (800, wdth 62, 2rem, 1): números lidos de relance nas telas de trabalho: o dia do mês na escolha de data e a hora de cada atendimento no painel. Sempre com algarismos tabulares.
+- **Placa** (lead, 800, wdth 62, caixa alta): títulos curtos dentro das telas internas (etapas do agendamento, "Resumo", "Consultar", dias da agenda, painel de acessibilidade, seções da declaração). É o tamanho Lead com a voz do monumento.
 
 ### Named Rules
 
@@ -230,13 +263,23 @@ Pontos de quebra: 40rem (a legenda do vídeo sai), 48rem (margens, cupom em pé,
 
 Grades de uma coluna declaram `minmax(0, 1fr)`, para que nenhum conteúdo largo (um select, uma palavra longa) empurre a coluna para fora da tela. Distâncias até a pista ficam em px, como a própria pista: com a fonte ampliada, o texto ganha largura em vez de ser empurrado.
 
+### Telas internas
+
+Agendar, Meus agendamentos, Painel da oficina e Acessibilidade usam o mesmo mundo, com mais calma: são telas de tarefa. O header nasce sólido (não há vídeo atrás), o título da tela vem em Head comprimido e uma frase de apoio em Lead `muted`, e o conteúdo fica em superfícies de bancada. A cor vai nos dados (o selo de situação, a opção escolhida), não na moldura.
+
+- **Agendar:** a pista de box ocupa a largura útil num piso de epóxi; abaixo, o cupom da ordem de serviço reaproveitado: a etapa à esquerda (66%), o picote e o canhoto com o resumo à direita. Abaixo de 48rem o cupom fica em pé.
+- **Comprovante:** texto e protocolo à esquerda (7 colunas), a cena do carro à direita (5); no celular, a cena vem em cima.
+- **Meus agendamentos:** a consulta à esquerda (5 colunas) e as fichas à direita (7); empilha abaixo de 64rem.
+- **Painel da oficina:** uma frase-resumo em Lead responde à pergunta da tela ("o que espera decisão e quem vem a seguir?"), depois o filtro por situação e os atendimentos agrupados por dia: hoje e os próximos primeiro, os dias passados depois.
+- **Acessibilidade:** texto corrido em 68ch, seções com título em Placa.
+
 ## Elevation & Depth
 
 Plano, com camadas tonais. A profundidade vem dos degraus do grafite e da sobreposição real: a pista da Trajetória passa por baixo da abertura e da seção seguinte, e o topo cobre o que vem depois. Superfícies de interface não têm sombra em repouso.
 
 ### Shadow Vocabulary
 
-- **Flutuação** (`box-shadow: 0 12px 28px oklch(0 0 0 / 45%)`): só o botão do WhatsApp, que de fato flutua sobre o conteúdo.
+- **Flutuação** (`box-shadow: 0 12px 28px oklch(0 0 0 / 45%)`): o botão do WhatsApp e o painel de acessibilidade, as duas peças que de fato flutuam sobre o conteúdo.
 - **Contato do carro** (`filter: drop-shadow(0 6px 5px oklch(0 0 0 / 55%))`): o 350Z sobre o piso.
 - **Scrim do vídeo** (gradiente vertical de preto 78% → 30% → 20% → 85%): escurece só as bordas do vídeo, onde ficam as frases do slogan, e garante pelo menos 3:1 para o texto grande em qualquer quadro (medido em 19 quadros: pior caso 5,55:1).
 
@@ -274,6 +317,30 @@ O texto em `on-light` sobre um painel em `ink`, como uma placa iluminada: a nota
 - **Focus:** o anel amarelo de 3px.
 - **Error:** borda `danger`, ícone de alerta e texto `danger` em 600; nunca só a cor.
 
+### Botão de contorno
+
+O secundário das telas internas (Voltar, Não manter, Cancelar agendamento, Sair, Carregar exemplos): fundo transparente, borda `edge` de 2px e texto `ink`; sob o ponteiro, a borda vira `ink` e o fundo `raised-strong`. Funciona sobre qualquer superfície, inclusive a bancada, onde o botão quieto sumiria.
+
+### Opções (botões de opção estilizados)
+
+Serviço, dia, horário, tamanho do texto e nota da avaliação são botões de opção nativos (as setas do teclado trocam a escolha). Cada opção é um bloco em grafite com borda `edge` e um quadradinho que marca a escolha também no alto contraste do Windows. Escolhida, a opção vira **laca vermelha com borda clara** e texto `on-accent`, inclusive o texto secundário (Regra da Laca). Desativada, a borda fica tracejada, o texto `muted` e o motivo aparece escrito ("Fechado", "Lotado", "Ocupado", "Encerrado"). O anel de foco contorna a opção inteira.
+
+### Selo de situação
+
+Ícone + texto, nunca só a cor: **Pendente** (relógio, `raised-strong`), **Confirmado** (calendário com visto, painel de luz), **Concluído** (bandeira, laca vermelha) e **Cancelado** (proibido, só contorno `edge` e texto `muted`).
+
+### Confirmação no lugar
+
+Antes de cancelar ou apagar, a ação vira uma pergunta no mesmo lugar ("Cancelar o agendamento de…? Sim, cancelar / Não, manter"), num bloco grafite com borda `edge`. Sem janela modal: a tarefa não precisa interromper a página.
+
+### Painel de acessibilidade
+
+Botão com o ícone de acessibilidade no header de todas as telas (com o texto "Acessibilidade" a partir de 80rem). Abre, logo abaixo do header, um painel de bancada flutuante com o tamanho do texto (quatro opções com um "A" que cresce), as chaves de alto contraste e de movimento reduzido e "Restaurar padrão". As chaves são quadradas: o pino muda de lado e a trilha vira laca.
+
+### Estado vazio
+
+O 350Z estacionado de ré numa vaga pintada no piso (três lados em `paint` a 70%), sobre o epóxi, com uma frase que ensina o próximo passo ("Os pedidos feitos em Agendar avaliação aparecem aqui na hora").
+
 ### Navigation
 
 - **Header:** fixo, 4.5rem, transparente sobre o vídeo; ganha grafite sólido depois de 24px de rolagem. Recolhe ao descer (passado 60% da tela) e volta ao subir ou ao receber foco. Nunca cobre o elemento em foco.
@@ -290,9 +357,17 @@ O traçado em S é calculado a partir dos marcos, com um ápice por marco altern
 - **Carro:** o 350Z (48px; 32px no celular) tem o ângulo de drift calculado pela curvatura e solta fumaça só enquanto a página rola.
 - **Anos:** os dígitos giram como um contador mecânico (1100ms, 70ms por coluna); leitores de tela recebem o ano inteiro.
 
+### A pista de box (progresso do agendamento)
+
+A mesma pista da Trajetória, deitada: corre da esquerda para a direita com um ápice por etapa (alternando para cima e para baixo), 40px de asfalto (28px no celular), bordas brancas e faixa central tracejada. Um cone por etapa fica do lado de dentro da curva e acende quando o carro chega. A cada "Continuar" o 350Z dirige até o próximo cone em 1s (ease in-out), soltando fumaça e deixando borracha; em "Voltar", volta de ré. Na primeira visita, ele entra pela esquerda. As etapas vêm escritas abaixo dos cones, com número em quadrado: feita (luz), atual (laca) e próxima (contorno).
+
+### O zerinho (comprovante)
+
+No comprovante, o carro entra pela esquerda e dá uma volta e um quarto em volta de um cone, desacelerando (2,6s, uma vez só, menos que os 5s que pediriam pausa), e a borracha fica marcada no chão. Com movimento reduzido, a cena já aparece pronta.
+
 ### O carrinho de ferramentas
 
-Gavetas vermelhas de 4rem, com 6px entre elas e um puxador de alumínio no alto que sobe 0.1rem sob o ponteiro. Cada gaveta abre no lugar (altura automática, 450ms) e mostra o interior em bancada: descrição, o que costuma incluir (marcadores quadrados em vermelho) e o pedido de orçamento. Segue o padrão accordion do WAI-ARIA.
+Gavetas vermelhas de 4rem, com 6px entre elas e um puxador de alumínio no alto que sobe 0.1rem sob o ponteiro. Cada gaveta abre no lugar (altura automática, 450ms) e mostra o interior em bancada: descrição, o que costuma incluir (marcadores quadrados em vermelho), o botão "Agendar avaliação" (já com o serviço escolhido) e o pedido de orçamento pelo WhatsApp. Segue o padrão accordion do WAI-ARIA.
 
 ### A ordem de serviço
 
@@ -307,7 +382,8 @@ Uma lemniscata (640×300, raios de 270×112) com dois cones brancos de faixa gra
 - **Entradas:** blocos sobem 24px e aparecem (900ms, ease-expo, 80ms por item); títulos sobem de dentro de uma máscara (1s); fotos abrem como persiana (1100ms, ease-in-out).
 - **Topo preso:** durante uma tela de rolagem, as frases saem pelas laterais (até ±115%, acelerando e inclinando até 10°), o scrim do vídeo cai de 1 para 0.3 e o vídeo se assenta (1.08 → 1); no último terço só o vídeo aparece.
 - **Rolagem:** o nome do rodapé cresce de 0.94 a 1.
-- **Movimento reduzido:** com `data-motion="reduce"` ou `prefers-reduced-motion`, transformações viram troca instantânea, o topo não fica preso, o vídeo não toca sozinho, a fumaça some e o carro do rodapé fica parado.
+- **Agendamento:** o carro dirige de cone em cone a cada etapa (1s) e faz o zerinho no comprovante (2,6s). É o movimento contando o estado, não enfeite.
+- **Movimento reduzido:** com `data-motion="reduce"` ou `prefers-reduced-motion`, transformações viram troca instantânea, o topo não fica preso, o vídeo não toca sozinho, a fumaça some, o carro do rodapé fica parado e o carro do agendamento aparece direto no cone (e o zerinho já pronto).
 
 ## Do's and Don'ts
 
@@ -328,4 +404,6 @@ Uma lemniscata (640×300, raios de 270×112) com dois cones brancos de faixa gra
 - **Don't** usar cards idênticos com ícone, rótulos pequenos acima de títulos ou seções numeradas.
 - **Don't** usar linhas finas de separação, contornos de 1px, brilho ou neon, nem sombras em superfícies de interface; gradiente só no scrim do vídeo e no fade da foto da Trajetória.
 - **Don't** indicar estado só por cor: erro tem ícone e texto, gaveta aberta tem o ícone girado e `aria-expanded`.
-- **Don't** inventar títulos, depoimentos, números ou patrocinadores.
+- **Don't** inventar títulos, depoimentos, números ou patrocinadores. Os agendamentos de exemplo do painel levam "(exemplo)" no nome e só aparecem quando alguém pede.
+- **Don't** usar janela modal para confirmar uma ação: a pergunta aparece no lugar da ação.
+- **Don't** deixar um controle sem a borda `edge` (ou outra de 3:1 ou mais) sobre a bancada.

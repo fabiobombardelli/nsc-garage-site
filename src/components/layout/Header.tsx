@@ -1,11 +1,12 @@
 import { ArrowRight } from "lucide-react";
 import { m, useMotionValueEvent, useScroll } from "motion/react";
-import { useCallback, useEffect, useRef, useState } from "react";
-import { href, type Route } from "@/app/router";
+import { useCallback, useEffect, useLayoutEffect, useRef, useState, type RefObject } from "react";
+import { href, sectionHref, type Route } from "@/app/router";
 import { AccessibilityPanel } from "@/components/a11y/AccessibilityPanel";
 import { MobileMenu } from "@/components/layout/MobileMenu";
 import { Logo } from "@/components/ui/Logo";
 import { navigation, site } from "@/content/site";
+import { PREFERENCES_EVENT } from "@/lib/accessibility";
 import { cn } from "@/lib/cn";
 
 /**
@@ -27,7 +28,9 @@ export function Header({ route }: { route: Route }) {
   const solid = scrolled || route.name !== "inicio";
   const [tucked, setTucked] = useState(false);
   const headerRef = useRef<HTMLElement>(null);
+  const barRef = useRef<HTMLDivElement>(null);
   const menuButtonRef = useRef<HTMLButtonElement>(null);
+  const compact = useCompactNav(barRef);
   const { scrollY } = useScroll();
 
   useEffect(() => {
@@ -64,18 +67,19 @@ export function Header({ route }: { route: Route }) {
     <>
       <m.header
         ref={headerRef}
-        className={cn("site-header", solid && "is-solid")}
+        className={cn("site-header", solid && "is-solid", compact && "is-compact")}
         animate={{ y: tucked && !menuOpen && !panelOpen ? "-100%" : "0%" }}
         transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
         onFocusCapture={() => setTucked(false)}
       >
-        <div className="container-site site-header-bar">
+        <div ref={barRef} className="container-site site-header-bar">
           <a
-            href="#inicio"
+            href={sectionHref("#inicio", route)}
             className="site-header-logo"
             aria-label={`${site.name}, voltar ao início`}
           >
-            <Logo className="h-10 sm:h-11" />
+            {/* Logo é imagem: altura em px até 64rem, para sobrar espaço com a fonte ampliada. */}
+            <Logo className="h-[36px] lg:h-11" />
           </a>
 
           {/* Destino do atalho "Ir para o menu" (Alt + 2). */}
@@ -85,7 +89,7 @@ export function Header({ route }: { route: Route }) {
                 {navigation.map((item) => (
                   <li key={item.href}>
                     <a
-                      href={item.href}
+                      href={sectionHref(item.href, route)}
                       className="nav-link"
                       aria-current={item.href === href(route.name) ? "page" : undefined}
                     >
@@ -124,7 +128,47 @@ export function Header({ route }: { route: Route }) {
         </div>
       </m.header>
 
-      <MobileMenu open={menuOpen} onClose={closeMenu} />
+      <MobileMenu open={menuOpen} onClose={closeMenu} route={route} />
     </>
   );
+}
+
+/**
+ * O menu completo cabe na barra? Com a fonte ampliada (até 150%) ou numa
+ * tela média, os links podem não caber: aí a barra passa a mostrar só
+ * "Menu", como no celular, em vez de cortar ou empurrar itens para fora
+ * (WCAG 1.4.4 e 1.4.10). A medida é refeita ao mudar a largura ou o
+ * tamanho do texto, antes do desenho (sem piscar).
+ */
+function useCompactNav(barRef: RefObject<HTMLElement | null>) {
+  const [compact, setCompact] = useState(false);
+  const [measure, setMeasure] = useState(0);
+
+  // Pede uma medida nova: volta ao menu completo e confere se transborda.
+  useEffect(() => {
+    let frame = 0;
+    const remeasure = () => {
+      cancelAnimationFrame(frame);
+      frame = requestAnimationFrame(() => {
+        setCompact(false);
+        setMeasure((count) => count + 1);
+      });
+    };
+    window.addEventListener("resize", remeasure);
+    window.addEventListener(PREFERENCES_EVENT, remeasure);
+    document.fonts?.ready.then(remeasure);
+    return () => {
+      cancelAnimationFrame(frame);
+      window.removeEventListener("resize", remeasure);
+      window.removeEventListener(PREFERENCES_EVENT, remeasure);
+    };
+  }, []);
+
+  useLayoutEffect(() => {
+    const bar = barRef.current;
+    if (!bar || compact) return;
+    if (bar.scrollWidth > bar.clientWidth + 1) setCompact(true);
+  }, [barRef, compact, measure]);
+
+  return compact;
 }

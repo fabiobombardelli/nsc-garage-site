@@ -112,7 +112,7 @@
   }
 
   .agenda-item-time {
-    font-size: 2rem;
+    font-size: var(--text-numeral);
     font-weight: 800;
     font-stretch: 62%;
     line-height: 1;

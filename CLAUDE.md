@@ -1,6 +1,8 @@
 # NSC Garage: notas para o Claude
 
-Site institucional da NSC Garage, oficina premium que também prepara carros de drift e competição.
+Site institucional e sistema de agendamento da NSC Garage, oficina premium que também prepara carros
+de drift e competição. Trabalho de extensão das disciplinas de Acessibilidade e Engenharia de
+Software (Fatec Rubens Lara); o README é o documento da apresentação.
 Converse com o usuário em português e use a skill `caveman` nas respostas do chat (o usuário quer
 economizar tokens). Código, commits e docs ficam em texto normal.
 
@@ -13,20 +15,23 @@ economizar tokens). Código, commits e docs ficam em texto normal.
 
 ## Comandos
 
-- Rápida (sempre): `npx prettier --write . && npx tsc --noEmit && npx eslint . && npm run build`
+- Rápida (sempre): `npx prettier --write . && npx tsc --noEmit && npx eslint . && npm test && npm run build`
 - Completa: sirva o build (`npx vite preview --port 4173 --strictPort` em segundo plano) e rode
-  `node scripts/qa/axe.cjs`, `node scripts/qa/layout.cjs` e `node scripts/qa/keyboard.cjs`
-  (o axe pede `npm i --no-save axe-core` uma vez). Resultado esperado: 0 violações, 0 cortes,
+  `axe.cjs`, `telas.cjs` (axe nas telas internas), `keyboard.cjs`, `agendamento.cjs` (fluxo só com
+  teclado) e `layout.cjs` (5 telas), todos em `scripts/qa/` (o axe pede
+  `npm i --no-save axe-core --legacy-peer-deps` uma vez). Resultado esperado: 0 violações, 0 cortes,
   0 focos cobertos, todos os ✓.
+- `npm install` com pacote novo: use `--legacy-peer-deps` (bug do npm com os peers opcionais do
+  Vitest 5); `npm ci` funciona normal.
 - Skills de design (pasta ignorada pelo git; reinstalar de github.com/pbakaus/impeccable e
   github.com/Leonxlnx/taste-skill se faltar): `node .claude/skills/taste-skill/scripts/lint.mjs src`
   e `sh .claude/skills/impeccable/scripts/impeccable detect --json src index.html`. O
   `inspect.mjs` do taste precisa de `CHROME_PATH` apontando para um wrapper do Chromium com
   `--no-sandbox`.
 - Achados já defendidos (não "corrigir"): taste `headline-lines` a 390px (slogan em 4 linhas no
-  celular, pedido do cliente), `font-not-dealt` (Archivo escolhida) e `pinned-over-picture` (topo
-  preso, pedido do cliente); impeccable `design-system-font-size` (links do menu do celular) e
-  `design-system-radius` (puxador das gavetas).
+  celular, pedido do cliente), `font-not-dealt` (Archivo escolhida), `pinned-over-picture` (topo
+  preso, pedido do cliente) e os avisos de `padStart` (datas e hash); impeccable
+  `design-system-font-size` (links do menu do celular) e `design-system-radius` (puxador das gavetas).
 
 ## Mapa
 
@@ -39,7 +44,16 @@ economizar tokens). Código, commits e docs ficam em texto normal.
   variáveis `--track-*`, `--cone-gap` e `--barrier-gap` de `.timeline-stage` (em px).
 - `src/components/footer/FigureEight.tsx`: carro fazendo oitos em loop. `ui/Reveal.tsx`: entradas
   (a `MaskedLine` observa a máscara, não o texto escondido).
-- `src/lib/accessibility.ts`: preferências (`data-motion`, `data-contrast`, `--font-scale`).
+- `src/lib/accessibility.ts`: preferências (`data-motion`, `data-contrast`, `--font-scale`), evento
+  de mudança; painel visível em `components/a11y/AccessibilityPanel.tsx`.
+- `src/app/`: rotas por hash (`#/agendar`, `#/meus-agendamentos`, `#/painel`, `#/acessibilidade`),
+  foco e título a cada troca (`useRouteFocus`). Links para seções da inicial usam `sectionHref`.
+- `src/pages/`: uma página por tela. `src/features/scheduling/`: domínio puro + testes (`domain/`),
+  repositório (`data/`, troque o armazenamento em `index.ts`), casos de uso (`services/`), telas
+  (`components/booking|customer|admin`). Regras da agenda em `src/content/scheduling.ts`.
+- `src/components/car/`: DriftCar, PitLane (progresso), DonutFinish (comprovante), ParkedCar.
+  `components/forms/Field.tsx`: campo acessível. `components/ui/InlineConfirm.tsx`: confirmação.
+- `docs/rastreabilidade.md`: RF/RN/RNF → UC → código → teste. Atualize ao mudar um requisito.
 - `src/styles/theme.css`: tokens `--color-*`, tamanhos, utilitários e tema de alto contraste.
   `sections/*.css`: um arquivo por seção.
 - `DESIGN.md` + `.impeccable/design.json`: sistema visual. `PRODUCT.md`: fatos do negócio.
@@ -54,7 +68,11 @@ economizar tokens). Código, commits e docs ficam em texto normal.
   contraste troca os tokens, nunca os componentes.
 - Meta WCAG 2.2 AA: texto em rem, pausa em todo movimento contínuo, nada se move com
   `data-motion="reduce"`, grades de uma coluna com `minmax(0, 1fr)`, foco visível que o header nunca
-  cobre, erros com texto e ícone.
+  cobre, erros com texto e ícone, controles com borda `--color-edge`, foco no título a cada tela e
+  etapa, confirmação no lugar (sem modal). As 11 regras estão no topo de `ACESSIBILIDADE.md`.
+- Regras de negócio só em `features/scheduling/domain/` (nunca em componente), cada uma com teste
+  que cita o TC. Painel: senha de demonstração `oficina2026` (protótipo, documentado no README).
+- Integrantes do grupo: o README tem espaço reservado; não invente nomes.
 - Nunca invente títulos, números, depoimentos ou patrocinadores. São provisórios: contatos
   (`site.ts`), textos e anos dos marcos, itens dos serviços, fotos de box e peças.
 
@@ -65,5 +83,5 @@ economizar tokens). Código, commits e docs ficam em texto normal.
   passando em `files` os assets de hash novo e `null` nos antigos (liste com `scope: "files"`). A
   prévia bloqueia arquivos de fonte e parâmetros de URL: o script embute a Archivo na página.
 - Git local na branch `main`, sem remoto. Commits em português, autor "NSC Garage".
-- Próximas fases: implementação WCAG a partir do documento do cliente e um sistema de chamados
-  (o formulário `WorkOrderForm.tsx` é o ponto de partida).
+- Próximas fases: banco e autenticação no servidor (Supabase), notificação automática, testes
+  manuais com leitores de tela, medir desempenho (RNF-03).

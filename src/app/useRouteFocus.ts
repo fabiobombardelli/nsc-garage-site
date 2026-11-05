@@ -42,7 +42,9 @@ export function useRouteFocus(route: Route) {
       }
       if (isFirst) return;
       window.scrollTo({ top: 0, behavior: "instant" });
-      document.querySelector<HTMLElement>("[data-page-title]")?.focus({ preventScroll: true });
+      // O título da tela; na página inicial, o conteúdo principal.
+      const title = document.querySelector<HTMLElement>("[data-page-title]");
+      (title ?? document.getElementById("conteudo"))?.focus({ preventScroll: true });
     });
     return () => cancelAnimationFrame(frame);
   }, [route.key, route.name, route.anchor]);

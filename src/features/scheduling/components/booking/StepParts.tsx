@@ -11,13 +11,16 @@ type StepHeadingProps = {
 
 /**
  * Título da etapa. Recebe o foco quando a etapa muda, e o leitor de tela
- * anuncia "Etapa 2 de 4" antes da pergunta (WCAG 2.4.3 e 2.4.6).
+ * anuncia "Etapa 2 de 4" antes da pergunta (WCAG 2.4.3 e 2.4.6). Antes, a
+ * página rola até a pista, para a pessoa ver o carro andar até o cone.
  */
 export function StepHeading({ step, focusOnMount, children }: StepHeadingProps) {
   const ref = useRef<HTMLHeadingElement>(null);
 
   useEffect(() => {
-    if (focusOnMount) ref.current?.focus();
+    if (!focusOnMount) return;
+    ref.current?.closest(".booking")?.scrollIntoView({ block: "start" });
+    ref.current?.focus({ preventScroll: true });
   }, [focusOnMount]);
 
   return (

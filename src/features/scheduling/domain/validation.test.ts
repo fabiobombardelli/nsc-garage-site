@@ -57,7 +57,7 @@ describe("TC-015 Identificação do cliente (UC-20 Validar Dados)", () => {
     expect(year("1949").vehicleYear).toBeDefined();
     expect(year("2027").vehicleYear).toBeUndefined();
     expect(year("2028").vehicleYear).toBeDefined();
-    expect(year("06").vehicleYear).toBeDefined();
+    expect(year("06").vehicleYear).toBeDefined(); // taste-skill-ignore: ano com dois dígitos, inválido
   });
 
   it("formata o telefone para exibição", () => {

@@ -18,13 +18,20 @@ const FILTER_LABEL: Record<Filter, string> = {
   cancelado: "Cancelados",
 };
 
-/** Agrupa os agendamentos por dia, mantendo a ordem de data e horário. */
-function groupByDay(appointments: Appointment[]): Array<[string, Appointment[]]> {
+/**
+ * Agrupa por dia: hoje e os próximos dias primeiro (em ordem), depois os
+ * dias que já passaram (o mais recente antes). Dentro do dia, por horário.
+ */
+function groupByDay(appointments: Appointment[], today: string): Array<[string, Appointment[]]> {
   const groups = new Map<string, Appointment[]>();
   for (const appointment of appointments) {
     groups.set(appointment.date, [...(groups.get(appointment.date) ?? []), appointment]);
   }
-  return [...groups.entries()];
+  return [...groups.entries()].sort(([a], [b]) => {
+    const aPast = a < today;
+    if (aPast !== b < today) return aPast ? 1 : -1;
+    return aPast ? b.localeCompare(a) : a.localeCompare(b);
+  });
 }
 
 /** A frase do topo responde à pergunta da tela: o que precisa de mim e quem vem a seguir? */
@@ -127,7 +134,7 @@ export function AdminAgenda() {
               Nenhum agendamento {FILTER_LABEL[filter].toLowerCase()} no momento.
             </p>
           ) : (
-            groupByDay(visible).map(([date, items]) => (
+            groupByDay(visible, today).map(([date, items]) => (
               <section key={date} className="agenda-day" aria-labelledby={`dia-${date}`}>
                 <h2 id={`dia-${date}`} className="agenda-day-title">
                   {formatLongDateTitle(date)}

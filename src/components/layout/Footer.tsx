@@ -1,5 +1,6 @@
 import { m, useScroll, useTransform } from "motion/react";
 import { useRef } from "react";
+import { sectionHref, type Route } from "@/app/router";
 import { FigureEight } from "@/components/footer/FigureEight";
 import { contact, footerLinks, navigation, site } from "@/content/site";
 import { useReducedMotion } from "@/hooks/useReducedMotion";
@@ -10,7 +11,7 @@ import { whatsappLink } from "@/lib/whatsapp";
  * largura total (crescendo levemente quando chega), seguido das formas de
  * contato e do 350Z fazendo oitos.
  */
-export function Footer() {
+export function Footer({ route }: { route: Route }) {
   const ref = useRef<HTMLElement>(null);
   const reduceMotion = useReducedMotion();
   const { scrollYProgress } = useScroll({ target: ref, offset: ["start end", "start start"] });
@@ -78,12 +79,12 @@ export function Footer() {
           </p>
           <nav aria-label="Rodapé" className="footer-links">
             {[...navigation, ...footerLinks].map((item) => (
-              <a key={item.href} href={item.href} className="text-link">
+              <a key={item.href} href={sectionHref(item.href, route)} className="text-link">
                 {item.label}
               </a>
             ))}
           </nav>
-          <a href="#inicio" className="text-link">
+          <a href={sectionHref("#inicio", route)} className="text-link">
             Voltar ao início
           </a>
         </div>

@@ -61,10 +61,14 @@ export function AccessibilityPanel({ open, onOpenChange }: AccessibilityPanelPro
         className="a11y-toggle"
         aria-expanded={open}
         aria-controls="painel-acessibilidade"
+        aria-label="Acessibilidade"
         onClick={() => onOpenChange(!open)}
       >
         <Accessibility size={22} aria-hidden="true" />
-        <span className="a11y-toggle-text">Acessibilidade</span>
+        {/* O nome vem do aria-label; o texto só aparece em telas largas e diz o mesmo. */}
+        <span className="a11y-toggle-text" aria-hidden="true">
+          Acessibilidade
+        </span>
       </button>
 
       <div

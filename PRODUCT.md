@@ -26,6 +26,11 @@ Track pedigree applied to every car: the same team and methods that build compet
 ## Operating Context
 
 - Contact happens on WhatsApp; there is no backend. The form composes a WhatsApp message.
+- Booking system (academic prototype, no backend yet): customers pick a service, day and free time
+  slot, get a protocol, then track, cancel (up to 24 h before) or rate it with phone + protocol; the
+  shop confirms, completes or cancels in a password-protected panel and notifies the customer
+  through a prepared WhatsApp message. Data lives in the browser's localStorage behind a repository
+  interface, ready to move to Supabase.
 - The client loves two existing pieces and they must stay: the hero video (night drift footage of the team's car) and the top-down 350Z that drifts along an S-shaped track as the visitor scrolls the timeline.
 
 ## Capabilities and Constraints
@@ -34,7 +39,8 @@ Track pedigree applied to every car: the same team and methods that build compet
 - Contact data (WhatsApp number, address, hours, Instagram) is still placeholder in `src/content/site.ts` and must be replaced before launch.
 - Timeline milestones (2015–2024) are provisional content written by the client; real facts still to come.
 - Accessibility target: WCAG 2.2 level AA (confirmed by the client), with Brazilian eMAG-style access shortcuts, screen-reader semantics, a high-contrast mode (including colour-blind users), a reduced-motion mode and font enlargement that does not break the layout. The client will send the WCAG reference document; the visual system must be ready for these modes now.
-- Planned: an internal system for opening and tracking service requests ("chamados"). The client will send requirements and a traceability matrix; the current contact form is its seed (a work order that composes a WhatsApp message).
+- Requirements, use cases and the traceability matrix come from the team's requirements review (23/10/2026); see `docs/rastreabilidade.md`. Business-rule values (hours, slot length, lead time, cancel window) are provisional in `src/content/scheduling.ts`.
+- This is also a university extension project (Accessibility + Software Engineering); the README is the presentation document.
 
 ## Brand Commitments
 

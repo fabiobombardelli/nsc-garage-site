@@ -88,6 +88,7 @@
     font-weight: 600;
   }
 
+  /* Celular, ou quando os links não cabem na barra (fonte ampliada): só "Menu". */
   @media (width < 64rem) {
     .site-nav,
     .site-header-action {
@@ -97,6 +98,35 @@
     .menu-toggle {
       display: inline-flex;
       align-items: center;
+    }
+
+    .site-header-bar {
+      gap: 0.75rem;
+    }
+
+    .site-header-menu {
+      gap: 0.25rem;
+    }
+
+    .menu-toggle {
+      padding-inline: 0.5rem;
+      margin-right: -0.5rem;
+    }
+  }
+
+  .site-header.is-compact {
+    & .site-nav,
+    & .site-header-action {
+      display: none;
+    }
+
+    & .menu-toggle {
+      display: inline-flex;
+      align-items: center;
+    }
+
+    & .site-header-menu {
+      gap: 0.5rem;
     }
   }
 

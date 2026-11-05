@@ -1,10 +1,13 @@
-// WCAG 1.4.12 (espaçamento de texto) e fonte 150% sem cortes, quebras do slogan e 2.4.11 (foco não coberto pelo header). SKIP_FOCUS=1 pula o teste de foco.
+// WCAG 1.4.12 (espaçamento de texto) e fonte 150% sem cortes, em todas as telas, quebras do
+// slogan e 2.4.11 (foco não coberto pelo header). SKIP_FOCUS=1 pula o teste de foco.
 // Uso: com o build servido (npm run build && npx vite preview --port 4173), rode
 //   node scripts/qa/<arquivo>.cjs          (BASE=http://... para outro endereço)
 // Requer o Playwright com Chromium (já instalado no ambiente de nuvem do Claude) e,
 // no axe.cjs, o axe-core: npm i --no-save axe-core
 const { chromium } = require("playwright");
 const BASE = process.env.BASE || "http://127.0.0.1:4173/";
+/** Telas testadas: a página inicial e as telas internas (o endereço vai depois do "#"). */
+const ROUTES = ["", "#/agendar", "#/meus-agendamentos", "#/painel", "#/acessibilidade"];
 const SPACING = `* { line-height: 1.5 !important; letter-spacing: 0.12em !important; word-spacing: 0.16em !important; } p { margin-bottom: 2em !important; }`;
 const findClipped = () => {
   const vw = document.documentElement.clientWidth;
@@ -87,43 +90,46 @@ const findClipped = () => {
   console.log(`quebras indesejadas (320–1920): ${wraps.length}`);
   for (const x of wraps.slice(0, 10)) console.log("   ", x);
   await page0.close();
-  // 1. WCAG 1.4.12 espaçamento de texto, também com fonte 150%
-  for (const query of ["?movimento=reduzido", "?movimento=reduzido&fonte=150"]) {
-    for (const [w, h] of [
-      [1920, 1080],
-      [1440, 900],
-      [1024, 768],
-      [768, 1024],
-      [390, 844],
-      [320, 640],
-    ]) {
-      const page = await browser.newPage({ viewport: { width: w, height: h } });
-      await page.goto(BASE + query, { waitUntil: "networkidle" });
-      await page.addStyleTag({ content: SPACING });
-      await page.evaluate(async () => {
-        for (let y = 0; y < document.documentElement.scrollHeight; y += innerHeight / 2) {
-          scrollTo(0, y);
-          await new Promise((r) => setTimeout(r, 60));
-        }
-        scrollTo(0, 0);
-        await new Promise((r) => setTimeout(r, 300));
-      });
-      const r = await page.evaluate(findClipped);
-      const head = await page.evaluate(() => {
-        const vw = document.documentElement.clientWidth;
-        return [
-          ...document.querySelectorAll(".site-header-bar > *, .site-nav a, .site-header-action"),
-        ]
-          .filter((e) => e.offsetParent)
-          .map((e) => e.getBoundingClientRect().right)
-          .filter((x) => x > vw + 1).length;
-      });
-      if (head) console.log(`    header passa da janela: ${head} itens`);
-      console.log(`${query} ${w}x${h} hscroll=${r.hscroll} cortes=${r.clipped.length}`);
-      for (const c of r.clipped.slice(0, 8)) console.log("   ", c);
-      await page.close();
+  // 1. WCAG 1.4.12 espaçamento de texto, também com fonte 150%, em cada tela
+  for (const route of ROUTES)
+    for (const query of ["?movimento=reduzido", "?movimento=reduzido&fonte=150"]) {
+      for (const [w, h] of [
+        [1920, 1080],
+        [1440, 900],
+        [1024, 768],
+        [768, 1024],
+        [390, 844],
+        [320, 640],
+      ]) {
+        const page = await browser.newPage({ viewport: { width: w, height: h } });
+        await page.goto(BASE + query + route, { waitUntil: "networkidle" });
+        await page.addStyleTag({ content: SPACING });
+        await page.evaluate(async () => {
+          for (let y = 0; y < document.documentElement.scrollHeight; y += innerHeight / 2) {
+            scrollTo(0, y);
+            await new Promise((r) => setTimeout(r, 60));
+          }
+          scrollTo(0, 0);
+          await new Promise((r) => setTimeout(r, 300));
+        });
+        const r = await page.evaluate(findClipped);
+        const head = await page.evaluate(() => {
+          const vw = document.documentElement.clientWidth;
+          return [
+            ...document.querySelectorAll(".site-header-bar > *, .site-nav a, .site-header-action"),
+          ]
+            .filter((e) => e.offsetParent)
+            .map((e) => e.getBoundingClientRect().right)
+            .filter((x) => x > vw + 1).length;
+        });
+        if (head) console.log(`    header passa da janela: ${head} itens`);
+        console.log(
+          `${route || "#inicio"} ${query} ${w}x${h} hscroll=${r.hscroll} cortes=${r.clipped.length}`,
+        );
+        for (const c of r.clipped.slice(0, 8)) console.log("   ", c);
+        await page.close();
+      }
     }
-  }
   if (process.env.SKIP_FOCUS) {
     await browser.close();
     return;

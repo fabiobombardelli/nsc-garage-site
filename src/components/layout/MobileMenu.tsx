@@ -1,6 +1,6 @@
 import { AnimatePresence, m } from "motion/react";
 import { useEffect, useRef } from "react";
-import { href } from "@/app/router";
+import { href, sectionHref, type Route } from "@/app/router";
 import { Logo } from "@/components/ui/Logo";
 import { contact, navigation, site } from "@/content/site";
 
@@ -8,6 +8,7 @@ type MobileMenuProps = {
   open: boolean;
   /** Fecha o menu e devolve o foco ao botão "Menu". */
   onClose: () => void;
+  route: Route;
 };
 
 const FOCUSABLE = 'a[href], button:not([disabled]), [tabindex]:not([tabindex="-1"])';
@@ -16,7 +17,7 @@ const FOCUSABLE = 'a[href], button:not([disabled]), [tabindex]:not([tabindex="-1
  * Menu do celular em tela cheia. É um diálogo modal: o foco fica preso
  * dentro dele, Esc fecha e a página atrás não rola enquanto está aberto.
  */
-export function MobileMenu({ open, onClose }: MobileMenuProps) {
+export function MobileMenu({ open, onClose, route }: MobileMenuProps) {
   const dialogRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -88,7 +89,12 @@ export function MobileMenu({ open, onClose }: MobileMenuProps) {
                     delay: 0.08 + index * 0.07,
                   }}
                 >
-                  <a href={item.href} className="mobile-menu-link" onClick={onClose}>
+                  <a
+                    href={sectionHref(item.href, route)}
+                    className="mobile-menu-link"
+                    aria-current={item.href === href(route.name) ? "page" : undefined}
+                    onClick={onClose}
+                  >
                     {item.label}
                   </a>
                 </m.li>

@@ -277,7 +277,7 @@
   }
 
   .choice-day-number {
-    font-size: 2rem;
+    font-size: var(--text-numeral);
     font-weight: 800;
     font-stretch: 62%;
     line-height: 1;
@@ -369,17 +369,36 @@
 
   /* ---------- Comprovante ---------- */
 
+  /* No computador, o texto à esquerda e a cena do carro à direita; no celular, a cena em cima. */
   .receipt {
     display: grid;
-    grid-template-columns: minmax(0, 1fr);
+    grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
     background: var(--color-raised);
+
+    @media (width < 64rem) {
+      grid-template-columns: minmax(0, 1fr);
+    }
+  }
+
+  .receipt-scene {
+    display: grid;
+    align-items: center;
+    overflow: hidden;
+    padding: 1.5rem;
+    background: var(--color-floor);
+
+    @media (width >= 64rem) {
+      grid-column: 2;
+      grid-row: 1;
+    }
   }
 
   .donut-finish {
     position: relative;
     width: 100%;
+    max-width: 36rem;
+    margin-inline: auto;
     aspect-ratio: 560 / 240;
-    background: var(--color-floor);
 
     & svg {
       position: absolute;
