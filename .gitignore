@@ -17,3 +17,4 @@ dist
 
 # Arquivos originais do cliente (grandes, fora do repositório)
 docs-externos/
+__pycache__/
