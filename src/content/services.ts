@@ -12,7 +12,8 @@ export type Service = {
 
 /**
  * Serviços: cada um é uma gaveta do carrinho de ferramentas na seção
- * "Serviços". O formulário de contato lista os mesmos serviços.
+ * "Serviços". O formulário de contato e o agendamento listam os mesmos
+ * serviços (lista fixa nesta versão, decisão 5 da revisão de requisitos).
  */
 export const services: Service[] = [
   {
@@ -78,3 +79,8 @@ export const services: Service[] = [
     ],
   },
 ];
+
+/** Nome do serviço pelo identificador (agendamentos antigos podem citar um serviço removido). */
+export function serviceTitle(id: string): string {
+  return services.find((service) => service.id === id)?.title ?? "Serviço não listado";
+}

@@ -1,0 +1,496 @@
+/*
+ * Agendar avaliação: a pista de box com um cone por etapa, o cupom (etapa
+ * à esquerda, canhoto com o resumo à direita, separados pelo picote da
+ * ordem de serviço) e o comprovante com o "zerinho" do carro.
+ */
+
+@layer components {
+  .booking {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  /* ---------- Pista de progresso ---------- */
+
+  .pit-lane {
+    --lane-width: 40px;
+    --car-width: 34px;
+    overflow: hidden;
+    padding: 1.25rem clamp(0.75rem, 2vw, 1.5rem) 1rem;
+    background: var(--color-floor);
+
+    @media (width < 48rem) {
+      --lane-width: 28px;
+      --car-width: 24px;
+    }
+  }
+
+  .pit-lane-stage {
+    position: relative;
+    height: 6.5rem;
+
+    @media (width < 48rem) {
+      height: 5rem;
+    }
+
+    & svg {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      overflow: visible;
+    }
+  }
+
+  .pit-lane-edge,
+  .pit-lane-asphalt,
+  .pit-lane-centre,
+  .pit-lane-rubber {
+    fill: none;
+  }
+
+  .pit-lane-edge {
+    stroke: color-mix(in oklab, var(--color-paint) 70%, transparent);
+    stroke-width: calc(var(--lane-width) + 6px);
+  }
+
+  .pit-lane-asphalt {
+    stroke: var(--color-asphalt);
+    stroke-width: var(--lane-width);
+  }
+
+  .pit-lane-centre {
+    stroke: color-mix(in oklab, var(--color-paint) 30%, transparent);
+    stroke-width: 2px;
+    stroke-dasharray: 10 12;
+  }
+
+  .pit-lane-rubber {
+    stroke: var(--color-rubber);
+    stroke-width: 5px;
+    stroke-linecap: round;
+    opacity: 0.75;
+  }
+
+  .pit-lane-car {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 2;
+    transform: translate3d(calc(var(--car-x, -200px) - 50%), calc(var(--car-y, 0px) - 50%), 0)
+      rotate(var(--car-rotation, 0deg));
+    will-change: transform;
+  }
+
+  /* As etapas em texto, alinhadas com os cones (a informação de verdade). */
+  .pit-lane-steps {
+    display: grid;
+    grid-template-columns: repeat(var(--steps, 4), minmax(0, 1fr));
+    gap: 0.5rem;
+    margin-top: 0.75rem;
+    color: var(--color-muted);
+    font-size: var(--text-small);
+    font-weight: 600;
+    text-align: center;
+
+    & li {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.35rem;
+      overflow-wrap: anywhere;
+    }
+
+    & li[data-state="feito"],
+    & li[data-state="atual"] {
+      color: var(--color-ink);
+    }
+  }
+
+  .pit-lane-step-number {
+    display: grid;
+    place-items: center;
+    width: 1.75rem;
+    height: 1.75rem;
+    border: 2px solid currentColor;
+    font-variant-numeric: tabular-nums;
+    font-weight: 700;
+  }
+
+  li[data-state="feito"] .pit-lane-step-number {
+    border-color: var(--color-ink);
+    background: var(--color-ink);
+    color: var(--color-on-light);
+  }
+
+  li[data-state="atual"] .pit-lane-step-number {
+    border-color: var(--color-ink);
+    background: var(--color-accent);
+    color: var(--color-on-accent);
+  }
+
+  /* ---------- O cupom: etapa | picote | canhoto ---------- */
+
+  .booking-ticket {
+    --perforation-at: 66%;
+    position: relative;
+    display: grid;
+    grid-template-columns: var(--perforation-at) minmax(0, 1fr);
+    background: var(--color-raised);
+
+    @media (width < 64rem) {
+      --perforation-at: 62%;
+    }
+
+    @media (width < 48rem) {
+      grid-template-columns: minmax(0, 1fr);
+    }
+  }
+
+  .booking-step {
+    min-width: 0;
+    padding: clamp(1.5rem, 1rem + 2.5vw, 3rem);
+    container-type: inline-size;
+  }
+
+  .booking-stub {
+    display: grid;
+    align-content: start;
+    gap: 1.25rem;
+    min-width: 0;
+    padding: clamp(1.5rem, 1rem + 2.5vw, 3rem) clamp(1.5rem, 1rem + 2vw, 2.5rem);
+    padding-left: max(2.25rem, clamp(1.5rem, 1rem + 2vw, 2.5rem));
+
+    @media (width < 48rem) {
+      padding-left: clamp(1.5rem, 1rem + 2.5vw, 3rem);
+    }
+  }
+
+  .booking-form {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 1.5rem;
+  }
+
+  .step-help {
+    max-width: 60ch;
+    color: var(--color-muted);
+  }
+
+  .step-notice {
+    font-weight: 600;
+
+    &:empty {
+      display: none;
+    }
+  }
+
+  .step-nav {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    padding-top: 0.5rem;
+  }
+
+  .step-nav-next {
+    margin-left: auto;
+  }
+
+  /* ---------- Etapa 1: serviços ---------- */
+
+  .service-choices {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.5rem;
+  }
+
+  @container (width < 34rem) {
+    .service-choices {
+      grid-template-columns: minmax(0, 1fr);
+    }
+  }
+
+  .choice-service-head {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 0.25rem 0.75rem;
+  }
+
+  /* ---------- Etapa 2: semana, dias e horários ---------- */
+
+  .week-nav {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 0.25rem;
+  }
+
+  .week-nav-label {
+    flex: 1;
+    font-weight: 600;
+    text-align: center;
+  }
+
+  .week-nav-button {
+    border-color: var(--color-edge);
+    background: transparent;
+  }
+
+  .day-choices {
+    display: grid;
+    grid-template-columns: repeat(7, minmax(0, 1fr));
+    gap: 0.375rem;
+  }
+
+  @container (width < 36rem) {
+    .day-choices {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+  }
+
+  .choice-day {
+    justify-items: center;
+    gap: 0.1rem;
+    padding: 1.5rem 0.25rem 0.75rem;
+    text-align: center;
+
+    & input[type="radio"] {
+      top: 0.5rem;
+      left: 0.5rem;
+      width: 0.9rem;
+      height: 0.9rem;
+    }
+
+    & input[type="radio"]:checked::after {
+      width: 0.4rem;
+      height: 0.4rem;
+    }
+  }
+
+  .choice-day-weekday {
+    font-size: var(--text-small);
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+  }
+
+  .choice-day-number {
+    font-size: 2rem;
+    font-weight: 800;
+    font-stretch: 62%;
+    line-height: 1;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .choice-day-state {
+    font-size: var(--text-small);
+    hyphens: auto;
+    overflow-wrap: anywhere;
+  }
+
+  .slot-choices {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 7rem), 1fr));
+    gap: 0.375rem;
+  }
+
+  .choice-slot {
+    align-content: center;
+    padding: 0.875rem 0.75rem 0.875rem 2.75rem;
+
+    & input[type="radio"] {
+      top: 50%;
+      left: 0.875rem;
+      translate: 0 -50%;
+    }
+  }
+
+  .choice-slot-time {
+    font-size: var(--text-lead);
+    font-weight: 800;
+    font-stretch: 62%;
+    line-height: 1;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .choice-slot[data-state="ocupado"] .choice-slot-time {
+    text-decoration: line-through;
+  }
+
+  .choice-slot-state {
+    font-size: var(--text-small);
+  }
+
+  /* ---------- Etapa 4: revisão ---------- */
+
+  .review-list {
+    display: grid;
+  }
+
+  .review-row {
+    display: grid;
+    grid-template-columns: 7.5rem minmax(0, 1fr) auto;
+    align-items: baseline;
+    gap: 0.15rem 1rem;
+    padding-block: 0.5rem;
+    border-bottom: 2px solid var(--color-raised-strong);
+
+    & dt {
+      color: var(--color-muted);
+      font-size: var(--text-small);
+      font-weight: 600;
+    }
+
+    & dd {
+      min-width: 0;
+    }
+  }
+
+  @container (width < 30rem) {
+    .review-row {
+      grid-template-columns: minmax(0, 1fr) auto;
+
+      & dt {
+        grid-column: 1 / -1;
+      }
+    }
+  }
+
+  .review-error {
+    display: grid;
+    justify-items: start;
+    gap: 0.75rem;
+    padding: 1rem 1.125rem;
+    border: 2px solid var(--color-danger);
+    background: var(--color-carbon);
+  }
+
+  /* ---------- Comprovante ---------- */
+
+  .receipt {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    background: var(--color-raised);
+  }
+
+  .donut-finish {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 560 / 240;
+    background: var(--color-floor);
+
+    & svg {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      overflow: visible;
+    }
+  }
+
+  .donut-finish-marks {
+    opacity: 0.55;
+
+    & path {
+      fill: none;
+      stroke: var(--color-rubber);
+      stroke-width: 8px;
+      stroke-linecap: round;
+      transform-box: view-box;
+      transform-origin: 360px 120px;
+    }
+
+    & .mark-inner {
+      transform: scale(0.94);
+    }
+
+    & .mark-outer {
+      transform: scale(1.06);
+    }
+  }
+
+  .donut-finish-car {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 2;
+    width: 6.5%;
+    transform: translate3d(calc(var(--car-x, -200px) - 50%), calc(var(--car-y, 0px) - 50%), 0)
+      rotate(var(--car-rotation, 0deg));
+    will-change: transform;
+  }
+
+  .receipt-body {
+    display: grid;
+    gap: 1.5rem;
+    max-width: 56rem;
+    padding: clamp(1.5rem, 1rem + 2.5vw, 3rem);
+  }
+
+  .receipt-head {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.75rem 1.25rem;
+  }
+
+  .receipt-title {
+    font-size: var(--text-head);
+    font-weight: 800;
+    font-stretch: 62%;
+    line-height: 0.9;
+    text-transform: uppercase;
+    overflow-wrap: anywhere;
+  }
+
+  .receipt-lead {
+    max-width: 56ch;
+    color: var(--color-muted);
+  }
+
+  /* O protocolo num painel de luz, como uma etiqueta impressa. */
+  .receipt-protocol {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem 1.5rem;
+    padding: 1.25rem 1.5rem;
+    background: var(--color-ink);
+    color: var(--color-on-light);
+
+    & dt {
+      font-size: var(--text-small);
+      font-weight: 600;
+    }
+
+    /* Sobre o painel claro, o anel de foco amarelo some: usa a tinta escura. */
+    & :focus-visible {
+      outline-color: var(--color-on-light);
+    }
+  }
+
+  .receipt-protocol-code {
+    font-size: var(--text-head);
+    font-weight: 800;
+    font-stretch: 62%;
+    line-height: 1;
+    letter-spacing: 0.03em;
+    font-variant-numeric: tabular-nums;
+    overflow-wrap: anywhere;
+  }
+
+  .receipt-actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.75rem 1rem;
+  }
+}
+
+/* Movimento reduzido: o carro não anda (os componentes já cuidam disso) e a fumaça some. */
+html[data-motion="reduce"] :is(.pit-lane-car, .donut-finish-car) .drift-car-puff {
+  display: none;
+}

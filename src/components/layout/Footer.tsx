@@ -1,7 +1,7 @@
 import { m, useScroll, useTransform } from "motion/react";
 import { useRef } from "react";
 import { FigureEight } from "@/components/footer/FigureEight";
-import { contact, navigation, site } from "@/content/site";
+import { contact, footerLinks, navigation, site } from "@/content/site";
 import { useReducedMotion } from "@/hooks/useReducedMotion";
 import { whatsappLink } from "@/lib/whatsapp";
 
@@ -77,7 +77,7 @@ export function Footer() {
             © {year} {site.name}
           </p>
           <nav aria-label="Rodapé" className="footer-links">
-            {navigation.map((item) => (
+            {[...navigation, ...footerLinks].map((item) => (
               <a key={item.href} href={item.href} className="text-link">
                 {item.label}
               </a>

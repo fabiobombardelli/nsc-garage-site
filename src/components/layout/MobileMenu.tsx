@@ -1,5 +1,6 @@
 import { AnimatePresence, m } from "motion/react";
 import { useEffect, useRef } from "react";
+import { href } from "@/app/router";
 import { Logo } from "@/components/ui/Logo";
 import { contact, navigation, site } from "@/content/site";
 
@@ -96,7 +97,7 @@ export function MobileMenu({ open, onClose }: MobileMenuProps) {
           </nav>
 
           <div className="mobile-menu-footer">
-            <a href="#contato" className="button w-full" onClick={onClose}>
+            <a href={href("agendar")} className="button w-full" onClick={onClose}>
               {site.primaryAction}
             </a>
             <p>

@@ -2,9 +2,11 @@
  * Ponto de entrada dos estilos.
  *
  *  theme.css          → cores, tipografia, tokens e tema de alto contraste
- *  accessibility.css  → atalhos de acesso, forced colors, movimento reduzido
+ *  accessibility.css  → atalhos, painel de acessibilidade, forced colors, movimento reduzido
  *  controls.css       → botões, links e controles
- *  sections/*.css     → estilos de cada parte, na ordem da página
+ *  forms.css          → campos, opções, caixas de seleção e chaves (todas as telas)
+ *  pages.css          → telas internas e peças comuns (selo, estrelas, estado vazio)
+ *  sections/*.css     → estilos de cada parte, na ordem da página e das telas
  *
  * O resto do layout usa classes utilitárias do Tailwind direto no JSX.
  */
@@ -12,6 +14,8 @@
 @import "./theme.css";
 @import "./accessibility.css";
 @import "./controls.css";
+@import "./forms.css";
+@import "./pages.css";
 @import "./sections/header.css";
 @import "./sections/hero.css";
 @import "./sections/timeline.css";
@@ -19,6 +23,9 @@
 @import "./sections/services.css";
 @import "./sections/contact.css";
 @import "./sections/footer.css";
+@import "./sections/booking.css";
+@import "./sections/appointments.css";
+@import "./sections/admin.css";
 
 @layer components {
   /* Linha de título que sobe de dentro de uma máscara (Reveal.tsx). */

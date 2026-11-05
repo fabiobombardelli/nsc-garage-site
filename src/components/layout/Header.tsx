@@ -1,6 +1,8 @@
 import { ArrowRight } from "lucide-react";
 import { m, useMotionValueEvent, useScroll } from "motion/react";
 import { useCallback, useEffect, useRef, useState } from "react";
+import { href, type Route } from "@/app/router";
+import { AccessibilityPanel } from "@/components/a11y/AccessibilityPanel";
 import { MobileMenu } from "@/components/layout/MobileMenu";
 import { Logo } from "@/components/ui/Logo";
 import { navigation, site } from "@/content/site";
@@ -11,12 +13,18 @@ import { cn } from "@/lib/cn";
  * uma barra grafite e se recolhe enquanto a pessoa rola para baixo,
  * voltando ao rolar para cima ou ao receber o foco do teclado.
  *
+ * Nas telas internas (agendamento, painel) não há vídeo atrás: o header já
+ * nasce sólido. O link da tela atual leva `aria-current="page"`.
+ *
  * Acessibilidade: o header nunca cobre o elemento que recebe o foco do
- * teclado (WCAG 2.4.11); se cobrir, a página desce o necessário.
+ * teclado (WCAG 2.4.11); se cobrir, a página desce o necessário. O botão
+ * "Acessibilidade" fica em todas as telas, sempre no mesmo lugar.
  */
-export function Header() {
+export function Header({ route }: { route: Route }) {
   const [menuOpen, setMenuOpen] = useState(false);
-  const [solid, setSolid] = useState(false);
+  const [panelOpen, setPanelOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
+  const solid = scrolled || route.name !== "inicio";
   const [tucked, setTucked] = useState(false);
   const headerRef = useRef<HTMLElement>(null);
   const menuButtonRef = useRef<HTMLButtonElement>(null);
@@ -28,7 +36,7 @@ export function Header() {
       const target = event.target;
       if (!header || !(target instanceof HTMLElement) || header.contains(target)) return;
       // Atalhos de acesso e menu do celular ficam por cima do header.
-      if (target.closest(".access-shortcuts, .mobile-menu")) return;
+      if (target.closest(".access-shortcuts, .mobile-menu, .a11y-panel")) return;
 
       const headerBottom = header.getBoundingClientRect().bottom;
       const { top } = target.getBoundingClientRect();
@@ -43,7 +51,7 @@ export function Header() {
 
   useMotionValueEvent(scrollY, "change", (y) => {
     const previous = scrollY.getPrevious() ?? 0;
-    setSolid(y > 24);
+    setScrolled(y > 24);
     setTucked(y > previous && y > window.innerHeight * 0.6);
   });
 
@@ -57,7 +65,7 @@ export function Header() {
       <m.header
         ref={headerRef}
         className={cn("site-header", solid && "is-solid")}
-        animate={{ y: tucked && !menuOpen ? "-100%" : "0%" }}
+        animate={{ y: tucked && !menuOpen && !panelOpen ? "-100%" : "0%" }}
         transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
         onFocusCapture={() => setTucked(false)}
       >
@@ -76,7 +84,11 @@ export function Header() {
               <ul>
                 {navigation.map((item) => (
                   <li key={item.href}>
-                    <a href={item.href} className="nav-link">
+                    <a
+                      href={item.href}
+                      className="nav-link"
+                      aria-current={item.href === href(route.name) ? "page" : undefined}
+                    >
                       <span className="nav-link-roll">
                         <span>{item.label}</span>
                         <span aria-hidden="true">{item.label}</span>
@@ -87,7 +99,13 @@ export function Header() {
               </ul>
             </nav>
 
-            <a href="#contato" className="button button-small site-header-action">
+            <AccessibilityPanel open={panelOpen} onOpenChange={setPanelOpen} />
+
+            <a
+              href={href("agendar")}
+              className="button button-small site-header-action"
+              aria-current={route.name === "agendar" ? "page" : undefined}
+            >
               {site.primaryAction}
               <ArrowRight className="button-arrow" size={16} aria-hidden="true" />
             </a>

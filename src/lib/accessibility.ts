@@ -2,8 +2,9 @@
  * Preferências de acessibilidade do site.
  *
  * O site já respeita as preferências do sistema operacional (movimento
- * reduzido e contraste alto). Um painel de acessibilidade futuro só
- * precisa chamar `setAccessibilityPreferences()`; todo o resto já reage.
+ * reduzido e contraste alto). O painel de acessibilidade do topo
+ * (components/a11y/AccessibilityPanel.tsx) chama
+ * `setAccessibilityPreferences()`; todo o resto já reage.
  *
  * As preferências chegam ao CSS como atributos no elemento <html>:
  *
@@ -30,6 +31,8 @@ export type AccessibilityPreferences = {
 export const FONT_SCALES = [1, 1.125, 1.25, 1.5] as const;
 
 const STORAGE_KEY = "nsc:acessibilidade";
+/** Evento disparado no `window` sempre que as preferências são aplicadas. */
+export const PREFERENCES_EVENT = "nsc:acessibilidade-mudou";
 const DEFAULT_PREFERENCES: AccessibilityPreferences = {
   motion: "system",
   contrast: "system",
@@ -75,9 +78,34 @@ export function applyAccessibilityPreferences(
   root.dataset.motion = reduceMotion ? "reduce" : "full";
   root.dataset.contrast = highContrast ? "high" : "normal";
   root.style.setProperty("--font-scale", String(clampFontScale(preferences.fontScale)));
+
+  effective = {
+    ...preferences,
+    fontScale: clampFontScale(preferences.fontScale),
+    reduceMotion,
+    highContrast,
+  };
+  window.dispatchEvent(new Event(PREFERENCES_EVENT));
 }
 
-/** Altera e salva preferências (ponto de entrada do futuro painel de acessibilidade). */
+/** O que está valendo agora: a escolha salva e o resultado depois de olhar o sistema. */
+export type EffectivePreferences = AccessibilityPreferences & {
+  reduceMotion: boolean;
+  highContrast: boolean;
+};
+
+let effective: EffectivePreferences = {
+  ...DEFAULT_PREFERENCES,
+  reduceMotion: false,
+  highContrast: false,
+};
+
+/** Preferências em vigor. O objeto só muda quando algo muda (seguro para React). */
+export function getEffectivePreferences(): EffectivePreferences {
+  return effective;
+}
+
+/** Altera e salva preferências (ponto de entrada do painel de acessibilidade). */
 export function setAccessibilityPreferences(changes: Partial<AccessibilityPreferences>) {
   const next = { ...getAccessibilityPreferences(), ...changes };
   try {

@@ -1,6 +1,6 @@
 import { m } from "motion/react";
 import slidePhoto from "@/assets/images/footage/slide-wide.webp";
-import { DriftCar } from "@/components/timeline/DriftCar";
+import { DriftCar } from "@/components/car/DriftCar";
 import { FloorLane } from "@/components/timeline/FloorLane";
 import { Milestone } from "@/components/timeline/Milestone";
 import { MaskedLine, Reveal } from "@/components/ui/Reveal";

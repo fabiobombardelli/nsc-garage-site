@@ -32,13 +32,41 @@ export function buildTrackPath(points: TrackPoint[]): string {
   return d;
 }
 
-/** Encontra, por busca binária, o comprimento do traçado em que a altura (y) vale `targetY`. */
-function lengthAtY(path: SVGPathElement, targetY: number, totalLength: number): number {
+/**
+ * Liga os pontos com curvas suaves na horizontal (a pista do agendamento,
+ * que corre da esquerda para a direita). A tangente é horizontal em cada
+ * ponto, então cada ponto é o ápice de uma curva.
+ */
+export function buildLanePath(points: TrackPoint[]): string {
+  const [first, ...rest] = points;
+  if (!first) return "";
+
+  let d = `M${first.x} ${first.y}`;
+  let previous = first;
+  for (const point of rest) {
+    const handle = (point.x - previous.x) / 2;
+    d += ` C${previous.x + handle} ${previous.y} ${point.x - handle} ${point.y} ${point.x} ${point.y}`;
+    previous = point;
+  }
+  return d;
+}
+
+/**
+ * Encontra, por busca binária, o comprimento do traçado em que a
+ * coordenada `axis` vale `target`. Funciona em traçados que só avançam
+ * nesse eixo (a pista da Trajetória desce; a do agendamento vai para a direita).
+ */
+export function lengthAt(
+  path: SVGPathElement,
+  axis: "x" | "y",
+  target: number,
+  totalLength = path.getTotalLength(),
+): number {
   let low = 0;
   let high = totalLength;
   for (let i = 0; i < 14; i += 1) {
     const middle = (low + high) / 2;
-    if (path.getPointAtLength(middle).y < targetY) low = middle;
+    if (path.getPointAtLength(middle)[axis] < target) low = middle;
     else high = middle;
   }
   return (low + high) / 2;
@@ -64,7 +92,7 @@ export type CarPose = {
 /** Calcula posição e atitude do carro na altura `targetY` da pista. */
 export function getCarPose(path: SVGPathElement, targetY: number): CarPose {
   const totalLength = path.getTotalLength();
-  return getCarPoseAtLength(path, lengthAtY(path, targetY, totalLength), totalLength);
+  return getCarPoseAtLength(path, lengthAt(path, "y", targetY, totalLength), totalLength);
 }
 
 /**

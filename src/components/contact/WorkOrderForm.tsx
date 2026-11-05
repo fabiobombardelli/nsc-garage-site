@@ -1,5 +1,6 @@
-import { AlertCircle, Send } from "lucide-react";
-import { useRef, useState, type FormEvent, type ReactNode } from "react";
+import { Send } from "lucide-react";
+import { useRef, useState, type FormEvent } from "react";
+import { Field, RequiredNote } from "@/components/forms/Field";
 import { services } from "@/content/services";
 import { whatsappLink } from "@/lib/whatsapp";
 
@@ -12,12 +13,13 @@ const REQUIRED_MESSAGES: Record<FieldName, string> = {
 };
 
 /**
- * Ordem de serviço sem servidor: valida os campos, monta a mensagem com os
- * dados preenchidos e abre a conversa no WhatsApp da oficina.
+ * Ordem de serviço sem servidor (UC-04 Enviar Mensagem de Contato): valida
+ * os campos, monta a mensagem com os dados preenchidos e abre a conversa
+ * no WhatsApp da oficina.
  *
  * Acessibilidade: rótulos visíveis, campos obrigatórios marcados em texto,
- * erros ligados ao campo (aria-describedby + aria-invalid) e o foco vai
- * para o primeiro campo com problema.
+ * erros ligados ao campo (componente Field) e o foco vai para o primeiro
+ * campo com problema.
  */
 export function WorkOrderForm() {
   const formRef = useRef<HTMLFormElement>(null);
@@ -61,49 +63,41 @@ export function WorkOrderForm() {
 
   return (
     <form ref={formRef} className="work-order-form" noValidate onSubmit={handleSubmit}>
-      <p className="work-order-help">
-        Campos com <span aria-hidden="true">*</span>
-        <span className="sr-only-text">asterisco</span> são obrigatórios.
-      </p>
+      <RequiredNote />
 
       <Field id="os-nome" label="Nome" required error={errors.name}>
-        <input
-          id="os-nome"
-          name="name"
-          type="text"
-          autoComplete="name"
-          required
-          aria-invalid={errors.name ? true : undefined}
-          aria-describedby={errors.name ? "os-nome-erro" : undefined}
-          onInput={() => clearError("name")}
-        />
+        {(control) => (
+          <input
+            {...control}
+            name="name"
+            type="text"
+            autoComplete="name"
+            onInput={() => clearError("name")}
+          />
+        )}
       </Field>
 
       <Field id="os-carro" label="Carro" hint="Modelo e ano, se souber">
-        <input id="os-carro" name="car" type="text" aria-describedby="os-carro-dica" />
+        {(control) => <input {...control} name="car" type="text" />}
       </Field>
 
       <Field id="os-servico" label="Serviço de interesse">
-        <select id="os-servico" name="service" defaultValue="">
-          <option value="">Ainda não sei</option>
-          {services.map((service) => (
-            <option key={service.id} value={service.title}>
-              {service.title}
-            </option>
-          ))}
-        </select>
+        {(control) => (
+          <select {...control} name="service" defaultValue="">
+            <option value="">Ainda não sei</option>
+            {services.map((service) => (
+              <option key={service.id} value={service.title}>
+                {service.title}
+              </option>
+            ))}
+          </select>
+        )}
       </Field>
 
       <Field id="os-mensagem" label="O que o carro precisa?" required error={errors.message}>
-        <textarea
-          id="os-mensagem"
-          name="message"
-          rows={4}
-          required
-          aria-invalid={errors.message ? true : undefined}
-          aria-describedby={errors.message ? "os-mensagem-erro" : undefined}
-          onInput={() => clearError("message")}
-        />
+        {(control) => (
+          <textarea {...control} name="message" rows={4} onInput={() => clearError("message")} />
+        )}
       </Field>
 
       <button type="submit" className="button work-order-submit">
@@ -123,38 +117,5 @@ export function WorkOrderForm() {
         )}
       </p>
     </form>
-  );
-}
-
-type FieldProps = {
-  id: string;
-  label: string;
-  hint?: string;
-  required?: boolean;
-  error?: string;
-  children: ReactNode;
-};
-
-/** Um campo da ordem de serviço: rótulo visível, dica opcional e mensagem de erro. */
-function Field({ id, label, hint, required, error, children }: FieldProps) {
-  return (
-    <div className="field" data-invalid={error ? true : undefined}>
-      <label htmlFor={id}>
-        {label}
-        {required && <span aria-hidden="true"> *</span>}
-      </label>
-      {hint && (
-        <span id={`${id}-dica`} className="field-hint">
-          {hint}
-        </span>
-      )}
-      {children}
-      {error && (
-        <p id={`${id}-erro`} className="field-error">
-          <AlertCircle size={16} aria-hidden="true" />
-          {error}
-        </p>
-      )}
-    </div>
   );
 }

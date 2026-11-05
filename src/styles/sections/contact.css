@@ -1,6 +1,7 @@
 /*
- * Contato: a ordem de serviço como um cupom com picote. Campos com rótulo
- * visível e erros indicados por ícone, texto e borda (nunca só por cor).
+ * Contato: a ordem de serviço como um cupom com picote. Os campos seguem
+ * o padrão comum de styles/forms.css. O picote (.perforation) também é
+ * usado no cupom do agendamento.
  */
 
 @layer components {
@@ -80,54 +81,6 @@
     grid-template-columns: minmax(0, 1fr);
     gap: 1.25rem;
     padding: 3rem;
-  }
-
-  .work-order-help {
-    color: var(--color-muted);
-    font-size: var(--text-small);
-  }
-
-  .field {
-    display: grid;
-    grid-template-columns: minmax(0, 1fr);
-    gap: 0.4rem;
-
-    & label {
-      font-weight: 600;
-    }
-
-    & :is(input, select, textarea) {
-      width: 100%;
-      min-height: 3.25rem;
-      padding: 0.75rem 1rem;
-      border: 2px solid transparent;
-      border-radius: 0;
-      background: var(--color-carbon);
-      color: var(--color-ink);
-      font: inherit;
-    }
-
-    & textarea {
-      resize: vertical;
-    }
-
-    &[data-invalid] :is(input, select, textarea) {
-      border-color: var(--color-danger);
-    }
-  }
-
-  .field-hint {
-    color: var(--color-muted);
-    font-size: var(--text-small);
-  }
-
-  .field-error {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    color: var(--color-danger);
-    font-size: var(--text-small);
-    font-weight: 600;
   }
 
   .work-order-submit {

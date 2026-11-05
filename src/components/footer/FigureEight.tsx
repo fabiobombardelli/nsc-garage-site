@@ -1,6 +1,6 @@
 import { Pause, Play } from "lucide-react";
 import { useCallback, useEffect, useRef, useState } from "react";
-import { DriftCar } from "@/components/timeline/DriftCar";
+import { DriftCar } from "@/components/car/DriftCar";
 import { useInView } from "@/hooks/useInView";
 import { useReducedMotion } from "@/hooks/useReducedMotion";
 import { buildFigureEightPath, getCarPoseAtLength } from "@/lib/track";

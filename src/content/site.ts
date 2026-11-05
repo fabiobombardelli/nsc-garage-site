@@ -38,9 +38,19 @@ export type NavItem = {
   href: `#${string}`;
 };
 
-/** Links do menu. A ação principal (contato) é um botão à parte. */
+/**
+ * Links do menu. A ação principal (agendar) é um botão à parte. Endereços
+ * com "#/" são telas (app/routes.ts); os outros são seções da página inicial.
+ */
 export const navigation: NavItem[] = [
   { label: "Trajetória", href: "#trajetoria" },
   { label: "Oficina", href: "#oficina" },
   { label: "Serviços", href: "#servicos" },
+  { label: "Meus agendamentos", href: "#/meus-agendamentos" },
+];
+
+/** Links extras do rodapé: área da equipe e declaração de acessibilidade. */
+export const footerLinks: NavItem[] = [
+  { label: "Acessibilidade", href: "#/acessibilidade" },
+  { label: "Área da oficina", href: "#/painel" },
 ];

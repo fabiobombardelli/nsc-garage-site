@@ -1,13 +1,15 @@
 import { ArrowRight, Plus } from "lucide-react";
 import { m } from "motion/react";
 import { useEffect, useState, type ReactNode } from "react";
+import { href } from "@/app/router";
 import { services } from "@/content/services";
 import { whatsappLink } from "@/lib/whatsapp";
 
 /**
  * Serviços: o carrinho de ferramentas vermelho do box. Cada serviço é uma
- * gaveta que abre no lugar, com o que costuma estar incluído e o pedido de
- * orçamento direto no WhatsApp.
+ * gaveta que abre no lugar, com o que costuma estar incluído, o atalho para
+ * agendar a avaliação já com o serviço escolhido e o pedido de orçamento
+ * pelo WhatsApp.
  *
  * Acessibilidade: padrão "accordion" do WAI-ARIA. Cada gaveta é um botão
  * com aria-expanded que controla a sua região; gavetas fechadas saem da
@@ -53,18 +55,28 @@ export function Services() {
                       <li key={item}>{item}</li>
                     ))}
                   </ul>
-                  <a
-                    className="drawer-quote text-link"
-                    href={whatsappLink(
-                      `Olá! Quero um orçamento de ${service.title.toLowerCase()}.`,
-                    )}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    Pedir orçamento pelo WhatsApp
-                    <ArrowRight size={16} aria-hidden="true" />
-                    <span className="sr-only-text"> (abre em nova aba)</span>
-                  </a>
+                  <div className="drawer-actions">
+                    <a
+                      className="button button-small"
+                      href={href("agendar", { servico: service.id })}
+                    >
+                      Agendar avaliação
+                      <span className="sr-only-text"> de {service.title.toLowerCase()}</span>
+                      <ArrowRight className="button-arrow" size={16} aria-hidden="true" />
+                    </a>
+                    <a
+                      className="drawer-quote text-link"
+                      href={whatsappLink(
+                        `Olá! Quero um orçamento de ${service.title.toLowerCase()}.`,
+                      )}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      Pedir orçamento pelo WhatsApp
+                      <ArrowRight size={16} aria-hidden="true" />
+                      <span className="sr-only-text"> (abre em nova aba)</span>
+                    </a>
+                  </div>
                 </DrawerPanel>
               </li>
             );

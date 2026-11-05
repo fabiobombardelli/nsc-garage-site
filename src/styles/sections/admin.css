@@ -1,0 +1,174 @@
+/*
+ * Painel da oficina: acesso, frase-resumo, filtro por situação e os
+ * atendimentos agrupados por dia. Tela de trabalho: a cor fica nos dados
+ * (o selo de situação), não na moldura.
+ */
+
+@layer components {
+  .admin-login {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 1.25rem;
+    max-width: 30rem;
+    padding: clamp(1.5rem, 1rem + 2vw, 2.5rem);
+    background: var(--color-raised);
+  }
+
+  /* A frase que responde à pergunta da tela: o que espera decisão e quem vem a seguir. */
+  .admin-summary {
+    max-width: 60ch;
+    margin-bottom: 1.5rem;
+    font-size: var(--text-lead);
+    line-height: 1.35;
+  }
+
+  .filter-group {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.375rem;
+    margin-bottom: 2.5rem;
+  }
+
+  .filter-button {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    min-height: 2.75rem;
+    padding: 0 1rem;
+    border: 2px solid var(--color-edge);
+    background: transparent;
+    color: var(--color-ink);
+    font-size: var(--text-small);
+    font-weight: 600;
+    transition:
+      background-color 180ms ease,
+      border-color 180ms ease;
+
+    &[aria-pressed="true"] {
+      border-color: var(--color-ink);
+      background: var(--color-ink);
+      color: var(--color-on-light);
+    }
+
+    @media (hover: hover) and (pointer: fine) {
+      &[aria-pressed="false"]:hover {
+        border-color: var(--color-ink);
+      }
+    }
+  }
+
+  .filter-count {
+    color: var(--color-muted);
+    font-variant-numeric: tabular-nums;
+  }
+
+  .filter-button[aria-pressed="true"] .filter-count {
+    color: var(--color-on-light);
+  }
+
+  .agenda-day {
+    margin-bottom: 2.5rem;
+  }
+
+  .agenda-day-title {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.5rem 0.75rem;
+    margin-bottom: 1rem;
+  }
+
+  .agenda-day-today {
+    padding: 0.1rem 0.5rem;
+    background: var(--color-accent);
+    color: var(--color-on-accent);
+    font-size: var(--text-small);
+    font-stretch: 100%;
+    letter-spacing: 0;
+    text-transform: none;
+  }
+
+  .agenda-list {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 0.5rem;
+  }
+
+  /* Um atendimento: hora e cliente em cima, selo à direita, detalhes e ações embaixo. */
+  .agenda-item {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: 1rem 1.5rem;
+    padding: 1.25rem 1.5rem;
+    background: var(--color-raised);
+  }
+
+  .agenda-item-title {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 0.25rem 1rem;
+    min-width: 0;
+  }
+
+  .agenda-item-time {
+    font-size: 2rem;
+    font-weight: 800;
+    font-stretch: 62%;
+    line-height: 1;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .agenda-item-name {
+    font-size: var(--text-lead);
+    font-weight: 700;
+    line-height: 1.2;
+  }
+
+  .agenda-item-status {
+    justify-self: end;
+  }
+
+  .agenda-item-body {
+    grid-column: 1 / -1;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 1rem;
+  }
+
+  .agenda-item-actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.5rem 1rem;
+  }
+
+  .agenda-item-notify {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    min-height: 2.75rem;
+    font-weight: 600;
+  }
+
+  .admin-empty-filter {
+    color: var(--color-muted);
+  }
+
+  .admin-tools {
+    display: grid;
+    gap: 1rem;
+    max-width: 60ch;
+    margin-top: 4rem;
+
+    & p {
+      color: var(--color-muted);
+    }
+  }
+
+  .admin-tools-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+}

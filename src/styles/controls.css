@@ -59,6 +59,49 @@
     }
   }
 
+  /* Botão secundário sobre qualquer superfície: só o contorno de controle (3:1 ou mais). */
+  .button-outline {
+    border-color: var(--color-edge);
+    background: transparent;
+    color: var(--color-ink);
+
+    @media (hover: hover) and (pointer: fine) {
+      &:hover {
+        border-color: var(--color-ink);
+        background: var(--color-raised-strong);
+      }
+    }
+  }
+
+  /* Botão sobre o painel de luz (fundo claro): grafite com texto claro. */
+  .button-on-light {
+    background: var(--color-on-light);
+    color: var(--color-ink);
+
+    @media (hover: hover) and (pointer: fine) {
+      &:hover {
+        background: var(--color-carbon);
+      }
+    }
+  }
+
+  /* Ocupado (enviando): continua focável, mas avisa que não aceita outro clique. */
+  .button[aria-disabled="true"] {
+    opacity: 0.7;
+    cursor: progress;
+  }
+
+  .icon-button:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+  }
+
+  /* Botão com aparência de link (ações leves, como "Alterar"): alvo de 44px. */
+  button.text-link {
+    min-height: 2.75rem;
+    font-weight: 600;
+  }
+
   /* Link de texto: sublinhado discreto que ganha força sob o ponteiro e no foco. */
   .text-link {
     text-decoration: underline;
