@@ -46,11 +46,20 @@ economizar tokens). Código, commits e docs ficam em texto normal.
   (a `MaskedLine` observa a máscara, não o texto escondido).
 - `src/lib/accessibility.ts`: preferências (`data-motion`, `data-contrast`, `--font-scale`), evento
   de mudança; painel visível em `components/a11y/AccessibilityPanel.tsx`.
-- `src/app/`: rotas por hash (`#/agendar`, `#/meus-agendamentos`, `#/painel`, `#/acessibilidade`),
-  foco e título a cada troca (`useRouteFocus`). Links para seções da inicial usam `sectionHref`.
+- `src/app/`: rotas por hash (`#/agendar`, `#/meus-agendamentos`, `#/painel`, `#/acessibilidade`,
+  `#/privacidade`), foco e título a cada troca (`useRouteFocus`). Links para seções da inicial usam
+  `sectionHref`.
 - `src/pages/`: uma página por tela. `src/features/scheduling/`: domínio puro + testes (`domain/`),
-  repositório (`data/`, troque o armazenamento em `index.ts`), casos de uso (`services/`), telas
-  (`components/booking|customer|admin`). Regras da agenda em `src/content/scheduling.ts`.
+  contrato `SchedulingService` (`services/contract.ts`) com duas versões: demonstração
+  (`services/schedulingService.ts` + repositório em `data/`) e online (`data/supabase/`, carregada
+  sob demanda). `index.ts` escolhe pelo build (`VITE_SUPABASE_URL` + `VITE_SUPABASE_ANON_KEY`;
+  modelo em `.env.example`). Telas em `components/booking|customer|admin`. Regras da agenda em
+  `src/content/scheduling.ts`.
+- `supabase/`: migração SQL (tabelas, RLS sem permissões, funções `security definer` que repetem as
+  regras, índice único por horário) e testes no PGlite (`agenda.test.ts` no SQL, `servico.test.ts`
+  com a versão online). Regra nova = domínio + migração nova + teste dos dois lados.
+- `PUBLICAR.md`: Supabase, login da equipe (`oficina_admins`), hospedagem e domínio.
+  `public/_headers`: cabeçalhos de segurança da hospedagem.
 - `src/components/car/`: DriftCar, PitLane (progresso), DonutFinish (comprovante), ParkedCar.
   `components/forms/Field.tsx`: campo acessível. `components/ui/InlineConfirm.tsx`: confirmação.
 - `docs/rastreabilidade.md`: RF/RN/RNF → UC → código → teste. Atualize ao mudar um requisito.
@@ -74,7 +83,8 @@ economizar tokens). Código, commits e docs ficam em texto normal.
   pausa, parada fora da tela e versão parada no movimento reduzido (pedido do cliente). Carro que
   mostra estado (pistas) só anda quando o estado muda.
 - Regras de negócio só em `features/scheduling/domain/` (nunca em componente), cada uma com teste
-  que cita o TC. Painel: senha de demonstração `oficina2026` (protótipo, documentado no README).
+  que cita o TC (e repetidas nas funções SQL, para o modo online). Painel: e-mail e senha do
+  Supabase online; senha `oficina2026` só na demonstração.
 - Integrantes do grupo: o README tem espaço reservado; não invente nomes.
 - Nunca invente títulos, números, depoimentos ou patrocinadores. Fatos da NSC só de
   `docs/historia-nsc.md` (base de conhecimento com fontes e confiança; usar só os confirmados). Os
@@ -89,5 +99,6 @@ economizar tokens). Código, commits e docs ficam em texto normal.
   passando em `files` os assets de hash novo e `null` nos antigos (liste com `scope: "files"`). A
   prévia bloqueia arquivos de fonte e parâmetros de URL: o script embute a Archivo na página.
 - Git local na branch `main`, sem remoto. Commits em português, autor "NSC Garage".
-- Próximas fases: banco e autenticação no servidor (Supabase), notificação automática, testes
-  manuais com leitores de tela, medir desempenho (RNF-03).
+- Próximas fases: publicar no domínio (falta o número do WhatsApp, o domínio e as chaves do
+  Supabase do usuário), notificação automática, anti-robô no agendamento, testes manuais com
+  leitores de tela, medir desempenho (RNF-03).

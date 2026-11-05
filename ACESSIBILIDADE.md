@@ -150,7 +150,7 @@ decorativos (`aria-hidden`).
 | 3.3.3 Sugestão de erro (AA)                    | Cada erro diz como corrigir ("Digite o telefone com DDD, por exemplo (11) 98765-4321").                                                                                                                                         |
 | 3.3.4 Prevenção de erros (AA)                  | O agendamento passa por uma revisão com "Alterar" em cada linha antes de gravar; cancelar e apagar pedem confirmação.                                                                                                           |
 | 3.3.7 Entrada redundante (A, novo na 2.2)      | Nada é pedido duas vezes: o resumo mostra o que já foi escolhido, o telefone do agendamento já vem na consulta e o protocolo vem no link do comprovante.                                                                        |
-| 3.3.8 Autenticação acessível (AA, novo na 2.2) | O acesso ao painel é por senha comum, que aceita colar e gerenciador de senhas. Não há teste cognitivo.                                                                                                                         |
+| 3.3.8 Autenticação acessível (AA, novo na 2.2) | O acesso ao painel é por e-mail e senha comuns (`username` e `current-password`), que aceitam colar e gerenciador de senhas. Não há teste cognitivo.                                                                            |
 | 4.1.2 Nome, função, valor (A)                  | Elementos nativos; gavetas no padrão accordion; menu como diálogo; painel de acessibilidade e "Ler mais" dos marcos como disclosure (`aria-expanded`, `aria-controls`); chaves com `role="switch"`; filtros com `aria-pressed`. |
 | 4.1.3 Mensagens de status (AA)                 | Anunciados sem mover o foco: resultado do formulário, horário ocupado em outra aba, protocolo copiado, ajustes do painel, mudanças de situação no painel da oficina, quantidade de agendamentos encontrados.                    |
 
@@ -196,14 +196,14 @@ Com o modo ligado:
 Todos os testes ficam em `scripts/qa/` e rodam contra o build servido
 (`npm run build && npx vite preview --port 4173`).
 
-| Teste               | O que confere                                                                                                       | Resultado                                                                   |
-| ------------------- | ------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------- |
-| `axe.cjs`           | axe-core 4 na página inicial: padrão, alto contraste, movimento reduzido e fonte 150%, em 1440 e 390 px             | 0 violações nos 8 cenários                                                  |
-| `telas.cjs`         | axe-core em 13 estados das telas internas (cada etapa, erros, comprovante, consulta, avaliação, painel, declaração) | 0 violações em 104 verificações (13 × 4 modos × 2)                          |
-| `keyboard.cjs`      | Atalhos, gavetas, ordem de serviço e menu do celular só pelo teclado                                                | 19 de 19 ✓                                                                  |
-| `agendamento.cjs`   | O agendamento inteiro só pelo teclado: foco em cada etapa, erros, troca de tela, cancelar, painéis                  | 20 de 20 ✓                                                                  |
-| `layout.cjs`        | Espaçamento de texto (1.4.12) e fonte 150% em 5 telas e 6 larguras, sem cortes; foco nunca coberto pelo header      | 0 cortes em 60 combinações; 0 focos cobertos em 138 paradas (1440 e 390 px) |
-| `npm test` (Vitest) | Regras de negócio e casos de uso (TC-014 a TC-021)                                                                  | 54 de 54 ✓                                                                  |
+| Teste               | O que confere                                                                                                                | Resultado                                                                   |
+| ------------------- | ---------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------- |
+| `axe.cjs`           | axe-core 4 na página inicial: padrão, alto contraste, movimento reduzido e fonte 150%, em 1440 e 390 px                      | 0 violações nos 8 cenários                                                  |
+| `telas.cjs`         | axe-core em 14 estados das telas internas (etapas, erros, comprovante, consulta, avaliação, painel, declaração, privacidade) | 0 violações em 112 verificações (14 × 4 modos × 2)                          |
+| `keyboard.cjs`      | Atalhos, gavetas, ordem de serviço e menu do celular só pelo teclado                                                         | 19 de 19 ✓                                                                  |
+| `agendamento.cjs`   | O agendamento inteiro só pelo teclado: foco em cada etapa, erros, troca de tela, cancelar, painéis                           | 20 de 20 ✓                                                                  |
+| `layout.cjs`        | Espaçamento de texto (1.4.12) e fonte 150% em 6 telas e 6 larguras, sem cortes; foco nunca coberto pelo header               | 0 cortes em 72 combinações; 0 focos cobertos em 138 paradas (1440 e 390 px) |
+| `npm test` (Vitest) | Regras de negócio e casos de uso (TC-014 a TC-021), o banco e a versão online do serviço                                     | 77 de 77 ✓                                                                  |
 
 ## Pontos de atenção para a auditoria
 
@@ -219,9 +219,9 @@ Todos os testes ficam em `scripts/qa/` e rodam contra o build servido
    palavra pode quebrar no meio, sem perda de conteúdo.
 5. **Carro da Trajetória:** continua acompanhando a rolagem no modo de movimento reduzido, porque é a
    própria pessoa que o move. O critério que pediria pará-lo (2.3.3) é de nível AAA.
-6. **Painel da oficina (protótipo):** a senha é conferida no navegador e os dados ficam no
-   `localStorage`. Isso não afeta a acessibilidade, mas é uma limitação de segurança documentada no
-   README; em produção o acesso vai para o servidor.
+6. **Painel da oficina:** no site publicado, o acesso é pelo login do Supabase (e-mail e senha da
+   equipe). Na demonstração, a senha `oficina2026` é conferida no navegador e os dados ficam no
+   `localStorage`; o formulário é o mesmo nos dois modos, só ganha o campo de e-mail.
 7. **Ainda não feito:** testes manuais com NVDA (Windows), VoiceOver (iPhone e Mac) e TalkBack
    (Android), e testes com pessoas usuárias.
 

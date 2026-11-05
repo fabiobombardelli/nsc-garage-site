@@ -1,0 +1,10 @@
+# Cabeçalhos HTTP lidos pelo Cloudflare Pages e pelo Netlify (ver PUBLICAR.md).
+/*
+  X-Content-Type-Options: nosniff
+  X-Frame-Options: DENY
+  Referrer-Policy: strict-origin-when-cross-origin
+  Permissions-Policy: camera=(), microphone=(), geolocation=(), payment=()
+
+# Arquivos com hash no nome nunca mudam: o navegador pode guardar por um ano.
+/assets/*
+  Cache-Control: public, max-age=31536000, immutable

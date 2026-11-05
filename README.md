@@ -116,11 +116,19 @@ cliente, e aplica as duas disciplinas ao mesmo produto:
 | Página inicial               | `#inicio`             | Visitante | Vídeo da equipe, trajetória com o carro derrapando na pista, a oficina, os serviços e o contato.    |
 | Agendar avaliação            | `#/agendar`           | Cliente   | Quatro etapas: serviço, dia e horário livres, dados do cliente e do carro, revisão. Gera protocolo. |
 | Meus agendamentos            | `#/meus-agendamentos` | Cliente   | Com telefone + protocolo, mostra a situação, permite cancelar (até 24 h antes) e avaliar.           |
-| Painel da oficina            | `#/painel`            | Oficina   | Acesso por senha. Agenda por dia, filtro por situação, confirmar, concluir, cancelar, avisar.       |
+| Painel da oficina            | `#/painel`            | Oficina   | Login da equipe. Agenda por dia, filtro por situação, confirmar, concluir, cancelar, avisar.        |
 | Declaração de acessibilidade | `#/acessibilidade`    | Todos     | Compromisso, ajustes, atalhos, o que foi verificado, limitações e canal para relatar barreiras.     |
+| Privacidade                  | `#/privacidade`       | Todos     | Aviso da LGPD: quais dados o agendamento pede, para quê, onde ficam e como pedir para apagar.       |
 
 Em todas as telas: **painel de acessibilidade** (tamanho do texto, alto contraste, reduzir
 movimento), atalhos de teclado e o contato pelo WhatsApp no rodapé.
+
+O agendamento funciona de dois jeitos, escolhidos no build:
+
+- **Online (produção):** os dados ficam num banco PostgreSQL no Supabase, o painel pede o e-mail e
+  a senha da equipe e o banco confere todas as regras de novo. Como publicar: [`PUBLICAR.md`](PUBLICAR.md).
+- **Demonstração:** sem as chaves do Supabase, tudo fica no navegador de quem usa e o painel abre
+  com a senha `oficina2026`. É o modo da prévia e da apresentação.
 
 ### Regras de negócio (RN)
 
@@ -153,12 +161,14 @@ Uma demonstração de cerca de 10 minutos, que passa pelas duas disciplinas.
    em volta do cone (com botão de pausa) e o protocolo aparece.
 4. **Tempo real.** Abra o agendamento em duas abas e escolha o mesmo horário: quando uma aba
    confirma, a outra desmarca o horário e avisa (RF-014 e RNF-06).
-5. **Painel da oficina.** Entre em `#/painel` (senha de demonstração: `oficina2026`), carregue os
-   exemplos, confirme e conclua o seu agendamento e use "Avisar cliente pelo WhatsApp".
+5. **Painel da oficina.** Entre em `#/painel` (senha de demonstração: `oficina2026`; no site
+   publicado, o e-mail e a senha da equipe), carregue os exemplos, confirme e conclua o seu
+   agendamento e use "Avisar cliente pelo WhatsApp".
 6. **Cliente avalia.** Em "Meus agendamentos", consulte com telefone e protocolo e avalie o
    atendimento concluído (RN-05: só uma vez).
-7. **Engenharia por trás.** Rode `npm test` (54 testes com os IDs dos casos de teste) e mostre os
-   diagramas e a matriz de rastreabilidade deste documento.
+7. **Engenharia por trás.** Rode `npm test` (77 testes com os IDs dos casos de teste, 23 deles
+   no banco de dados de verdade) e mostre os diagramas e a matriz de rastreabilidade deste
+   documento.
 8. **Só teclado.** Faça um agendamento sem mouse: Tab, setas nas opções, Espaço e Enter.
 
 ---
@@ -173,6 +183,7 @@ Uma demonstração de cerca de 10 minutos, que passa pelas duas disciplinas.
 | **CSS**                  | Estilos em camadas, um arquivo por seção (`src/styles/`)             |
 | **HTML**                 | Página base (`index.html`) e a semântica gerada pelos componentes    |
 | **JavaScript (Node.js)** | Testes de navegador e acessibilidade (`scripts/qa/*.cjs`)            |
+| **SQL (PostgreSQL)**     | Tabelas, regras de acesso e funções do banco (`supabase/`)           |
 | **Python**               | Script que monta a página de prévia (`scripts/artifact-page.py`)     |
 | **Markdown e Mermaid**   | Documentação e diagramas (este README, `ACESSIBILIDADE.md`, `docs/`) |
 
@@ -187,7 +198,10 @@ Uma demonstração de cerca de 10 minutos, que passa pelas duas disciplinas.
 | **Motion 14**             | Animações (entradas, header, carro)       | Respeita o movimento reduzido de forma centralizada (`MotionConfig`)         |
 | **Archivo Variable**      | Fonte única, com eixo de largura          | Servida pelo próprio site (sem depender do Google), comprimida para títulos  |
 | **lucide-react**          | Ícones em traço                           | Conjunto consistente, ícones decorativos com `aria-hidden`                   |
+| **Supabase**              | Banco PostgreSQL, login da equipe e API   | Plano gratuito, região São Paulo, regras de acesso por linha (RLS) no banco  |
+| **supabase-js**           | Cliente do Supabase no navegador          | Chama as funções do banco; só é baixado quando o site roda no modo online    |
 | **Vitest 5**              | Testes unitários e de casos de uso        | Integrado ao Vite, roda no Node em menos de 1 segundo                        |
+| **PGlite**                | PostgreSQL em memória para os testes      | Testa o SQL de verdade a cada `npm test`, sem instalar banco nem internet    |
 | **Playwright + axe-core** | Testes no navegador e de acessibilidade   | Automatiza teclado, foco, contraste e o WCAG em todas as telas e modos       |
 | **ESLint + Prettier**     | Qualidade e formatação                    | Código uniforme, revisões mais fáceis                                        |
 | **Git**                   | Versionamento                             | Histórico de cada entrega, commits descritivos em português                  |
@@ -197,9 +211,10 @@ Uma demonstração de cerca de 10 minutos, que passa pelas duas disciplinas.
 
 ## 6. Arquitetura
 
-O site é uma **aplicação de página única** (SPA) estática. Não há servidor: o build em `dist/`
-pode ser publicado em qualquer hospedagem. O agendamento foi escrito em **camadas**, para que as
-regras de negócio não dependam da tela nem do armazenamento.
+O site é uma **aplicação de página única** (SPA) estática: o build em `dist/` pode ser publicado
+em qualquer hospedagem. No modo online, ele conversa com o **Supabase** (PostgreSQL + login), que
+guarda a agenda e confere as regras de novo do lado do servidor. O agendamento foi escrito em
+**camadas**, para que as regras de negócio não dependam da tela nem do armazenamento.
 
 ```mermaid
 flowchart TB
@@ -209,7 +224,9 @@ flowchart TB
     H["hooks/useAgenda · dados que se atualizam sozinhos"]
   end
   subgraph Aplicacao["Aplicação"]
-    S["schedulingService · casos de uso UC-12 a UC-19"]
+    CT["SchedulingService · contrato dos casos de uso UC-12 a UC-19"]
+    S["schedulingService · versão de demonstração"]
+    SS["supabaseSchedulingService · versão online"]
     A["adminAuth · acesso ao painel"]
     M["messages · textos do WhatsApp"]
   end
@@ -219,34 +236,49 @@ flowchart TB
     V["validation · UC-20 Validar Dados"]
     PR["protocol · RN-07"]
   end
-  subgraph Dados["Dados"]
+  subgraph Dados["Dados no navegador"]
     I["AppointmentRepository · contrato"]
     L["localStorageRepository · navegador"]
     MEM["memoryRepository · testes"]
-    SUP["Supabase · futuro"]
   end
-  P --> C --> H --> S
+  subgraph Servidor["Servidor (Supabase)"]
+    RPC["funções SQL · conferem as regras de novo"]
+    DB[("PostgreSQL · RLS e índice único por horário")]
+    AU["Auth · login da equipe"]
+  end
+  P --> C --> H --> CT
+  CT -.-> S & SS
   S --> R & E & V & PR
   S --> I
   I -.-> L & MEM
-  I -.- SUP
+  SS --> R & V
+  SS --> RPC --> DB
+  A -.-> AU
 ```
 
 ### Padrões usados
 
 - **Camada de domínio pura:** `src/features/scheduling/domain/` não importa React nem o navegador.
   O "agora" chega por parâmetro, então os testes simulam qualquer data e hora.
-- **Repository:** as regras falam com um contrato (`AppointmentRepository`), não com o
-  `localStorage`. Trocar pelo Supabase é escrever outra implementação e mudar **uma linha** em
-  `src/features/scheduling/index.ts`. Os métodos já devolvem `Promise`, como uma API remota.
-- **Casos de uso como serviço:** cada método de `schedulingService` é um caso de uso da
-  especificação (`book` = UC-12, `cancelByCustomer` = UC-16, `changeStatus` = UC-17…).
+- **Contrato com duas implementações:** as telas falam com `SchedulingService`
+  (`services/contract.ts`), não com o armazenamento. `src/features/scheduling/index.ts` escolhe a
+  versão pelo build: com `VITE_SUPABASE_URL` e `VITE_SUPABASE_ANON_KEY`, a online; sem elas, a de
+  demonstração. O código do Supabase só é baixado no modo online (importação dinâmica).
+- **Repository:** na demonstração, as regras falam com `AppointmentRepository`, e o
+  `localStorage` e a memória (testes) são duas implementações do mesmo contrato.
+- **Casos de uso como serviço:** cada método do contrato é um caso de uso da especificação
+  (`book` = UC-12, `cancelByCustomer` = UC-16, `changeStatus` = UC-17…).
+- **Defesa em profundidade:** no modo online, o navegador valida para avisar rápido, e as funções
+  do banco validam de novo antes de gravar. As tabelas não aceitam acesso direto (RLS sem
+  permissões); visitante só enxerga quais horários estão ocupados, sem dado pessoal.
 - **Injeção de dependência:** o serviço recebe o repositório, o relógio e o gerador aleatório. Nos
   testes, entram um repositório em memória e um relógio fixo.
 - **Máquina de estados:** as transições permitidas ficam numa tabela (`TRANSITIONS`); a tela só
   mostra os botões que a tabela permite.
-- **Tempo real entre abas:** o repositório avisa mudanças pelo evento `storage` do navegador; o
-  hook `useAgenda` recarrega sozinho.
+- **Tempo real:** na demonstração, o repositório avisa mudanças pelo evento `storage` do navegador;
+  online, o serviço consulta a agenda a cada 30 segundos e quando a aba volta a ficar visível. Nos
+  dois, o hook `useAgenda` recarrega sozinho, e quem grava por último num horário já ocupado recebe
+  a recusa do banco (índice único).
 - **Navegação por hash** (`#/agendar`), sem biblioteca: funciona em qualquer hospedagem estática,
   até em subpasta, e cuida do foco e do título a cada troca de tela.
 
@@ -291,7 +323,7 @@ A matriz completa, com o arquivo e o teste de cada requisito, está em
 | Agendamento                             | RF-012 a RF-016 | Implementados                                                                       |
 | Notificação                             | RF-017, RF-024  | Parcial: o site monta a mensagem e abre o WhatsApp; envio automático exige servidor |
 | Cancelar, gerenciar, histórico, avaliar | RF-018 a RF-021 | Implementados                                                                       |
-| Acesso da oficina                       | RF-022          | Protótipo (senha conferida no navegador)                                            |
+| Acesso da oficina                       | RF-022          | Implementado online (Supabase Auth + lista da equipe); senha local na demonstração  |
 | Identificação para consulta             | RF-023          | Implementado (telefone + protocolo)                                                 |
 
 ### 7.3 Casos de uso
@@ -436,6 +468,8 @@ classDiagram
 | -------------------------- | --------------------- | -------------------------------------------- | ------------------------------------------------------------------------------------------------------------- |
 | Unidade (regras)           | Vitest                | `src/features/scheduling/domain/`            | TC-014 disponibilidade, TC-015 dados, TC-016 protocolo, TC-018 cancelamento, TC-019 estados, TC-021 avaliação |
 | Casos de uso               | Vitest                | `.../services/*.test.ts`                     | UC-12, UC-16, UC-17, UC-18, UC-19 com repositório em memória e relógio fixo                                   |
+| Banco de dados             | Vitest + PGlite       | `supabase/agenda.test.ts`                    | A migração num PostgreSQL de verdade: acesso por papel, RN-01 a RN-06, horário disputado, protocolo           |
+| Integração                 | Vitest + PGlite       | `supabase/servico.test.ts`                   | A versão online do serviço falando com o banco, no formato do Supabase (nomes, datas e códigos de erro)       |
 | Acessibilidade             | Playwright + axe-core | `scripts/qa/axe.cjs`, `telas.cjs`            | WCAG 2.2 AA em todas as telas e estados, em 4 modos e 2 larguras                                              |
 | Ponta a ponta pelo teclado | Playwright            | `scripts/qa/keyboard.cjs`, `agendamento.cjs` | Fluxos completos só com teclado, foco, erros e troca de tela                                                  |
 | Layout                     | Playwright            | `scripts/qa/layout.cjs`                      | Espaçamento de texto, fonte 150%, sem cortes de 320 a 1920 px, foco não coberto                               |
@@ -446,8 +480,8 @@ minuto depois; antecedência de 2 h; ano 1949/1950), **tabela de decisão** (hor
 passado, fora da janela), **transição de estados** (toda transição válida passa e toda inválida é
 recusada) e **concorrência** (dois pedidos para o mesmo horário: o segundo é recusado ao gravar).
 
-Resultado desta entrega: 54 de 54 testes unitários, 0 violações do axe em 112 verificações, 39 de
-39 verificações de teclado.
+Resultado desta entrega: 77 de 77 testes automatizados (54 de regras e casos de uso, 18 do banco e
+5 de integração), 0 violações do axe em 120 verificações, 39 de 39 verificações de teclado.
 
 ### 7.8 Qualidade de código
 
@@ -521,6 +555,10 @@ npm run dev        # http://localhost:5173
 **Painel da oficina (demonstração):** `#/painel`, senha `oficina2026`. Use "Carregar exemplos"
 para preencher a agenda com pedidos em todas as situações.
 
+**Modo online:** copie `.env.example` para `.env`, cole a URL e a chave anon do Supabase e rode
+`npm run dev` ou `npm run build`. O passo a passo do banco, do login da equipe e do domínio está em
+[`PUBLICAR.md`](PUBLICAR.md).
+
 **Testes de navegador e acessibilidade** (precisam do Playwright com Chromium):
 
 ```bash
@@ -540,7 +578,8 @@ node scripts/qa/layout.cjs
 ```
 
 **Publicação:** `npm run build` gera um site estático em `dist/`, com caminhos relativos. Pode ir
-para qualquer hospedagem (Vercel, Netlify, Cloudflare Pages, Hostinger…), na raiz ou numa subpasta.
+para qualquer hospedagem (Cloudflare Pages, Netlify, Vercel, Hostinger…), na raiz ou numa subpasta.
+Guia completo, do banco ao domínio: [`PUBLICAR.md`](PUBLICAR.md).
 
 ---
 
@@ -558,13 +597,15 @@ para qualquer hospedagem (Vercel, Netlify, Cloudflare Pages, Hostinger…), na r
 | As situações e transições                    | `src/features/scheduling/domain/status.ts`                                             |
 | Os textos do WhatsApp                        | `src/features/scheduling/services/messages.ts`                                         |
 | A senha de demonstração                      | `src/features/scheduling/services/adminAuth.ts` (resumo SHA-256)                       |
+| Quem entra no painel online                  | Supabase Auth + tabela `oficina_admins` (passo 1 do `PUBLICAR.md`)                     |
+| O aviso de privacidade                       | `src/pages/PrivacyPage.tsx` (atualize a data da revisão)                               |
 | Uma tela nova                                | `src/app/routes.ts` (endereço e título) e `src/pages/`                                 |
 
-**Trocar o armazenamento por um banco (Supabase, por exemplo):** crie
-`src/features/scheduling/data/supabaseRepository.ts` implementando `AppointmentRepository` e troque
-a linha `createLocalStorageRepository()` em `src/features/scheduling/index.ts`. Telas, regras e
-testes não mudam. No banco, crie uma restrição única para (data, horário) dos agendamentos ativos,
-que garante o RNF-06 também com vários clientes ao mesmo tempo.
+**Mudar uma regra da agenda:** a regra vive em dois lugares de propósito: no domínio
+(`src/features/scheduling/domain/`, para avisar o cliente na hora) e nas funções do banco
+(`supabase/migrations/`, para ninguém contornar pelo navegador). Mude os dois, crie uma migração
+nova em vez de editar a antiga e rode `npm test`: os testes de integração mostram se os lados ainda
+concordam.
 
 ---
 
@@ -573,14 +614,14 @@ que garante o RNF-06 também com vários clientes ao mesmo tempo.
 ```
 src/
   app/                      navegação: rotas, leitura do endereço, foco a cada troca de tela
-  pages/                    uma página por tela (inicial, agendar, meus agendamentos, painel, acessibilidade)
+  pages/                    uma página por tela (inicial, agendar, meus agendamentos, painel, acessibilidade, privacidade)
   features/scheduling/      o sistema de agendamento
     domain/                 regras puras e seus testes (tipos, calendário, regras, status, protocolo, validação)
-    data/                   contrato do repositório, localStorage, memória e dados de exemplo
-    services/               casos de uso, acesso ao painel e mensagens do WhatsApp
+    data/                   repositório (localStorage, memória, exemplos) e supabase/ (versão online)
+    services/               contrato dos casos de uso, versão local, acesso ao painel e mensagens do WhatsApp
     hooks/                  useAgenda (dados que se atualizam sozinhos)
     components/             booking/ (etapas e comprovante), customer/ (consulta e avaliação), admin/ (painel)
-    index.ts                monta o serviço com o repositório (troque o armazenamento aqui)
+    index.ts                escolhe a versão (online ou demonstração) pelas variáveis do build
   components/
     a11y/                   atalhos do eMAG e painel de acessibilidade
     car/                    o 350Z: DriftCar, pista de box, zerinho e carro estacionado
@@ -593,9 +634,11 @@ src/
   hooks/                    movimento reduzido, visibilidade, preferências de acessibilidade
   lib/                      acessibilidade, geometria da pista, WhatsApp, utilidades
   styles/                   tokens, formulários, telas internas e um CSS por seção
+supabase/                   migração do banco (tabelas, RLS, funções) e os testes dela no PGlite
 scripts/qa/                 testes de navegador e acessibilidade
 docs/                       rastreabilidade de requisitos e base de conhecimento da NSC
 ACESSIBILIDADE.md           critérios WCAG atendidos, contraste e verificações
+PUBLICAR.md                 como colocar no ar: Supabase, hospedagem e domínio
 DESIGN.md                   sistema visual
 PRODUCT.md                  fatos do negócio que o design respeita
 CLAUDE.md                   resumo do projeto para o assistente de IA
@@ -639,11 +682,13 @@ ffmpeg -ss 1 -i original.mp4 -frames:v 1 -vf scale=1920:-2 public/media/hero-pos
 
 **Limitações conhecidas desta versão (protótipo acadêmico):**
 
-- **Sem servidor:** os agendamentos ficam no `localStorage` do navegador. A oficina e o cliente
-  precisam usar o mesmo navegador para verem os mesmos dados (ótimo para a demonstração, não para
-  produção).
-- **Acesso do painel:** a senha é conferida no navegador. Isso demonstra o fluxo, mas não protege
-  dados de verdade.
+- **Modo de demonstração:** sem as chaves do Supabase, os agendamentos ficam no `localStorage` e a
+  senha do painel é conferida no navegador. Ótimo para a apresentação, não para clientes de verdade.
+  O modo online resolve as duas coisas (ver `PUBLICAR.md`).
+- **Tempo real online:** a agenda se atualiza a cada 30 segundos, não no mesmo instante. Um
+  horário disputado nunca é gravado duas vezes, porque o banco recusa o segundo pedido.
+- **Pedidos falsos:** agendar não pede login (é o que a oficina quer); ainda não há desafio
+  anti-robô.
 - **Notificações:** o site prepara a mensagem e abre o WhatsApp; não envia sozinho.
 - **Conteúdo provisório:** WhatsApp e horário, itens dos serviços e a foto do box. As fotos da
   Trajetória são de terceiros, com crédito: precisam de autorização (ou do acervo da NSC).
@@ -653,12 +698,11 @@ ffmpeg -ss 1 -i original.mp4 -frames:v 1 -vf scale=1920:-2 public/media/hero-pos
 
 **Próximos passos:**
 
-1. Banco de dados e autenticação no servidor (Supabase: Auth, regras de acesso por linha e
-   restrição única por horário).
+1. Trocar o conteúdo provisório pelo real e publicar no domínio da oficina (`PUBLICAR.md`).
 2. Envio automático de confirmação pelo WhatsApp (API oficial) ou por e-mail.
-3. Testes manuais com leitores de tela e com pessoas usuárias.
-4. Medir e otimizar o carregamento (vídeo e fontes) para o RNF-03.
-5. Trocar o conteúdo provisório pelo real e publicar no domínio da oficina.
+3. Desafio anti-robô no agendamento (Cloudflare Turnstile) e limite de pedidos por telefone.
+4. Testes manuais com leitores de tela e com pessoas usuárias.
+5. Medir e otimizar o carregamento (vídeo e fontes) para o RNF-03.
 
 ---
 
