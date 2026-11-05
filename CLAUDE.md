@@ -92,6 +92,23 @@ economizar tokens). Código, commits e docs ficam em texto normal.
   itens dos serviços, a foto do box e as fotos da Trajetória (de terceiros, com crédito; o usuário
   vai mandar versões tratadas para trocar uma a uma em `src/assets/images/history/`).
 
+## Publicação (em andamento)
+
+Decisões do usuário (5/11/2026): banco no Supabase (região São Paulo), hospedagem no Cloudflare
+Pages (projeto `nsc-garage`), endereço **`nsc.vox.dev.br`** (domínio `vox.dev.br` no Registro.br;
+só um CNAME `nsc` → `nsc-garage.pages.dev`, sem mexer nos outros registros nem nos servidores DNS).
+WhatsApp de testes: `5513981197295`. Siga o `PUBLICAR.md` na ordem (passos 1 a 5).
+
+- O usuário digita as próprias senhas e e-mails de login; você navega, preenche o resto e confere.
+- A chave `service_role`/`secret` nunca vai para o site, para o `.env` nem para o chat. O `.env`
+  leva só a URL e a chave anon/publishable.
+- Conta da oficina no painel: o usuário cria em Authentication → Users; você roda o `insert` em
+  `oficina_admins` com o e-mail que ele disser.
+- Antes de publicar, rode a verificação rápida e confira o build com `npm run preview`: um
+  agendamento de teste tem que aparecer no painel. Depois de publicar, os itens do passo 5.
+- Ao terminar, anote aqui o que ficou pronto (referência do projeto Supabase, sem chaves, e a data
+  da publicação) e tire o "em andamento" do título.
+
 ## Prévia e git
 
 - Prévia privada: https://claude.ai/artifact/QqUqWcAq4dmLca1rbQRTda. Para atualizar: `npm run build`,
@@ -99,6 +116,5 @@ economizar tokens). Código, commits e docs ficam em texto normal.
   passando em `files` os assets de hash novo e `null` nos antigos (liste com `scope: "files"`). A
   prévia bloqueia arquivos de fonte e parâmetros de URL: o script embute a Archivo na página.
 - Git local na branch `main`, sem remoto. Commits em português, autor "NSC Garage".
-- Próximas fases: publicar no domínio (falta o número do WhatsApp, o domínio e as chaves do
-  Supabase do usuário), notificação automática, anti-robô no agendamento, testes manuais com
-  leitores de tela, medir desempenho (RNF-03).
+- Próximas fases: publicar em `nsc.vox.dev.br` (seção acima), notificação automática, anti-robô no
+  agendamento, testes manuais com leitores de tela, medir desempenho (RNF-03).

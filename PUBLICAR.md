@@ -120,9 +120,26 @@ momento do build).
 ## 3. Hospedagem (Cloudflare Pages)
 
 1. Crie uma conta gratuita em [cloudflare.com](https://dash.cloudflare.com).
-2. **Workers & Pages → Create → Pages → Upload assets** (envio direto).
-3. Nome do projeto: `nsc-garage`. Arraste a pasta `dist/` inteira e clique em **Deploy**.
-4. Em um minuto o site abre em `https://nsc-garage.pages.dev`. Teste tudo lá antes do domínio.
+2. Envie a pasta `dist/` de um destes jeitos:
+   - **Pelo painel:** **Workers & Pages → Create → Pages → Upload assets** (envio direto). Nome do
+     projeto: `nsc-garage`. Arraste a pasta `dist/` inteira e clique em **Deploy**.
+   - **Pelo terminal** (o jeito mais fácil para um assistente de IA no seu computador): o primeiro
+     comando abre o navegador para você autorizar, os outros criam o projeto e publicam.
+
+     ```bash
+     npx wrangler login
+     ```
+
+     ```bash
+     npx wrangler pages project create nsc-garage --production-branch main
+     ```
+
+     ```bash
+     npx wrangler pages deploy dist --project-name nsc-garage --branch main
+     ```
+
+3. Em um minuto o site abre em `https://nsc-garage.pages.dev` (se o nome estiver ocupado, a
+   Cloudflare acrescenta um sufixo: use o endereço que ela mostrar). Teste tudo lá antes do domínio.
 
 O arquivo `public/_headers` (copiado para `dist/`) liga cabeçalhos de segurança e o cache longo dos
 arquivos com hash. Como a navegação usa `#/`, não é preciso nenhuma regra de redirecionamento.
@@ -138,9 +155,30 @@ configurações do projeto). Cada envio para a branch principal publica sozinho.
 
 ## 4. Apontar o domínio
 
-### Se o domínio é `.com.br` (Registro.br) ou de outro registrador, com Cloudflare Pages
+### Num subdomínio, mantendo o DNS no Registro.br (o caso da NSC: `nsc.vox.dev.br`)
 
-O jeito mais simples é deixar a Cloudflare cuidar do DNS:
+Só um registro novo; o resto do domínio (site principal, e-mail) não muda.
+
+1. **Primeiro na Cloudflare:** no projeto do Pages, **Custom domains → Set up a custom domain**,
+   digite `nsc.vox.dev.br` e siga até ela mostrar o registro CNAME a criar. Nessa ordem: um CNAME
+   criado antes de cadastrar o domínio no Pages dá erro 522.
+2. **Depois no Registro.br:** [registro.br](https://registro.br) → **Painel** → `vox.dev.br` →
+   **DNS** → **Editar zona** (ou "Configurar zona DNS") → **Nova entrada**:
+
+   | Tipo  | Nome  | Dados                  |
+   | ----- | ----- | ---------------------- |
+   | CNAME | `nsc` | `nsc-garage.pages.dev` |
+
+   Salve. Se o painel disser que o domínio usa outros servidores DNS (de uma hospedagem, por
+   exemplo), crie o mesmo CNAME lá, e não no Registro.br.
+
+3. Volte ao Pages e espere o domínio ficar **Active**. O HTTPS é emitido sozinho, em minutos (às
+   vezes leva algumas horas, enquanto o DNS se espalha).
+4. No Supabase, **Authentication → URL Configuration → Site URL**: `https://nsc.vox.dev.br`.
+
+### No domínio inteiro (raiz), passando o DNS para a Cloudflare
+
+A Cloudflare Pages só aceita a raiz do domínio (`seudominio.com.br`) quando ela cuida do DNS:
 
 1. No painel da Cloudflare, **Add a domain** (plano Free) e digite o seu domínio. Ela importa os
    registros que já existem.
@@ -199,10 +237,12 @@ No Netlify: **Domain management → Add a domain**. No painel do registrador, cr
 
 ## Problemas comuns
 
-| Sintoma                                 | Causa provável e solução                                                              |
-| --------------------------------------- | ------------------------------------------------------------------------------------- |
-| "Não foi possível falar com a agenda"   | URL ou chave erradas no build, ou projeto pausado no Supabase                         |
-| O site diz "versão de demonstração"     | O build foi gerado sem o `.env`. Gere de novo com as duas variáveis                   |
-| "Este usuário não tem acesso ao painel" | O usuário não está em `oficina_admins` (passo 1.5)                                    |
-| Horários de hoje somem antes da hora    | O banco usa o horário de Brasília (`America/Sao_Paulo`) e 2 h de antecedência (RN-03) |
-| Domínio não abre depois de horas        | Confira os servidores DNS no registrador e se o domínio está "Active" na Cloudflare   |
+| Sintoma                                 | Causa provável e solução                                                                    |
+| --------------------------------------- | ------------------------------------------------------------------------------------------- |
+| "Não foi possível falar com a agenda"   | URL ou chave erradas no build, ou projeto pausado no Supabase                               |
+| O site diz "versão de demonstração"     | O build foi gerado sem o `.env`. Gere de novo com as duas variáveis                         |
+| "Este usuário não tem acesso ao painel" | O usuário não está em `oficina_admins` (passo 1.5)                                          |
+| Horários de hoje somem antes da hora    | O banco usa o horário de Brasília (`America/Sao_Paulo`) e 2 h de antecedência (RN-03)       |
+| Domínio não abre depois de horas        | Confira os servidores DNS no registrador e se o domínio está "Active" na Cloudflare         |
+| Erro 522 no subdomínio                  | O CNAME foi criado antes de cadastrar o domínio no Pages: cadastre lá e espere validar      |
+| O HTTPS do domínio nunca fica pronto    | Algum registro `CAA` no domínio proíbe a autoridade da Cloudflare: inclua-a ou apague o CAA |
