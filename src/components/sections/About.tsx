@@ -3,11 +3,18 @@ import workshopPhoto from "@/assets/images/workshop-drift.jpg";
 import { MaskedLine, Reveal } from "@/components/ui/Reveal";
 import { milestones } from "@/content/milestones";
 
+/**
+ * Fatos da oficina. Fonte: pesquisa da equipe em fontes públicas
+ * (04/11/2026); a sigla foi informada pela própria equipe NSC.
+ * Só entram fatos confirmados por duas ou mais fontes.
+ */
 const facts = [
-  { label: "Fundador", value: "Neto" },
+  { label: "Fundador", value: "Neto (Walter Santana Neto)" },
+  { label: "NSC", value: "Neto Street Car" },
   { label: "Na pista desde", value: String(milestones[0]?.year ?? "") },
-  { label: "Títulos", value: "Internacionais" },
-  { label: "Especialidade", value: "Drift e competição" },
+  { label: "Super Drift Brasil", value: "6 títulos seguidos, 2015 a 2020" },
+  { label: "Brasileiro de Drift", value: "4 títulos seguidos, 2016 a 2019" },
+  { label: "Mundial", value: "Vice no King of Nations, 2016" },
 ];
 
 /**
@@ -25,8 +32,8 @@ export function About() {
         <Reveal order={1}>
           <p className="type-lead about-lead">
             No automobilismo, a bandeira quadriculada nunca é o fim. Com mais de uma década de
-            conquistas, títulos internacionais e o pioneirismo de estruturar o drift no Brasil, a
-            NSC Garage não vive do passado.
+            conquistas, um vice-campeonato mundial, o título do Hyperdrive na Netflix e o Super
+            Drift Brasil, criado pelo próprio Neto, a NSC Garage não vive do passado.
           </p>
         </Reveal>
 

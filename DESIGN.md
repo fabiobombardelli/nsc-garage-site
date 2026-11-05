@@ -356,6 +356,7 @@ O traçado em S é calculado a partir dos marcos, com um ápice por marco altern
 - **Cones:** um por marco, na borda voltada para o conteúdo. Ficam apagados (0.45) e acendem (1.0, com um anel que pulsa uma vez) quando o carro passa.
 - **Carro:** o 350Z (48px; 32px no celular) tem o ângulo de drift calculado pela curvatura e solta fumaça só enquanto a página rola.
 - **Anos:** os dígitos giram como um contador mecânico (1100ms, 70ms por coluna); leitores de tela recebem o ano inteiro.
+- **Card do marco:** foto 3:2 com o crédito embaixo em small `muted`; o ano em Head comprimido com a data (ou o campeonato) ao lado em small 600 `muted`; título em Lead 600; a primeira frase do texto em `muted` e "Ler mais" (link sublinhado) abre o resto no próprio card. Marco sem foto verificada aparece só com texto, sem moldura vazia.
 
 ### A pista de box (progresso do agendamento)
 

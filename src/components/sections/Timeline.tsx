@@ -1,8 +1,9 @@
 import { m } from "motion/react";
-import slidePhoto from "@/assets/images/footage/slide-wide.webp";
+import openingPhoto from "@/assets/images/history/abertura-r34-fumaca.webp";
 import { DriftCar } from "@/components/car/DriftCar";
 import { FloorLane } from "@/components/timeline/FloorLane";
 import { Milestone } from "@/components/timeline/Milestone";
+import { href } from "@/app/router";
 import { MaskedLine, Reveal } from "@/components/ui/Reveal";
 import { milestones } from "@/content/milestones";
 import { site } from "@/content/site";
@@ -17,18 +18,20 @@ function getEras() {
     .map((era) => {
       const first = era[0]!;
       const last = era[era.length - 1]!;
-      return { label: `${first.year}–${last.year}`, href: `#marco-${first.year}` };
+      return { label: `${first.year}–${last.year}`, href: `#marco-${first.id}` };
     });
 }
 
 /**
- * Trajetória: a foto do 350Z abre a seção numa faixa escura e, abaixo, o
+ * Trajetória: uma foto de pista abre a seção numa faixa escura e, abaixo, o
  * piso do box com a pista por onde o carro derrapa conforme a página rola.
  * A pista começa por baixo da faixa, então pista e carro saem de trás dela.
+ * O título conta a origem: Neto conheceu o drift no Japão, trouxe para
+ * Santos, e a oficina levou o trabalho ao mundo.
  */
 export function Timeline() {
   const { geometry, stageRef, listRef, pathRef, tyreMarksRef, conesRef, carRef } = useDriftCar();
-  const firstYear = milestones[0]?.year;
+  const first = milestones[0];
   const eras = getEras();
 
   return (
@@ -37,10 +40,10 @@ export function Timeline() {
       <div className="timeline-opening">
         <figure className="plate-photo">
           <m.img
-            src={slidePhoto}
-            alt="O 350Z #69 da NSC passando de lado em meio à fumaça"
-            width={1920}
-            height={1080}
+            src={openingPhoto}
+            alt="Skyline R34 preto preparado pela NSC desaparecendo na fumaça dos pneus, no King of Nations de 2016"
+            width={1500}
+            height={1002}
             loading="lazy"
             initial={{ opacity: 0, scale: 1.08 }}
             whileInView={{ opacity: 1, scale: 1 }}
@@ -60,25 +63,26 @@ export function Timeline() {
 
             <div className="plate-copy">
               <h2 id="trajetoria-title" className="type-head">
-                <MaskedLine>Andamos de lado</MaskedLine>{" "}
-                <MaskedLine delay={0.08}>desde {firstYear}</MaskedLine>
+                <MaskedLine>Do Japão a Santos.</MaskedLine>{" "}
+                <MaskedLine delay={0.08}>De Santos para o mundo.</MaskedLine>
               </h2>
               <Reveal order={2}>
                 <p className="type-lead">
-                  Mais de uma década entre o box e a pista. Cada marco é um cone no traçado, e o
-                  350Z #69 passa por todos.
+                  Neto conheceu o drift morando no Japão e trouxe a paixão para a Baixada Santista.
+                  Desde {first?.year}, cada marco é um cone no traçado, e o 350Z passa por todos.
                 </p>
               </Reveal>
             </div>
 
             <div className="plate-actions">
-              <a href={`#marco-${firstYear}`} className="plate-cell plate-cell-light">
+              <a href={`#marco-${first?.id}`} className="plate-cell plate-cell-light">
                 Ver os marcos
               </a>
-              <a href="#contato" className="plate-cell">
+              <a href={href("agendar")} className="plate-cell">
                 {site.primaryAction}
               </a>
             </div>
+            <p className="plate-credit">Foto da abertura: Drifted</p>
           </div>
         </div>
       </div>
@@ -98,8 +102,8 @@ export function Timeline() {
           <ol ref={listRef} className="milestones" aria-label="Marcos da trajetória">
             {milestones.map((milestone, index) => (
               <li
-                key={milestone.year}
-                id={`marco-${milestone.year}`}
+                key={milestone.id}
+                id={`marco-${milestone.id}`}
                 tabIndex={-1}
                 className="milestone"
                 data-side={index % 2 === 0 ? "right" : "left"}

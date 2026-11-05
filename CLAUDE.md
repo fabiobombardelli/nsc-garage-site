@@ -35,8 +35,8 @@ economizar tokens). Código, commits e docs ficam em texto normal.
 
 ## Mapa
 
-- `src/content/`: textos e dados (`site.ts` com nome, slogan, contatos e menu; `milestones.ts`;
-  `services.ts`).
+- `src/content/`: textos e dados (`site.ts` com nome, slogan, contatos e menu; `milestones.ts` com
+  15 marcos, id único, data, foto com crédito ou `null`; `services.ts`).
 - `src/components/sections/`: Hero (vídeo preso com saída das frases; `useFitsViewport`), Timeline
   (faixa escura + pista), About, Services (accordion), Contact.
 - `src/components/timeline/`: FloorLane (SVG da pista, cones, barreiras de pneus), DriftCar,
@@ -76,8 +76,11 @@ economizar tokens). Código, commits e docs ficam em texto normal.
 - Regras de negócio só em `features/scheduling/domain/` (nunca em componente), cada uma com teste
   que cita o TC. Painel: senha de demonstração `oficina2026` (protótipo, documentado no README).
 - Integrantes do grupo: o README tem espaço reservado; não invente nomes.
-- Nunca invente títulos, números, depoimentos ou patrocinadores. São provisórios: contatos
-  (`site.ts`), textos e anos dos marcos, itens dos serviços, fotos de box e peças.
+- Nunca invente títulos, números, depoimentos ou patrocinadores. Fatos da NSC só de
+  `docs/historia-nsc.md` (base de conhecimento com fontes e confiança; usar só os confirmados). Os
+  marcos vêm da seção 11 do documento da equipe. São provisórios: WhatsApp e horário (`site.ts`),
+  itens dos serviços, a foto do box e as fotos da Trajetória (de terceiros, com crédito; o usuário
+  vai mandar versões tratadas para trocar uma a uma em `src/assets/images/history/`).
 
 ## Prévia e git
 

@@ -128,6 +128,11 @@
     }
   }
 
+  .plate-credit {
+    color: var(--color-muted);
+    font-size: var(--text-small);
+  }
+
   .plate-cell-light {
     background: var(--color-ink);
     color: var(--color-on-light);
@@ -463,12 +468,46 @@
     }
   }
 
-  .milestone-year {
+  /* Ano em destaque e, ao lado, a data em letra pequena. */
+  .milestone-when {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 0.25rem 0.875rem;
     margin-top: 1.25rem;
+  }
+
+  .milestone-content.is-text-only .milestone-when {
+    margin-top: 0;
+  }
+
+  .milestone-year {
     font-size: var(--text-head);
     font-weight: 800;
     font-stretch: 62%;
     line-height: 1;
+  }
+
+  .milestone-date {
+    color: var(--color-muted);
+    font-size: var(--text-small);
+    font-weight: 600;
+    letter-spacing: 0.02em;
+  }
+
+  .milestone-figure {
+    margin: 0;
+  }
+
+  .milestone-credit {
+    margin-top: 0.4rem;
+    color: var(--color-muted);
+    font-size: var(--text-small);
+    font-weight: 400;
+  }
+
+  .milestone-more {
+    margin-top: 0.25rem;
   }
 
   .milestone-title {
@@ -545,7 +584,7 @@ html.js:not([data-motion="reduce"]) {
       transition: transform 1500ms cubic-bezier(0.33, 1, 0.68, 1);
     }
 
-    & :is(.milestone-title, .milestone-text) {
+    & :is(.milestone-title, .milestone-text, .milestone-date, .milestone-more, .milestone-credit) {
       transition:
         opacity 700ms ease 250ms,
         transform 900ms var(--ease-out) 250ms;
@@ -561,7 +600,7 @@ html.js:not([data-motion="reduce"]) {
       transform: scale(1.12);
     }
 
-    & :is(.milestone-title, .milestone-text) {
+    & :is(.milestone-title, .milestone-text, .milestone-date, .milestone-more, .milestone-credit) {
       opacity: 0;
       transform: translateY(1rem);
     }

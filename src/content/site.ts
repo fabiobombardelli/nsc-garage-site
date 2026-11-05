@@ -16,7 +16,8 @@ export const site = {
 
 /**
  * Dados de contato.
- * TODO: substituir pelos dados reais da oficina antes de publicar.
+ * Endereço, telefone e Instagram: dados públicos da oficina (pesquisa de
+ * 04/11/2026). TODO: o WhatsApp e o horário ainda são provisórios.
  */
 export const contact = {
   whatsapp: {
@@ -24,11 +25,17 @@ export const contact = {
     number: "5500000000000",
     display: "(00) 00000-0000",
   },
+  /** Telefone fixo da oficina. */
+  phone: {
+    /** Para o link tel: (DDI + DDD + número). */
+    tel: "+551332323920",
+    display: "(13) 3232-3920",
+  },
   /** Usuário do Instagram sem o @. Deixe vazio para esconder. */
-  instagram: "",
+  instagram: "nscgarage",
   address: {
-    street: "Endereço da oficina",
-    city: "Cidade, UF",
+    street: "R. Braz Cubas, 270",
+    city: "Santos, SP",
   },
   hours: ["Segunda a sexta, 8h às 18h", "Sábado, 8h às 12h"],
 } as const;

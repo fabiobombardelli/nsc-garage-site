@@ -32,9 +32,29 @@ de drift e competição e faz manutenção de esportivos e importados.
 
 ### O cliente
 
-A NSC Garage é uma oficina fundada e liderada por Neto, com mais de uma década de resultados,
-títulos internacionais e um papel pioneiro na estruturação do drift no Brasil. Atende dois
-públicos com o mesmo peso:
+A **NSC Garage** (Neto Street Car) fica na R. Braz Cubas, 270, em Santos (SP). Foi fundada e é
+liderada por **Walter Santana Neto**, o Neto, que conheceu o drift morando no Japão e trouxe a
+modalidade para a Baixada Santista. O site oficial a descreve como "pioneira na manutenção e
+preparação de veículos importados diretamente do Japão para o Drift".
+
+A história pública da oficina anda junto com a carreira do piloto da casa, Diego Higa, filho do
+Neto:
+
+| Ano  | Marco                                                                                          |
+| ---- | ---------------------------------------------------------------------------------------------- |
+| 2012 | Primeiro carro de campeonato: Silvia S13 branco, no Paulista de Piracicaba                     |
+| 2013 | A NSC aparece como equipe, com estande no X-treme Motorsports                                  |
+| 2015 | Neto cria o **Super Drift Brasil**; primeiro título da casa                                    |
+| 2016 | **Vice-campeonato mundial** do King of Nations, de Skyline R34                                 |
+| 2019 | **Campeão do Hyperdrive** (Netflix) com o Mustang nº 69 patrocinado pela NSC; tetra brasileiro |
+| 2020 | **Seis títulos seguidos** do Super Drift Brasil (2015–2020) e quatro Brasileiros (2016–2019)   |
+| 2023 | Formula Drift, nos EUA, com o GT86 2JZ de cerca de mil cavalos                                 |
+| 2026 | Primeira competição no Japão, onde tudo começou; Camaro novo na Escola de Drift                |
+
+A pesquisa completa, com o nível de confiança de cada fato, as divergências entre fontes e as
+perguntas em aberto, está em [`docs/historia-nsc.md`](docs/historia-nsc.md).
+
+A oficina atende dois públicos com o mesmo peso:
 
 - **pilotos e equipes de drift e automobilismo**, que procuram quem monte e acerte carros de
   competição;
@@ -574,7 +594,7 @@ src/
   lib/                      acessibilidade, geometria da pista, WhatsApp, utilidades
   styles/                   tokens, formulários, telas internas e um CSS por seção
 scripts/qa/                 testes de navegador e acessibilidade
-docs/                       rastreabilidade de requisitos
+docs/                       rastreabilidade de requisitos e base de conhecimento da NSC
 ACESSIBILIDADE.md           critérios WCAG atendidos, contraste e verificações
 DESIGN.md                   sistema visual
 PRODUCT.md                  fatos do negócio que o design respeita
@@ -583,13 +603,13 @@ CLAUDE.md                   resumo do projeto para o assistente de IA
 
 ### Mídias
 
-| Arquivo                                | Origem e uso                                                                                      |
-| -------------------------------------- | ------------------------------------------------------------------------------------------------- |
-| `src/assets/brand/logo.webp`           | Logo enviado pelo cliente (fundo transparente)                                                    |
-| `src/assets/images/drift-car-top.webp` | 350Z visto de cima, enviado pelo cliente e clareado: dianteira **para baixo**, fundo transparente |
-| `src/assets/images/footage/*.webp`     | Quadros extraídos do vídeo da equipe                                                              |
-| `src/assets/images/*-drift.jpg`        | Fotos ilustrativas de box e peças: **trocar pelas reais**                                         |
-| `public/media/hero-drift(-mobile).*`   | Vídeo do topo (1080p no computador, 720p no celular) e o poster                                   |
+| Arquivo                                | Origem e uso                                                                                                 |
+| -------------------------------------- | ------------------------------------------------------------------------------------------------------------ |
+| `src/assets/brand/logo.webp`           | Logo enviado pelo cliente (fundo transparente)                                                               |
+| `src/assets/images/drift-car-top.webp` | 350Z visto de cima, enviado pelo cliente e clareado: dianteira **para baixo**, fundo transparente            |
+| `src/assets/images/history/*.webp`     | Fotos da Trajetória, de fontes públicas (crédito no site): **trocar pelas tratadas e confirmar autorização** |
+| `src/assets/images/workshop-drift.jpg` | Foto ilustrativa do box (seção Oficina): **trocar pela real**                                                |
+| `public/media/hero-drift(-mobile).*`   | Vídeo do topo (1080p no computador, 720p no celular) e o poster                                              |
 
 Para gerar o vídeo do topo a partir do original com [ffmpeg](https://ffmpeg.org):
 
@@ -625,7 +645,8 @@ ffmpeg -ss 1 -i original.mp4 -frames:v 1 -vf scale=1920:-2 public/media/hero-pos
 - **Acesso do painel:** a senha é conferida no navegador. Isso demonstra o fluxo, mas não protege
   dados de verdade.
 - **Notificações:** o site prepara a mensagem e abre o WhatsApp; não envia sozinho.
-- **Conteúdo provisório:** contatos, marcos da Trajetória, itens dos serviços e duas fotos.
+- **Conteúdo provisório:** WhatsApp e horário, itens dos serviços e a foto do box. As fotos da
+  Trajetória são de terceiros, com crédito: precisam de autorização (ou do acervo da NSC).
 - **Desempenho (RNF-03)** ainda não foi medido com Lighthouse em 4G.
 - **Leitores de tela:** os testes automáticos passam; falta o roteiro manual com NVDA, VoiceOver e
   TalkBack.

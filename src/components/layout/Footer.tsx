@@ -47,6 +47,10 @@ export function Footer({ route }: { route: Route }) {
               {contact.whatsapp.display}
               <span className="sr-only-text"> (abre em nova aba)</span>
             </a>
+            <a className="footer-place" href={`tel:${contact.phone.tel}`}>
+              <span className="footer-place-label">Telefone</span>
+              {contact.phone.display}
+            </a>
             <p className="footer-place">
               <span className="footer-place-label">Endereço</span>
               {contact.address.street}, {contact.address.city}
@@ -59,6 +63,7 @@ export function Footer({ route }: { route: Route }) {
                 rel="noopener noreferrer"
               >
                 <span className="footer-place-label">Instagram</span>@{contact.instagram}
+                <span className="sr-only-text"> (abre em nova aba)</span>
               </a>
             )}
             <p className="footer-hours">

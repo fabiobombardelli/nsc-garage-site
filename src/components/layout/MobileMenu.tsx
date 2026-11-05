@@ -109,6 +109,8 @@ export function MobileMenu({ open, onClose, route }: MobileMenuProps) {
             <p>
               WhatsApp {contact.whatsapp.display}
               <br />
+              Telefone {contact.phone.display}
+              <br />
               {contact.address.street}, {contact.address.city}
             </p>
           </div>
