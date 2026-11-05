@@ -1,5 +1,7 @@
 import { useRef, type FormEvent } from "react";
+import { href } from "@/app/router";
 import { Field, FieldError, RequiredNote } from "@/components/forms/Field";
+import { backendMode } from "../..";
 import {
   FIELD_LIMITS,
   formatPhone,
@@ -212,8 +214,19 @@ export function CustomerStep({
             </label>
           </div>
           <p id={`${ids.consent}-dica`} className="field-hint">
-            Nome, telefone, e-mail e carro servem para confirmar e registrar o atendimento. Nesta
-            versão de demonstração, eles ficam guardados só neste navegador.
+            Nome, telefone, e-mail e carro servem só para confirmar e registrar o atendimento.{" "}
+            {backendMode === "supabase" ? (
+              <>
+                Eles ficam na agenda da oficina, com acesso restrito à equipe.{" "}
+                <a className="text-link" href={href("privacidade")} target="_blank" rel="noopener">
+                  Política de privacidade
+                  <span className="sr-only-text"> (abre em nova aba)</span>
+                </a>
+                .
+              </>
+            ) : (
+              "Nesta versão de demonstração, eles ficam guardados só neste navegador."
+            )}
           </p>
           {errors.consent && <FieldError id={`${ids.consent}-erro`}>{errors.consent}</FieldError>}
         </div>

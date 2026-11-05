@@ -1,5 +1,4 @@
 import { schedulingRules, type SchedulingRules } from "@/content/scheduling";
-import { services } from "@/content/services";
 import type { AppointmentRepository } from "../data/AppointmentRepository";
 import { buildDemoAppointments } from "../data/demoData";
 import { addDays } from "../domain/calendar";
@@ -7,57 +6,23 @@ import { generateProtocol, isProtocolFormat, normalizeProtocol } from "../domain
 import { canCustomerCancel, canRate, dayAvailability, slotState } from "../domain/rules";
 import { canTransition } from "../domain/status";
 import type { Actor, Appointment, AppointmentStatus, Day, Score } from "../domain/types";
+import { normalizePhone } from "../domain/validation";
 import {
-  normalizePhone,
-  validateCustomer,
-  type CustomerErrors,
-  type CustomerFormValues,
-} from "../domain/validation";
+  SchedulingError,
+  assertValidBooking,
+  sortForCustomer,
+  type BookingInput,
+  type SchedulingService,
+} from "./contract";
+
+export { SchedulingError, type BookingInput, type SchedulingErrorCode } from "./contract";
 
 /**
- * Casos de uso do agendamento (camada de aplicação). Cada método é um
- * caso de uso da especificação e junta as regras do domínio com o
- * repositório:
- *
- *   UC-12 Agendar Serviço ......... getWeek, getDay, book
- *   UC-18 Consultar Histórico ...... lookup
- *   UC-16 Cancelar Agendamento ..... cancelByCustomer   (estende UC-18)
- *   UC-19 Avaliar Atendimento ...... rate               (estende UC-18)
- *   UC-17 Gerenciar Agenda ......... listAll, changeStatus
- *
- * As telas só chamam estes métodos; nenhuma regra fica dentro de um
- * componente React.
+ * Implementação "local" do contrato (services/contract.ts): os casos de uso
+ * rodam no navegador, sobre um repositório (localStorage na demonstração,
+ * memória nos testes). As regras vêm do domínio; nenhuma regra fica dentro
+ * de um componente React.
  */
-
-export type SchedulingErrorCode =
-  | "dados-invalidos"
-  | "servico-invalido"
-  | "horario-indisponivel"
-  | "nao-encontrado"
-  | "transicao-invalida"
-  | "cancelamento-nao-permitido"
-  | "avaliacao-nao-permitida";
-
-/** Erro de regra de negócio, com uma mensagem pronta para mostrar na tela. */
-export class SchedulingError extends Error {
-  readonly code: SchedulingErrorCode;
-  /** Erros por campo, quando o código é "dados-invalidos". */
-  readonly fieldErrors?: CustomerErrors;
-
-  constructor(code: SchedulingErrorCode, message: string, fieldErrors?: CustomerErrors) {
-    super(message);
-    this.name = "SchedulingError";
-    this.code = code;
-    this.fieldErrors = fieldErrors;
-  }
-}
-
-export type BookingInput = {
-  serviceId: string;
-  date: string;
-  time: string;
-  customer: CustomerFormValues;
-};
 
 type ServiceOptions = {
   rules?: SchedulingRules;
@@ -67,23 +32,16 @@ type ServiceOptions = {
   random?: () => number;
 };
 
-const NOT_FOUND_MESSAGE =
-  "Não encontramos um agendamento com esse telefone e protocolo. Confira os dois e tente de novo.";
-
-/** Ordem para o cliente: os próximos atendimentos primeiro, depois o histórico (mais recente antes). */
-function sortForCustomer(appointments: Appointment[]): Appointment[] {
-  const key = (item: Appointment) => `${item.date} ${item.time}`;
-  const active = (item: Appointment) => item.status === "pendente" || item.status === "confirmado";
-  return [...appointments].sort((a, b) => {
-    if (active(a) !== active(b)) return active(a) ? -1 : 1;
-    return active(a) ? key(a).localeCompare(key(b)) : key(b).localeCompare(key(a));
-  });
-}
+/** O serviço local também carrega e apaga dados de exemplo (só demonstração). */
+export type LocalSchedulingService = SchedulingService & {
+  loadDemoData(): Promise<number>;
+  clearAll(): Promise<void>;
+};
 
 export function createSchedulingService(
   repository: AppointmentRepository,
   { rules = schedulingRules, now = () => new Date(), random = Math.random }: ServiceOptions = {},
-) {
+): LocalSchedulingService {
   /** Busca por protocolo e confere o telefone (identificação sem conta, RF-023). */
   async function findOwned(protocolInput: string, phoneInput: string): Promise<Appointment> {
     const protocol = normalizeProtocol(protocolInput);
@@ -93,7 +51,7 @@ export function createSchedulingService(
       : undefined;
     // A mesma mensagem nos dois casos: não revela se o protocolo existe.
     if (!appointment || appointment.customer.phone !== phone) {
-      throw new SchedulingError("nao-encontrado", NOT_FOUND_MESSAGE);
+      throw new SchedulingError("nao-encontrado");
     }
     return appointment;
   }
@@ -110,6 +68,8 @@ export function createSchedulingService(
   }
 
   return {
+    mode: "local",
+
     /** RF-013 e RF-014: os 7 dias de uma semana, com a situação de cada horário. */
     async getWeek(weekStart: string): Promise<Day[]> {
       const appointments = await repository.list();
@@ -129,21 +89,11 @@ export function createSchedulingService(
      * na hora de gravar (UC-21, RF-014) e gera o protocolo (RN-07).
      */
     async book(input: BookingInput): Promise<Appointment> {
-      if (!services.some((service) => service.id === input.serviceId)) {
-        throw new SchedulingError("servico-invalido", "Escolha um dos serviços da lista.");
-      }
-
-      const fieldErrors = validateCustomer(input.customer, now());
-      if (Object.keys(fieldErrors).length > 0) {
-        throw new SchedulingError("dados-invalidos", "Confira os campos destacados.", fieldErrors);
-      }
+      assertValidBooking(input, now());
 
       const appointments = await repository.list();
       if (slotState(input.date, input.time, appointments, now(), rules) !== "livre") {
-        throw new SchedulingError(
-          "horario-indisponivel",
-          "Esse horário acabou de ser ocupado ou já não está disponível. Escolha outro horário.",
-        );
+        throw new SchedulingError("horario-indisponivel");
       }
 
       const taken = new Set(appointments.map((item) => item.protocol));
@@ -230,12 +180,7 @@ export function createSchedulingService(
     async changeStatus(protocol: string, to: AppointmentStatus): Promise<Appointment> {
       const appointment = await repository.findByProtocol(protocol);
       if (!appointment) throw new SchedulingError("nao-encontrado", "Agendamento não encontrado.");
-      if (!canTransition(appointment.status, to)) {
-        throw new SchedulingError(
-          "transicao-invalida",
-          "Essa mudança de situação não é permitida para este agendamento.",
-        );
-      }
+      if (!canTransition(appointment.status, to)) throw new SchedulingError("transicao-invalida");
 
       const changed = withStatus(appointment, to, "oficina");
       await repository.save(changed);
@@ -259,5 +204,3 @@ export function createSchedulingService(
     subscribe: repository.subscribe,
   };
 }
-
-export type SchedulingService = ReturnType<typeof createSchedulingService>;

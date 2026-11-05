@@ -1,9 +1,9 @@
 import { LogOut } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { PageHeader } from "@/components/layout/PageHeader";
+import { adminAuth } from "@/features/scheduling";
 import { AdminAgenda } from "@/features/scheduling/components/admin/AdminAgenda";
 import { AdminLogin } from "@/features/scheduling/components/admin/AdminLogin";
-import { isSignedIn, signOut } from "@/features/scheduling/services/adminAuth";
 
 /** Leva o foco ao título da tela depois de entrar ou sair (a tela muda inteira). */
 const focusTitle = () =>
@@ -11,7 +11,27 @@ const focusTitle = () =>
 
 /** Painel da oficina (UC-17 Gerenciar Agenda), atrás da tela de acesso (RF-022). */
 export function AdminPage() {
-  const [signedIn, setSignedIn] = useState(isSignedIn);
+  /** `null` enquanto confere se já existe uma sessão aberta. */
+  const [signedIn, setSignedIn] = useState<boolean | null>(null);
+
+  useEffect(() => {
+    let active = true;
+    adminAuth.isSignedIn().then(
+      (result) => active && setSignedIn(result),
+      () => active && setSignedIn(false),
+    );
+    return () => {
+      active = false;
+    };
+  }, []);
+
+  if (signedIn === null) {
+    return (
+      <div className="page container-site">
+        <PageHeader title="Painel da oficina" lead="Conferindo o acesso…" />
+      </div>
+    );
+  }
 
   if (!signedIn) {
     return (
@@ -36,8 +56,8 @@ export function AdminPage() {
           <button
             type="button"
             className="button button-small button-outline"
-            onClick={() => {
-              signOut();
+            onClick={async () => {
+              await adminAuth.signOut();
               setSignedIn(false);
               focusTitle();
             }}

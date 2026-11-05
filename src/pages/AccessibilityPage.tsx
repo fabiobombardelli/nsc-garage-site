@@ -1,5 +1,6 @@
 import { PageHeader } from "@/components/layout/PageHeader";
 import { schedulingRules } from "@/content/scheduling";
+import { backendMode } from "@/features/scheduling";
 import { whatsappLink } from "@/lib/whatsapp";
 
 const SHORTCUTS = [
@@ -145,9 +146,11 @@ export function AccessibilityPage() {
               O vídeo do topo é ilustrativo e sem som. Ele tem uma descrição curta, mas não tem
               audiodescrição.
             </li>
-            <li>
-              Nesta versão de demonstração, os agendamentos ficam guardados só no navegador usado.
-            </li>
+            {backendMode === "local" && (
+              <li>
+                Nesta versão de demonstração, os agendamentos ficam guardados só no navegador usado.
+              </li>
+            )}
           </ul>
         </section>
 

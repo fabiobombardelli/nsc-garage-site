@@ -13,7 +13,7 @@ export default defineConfig({
   },
   // Testes automáticos das regras de negócio (npm test). Rodam no Node, sem navegador.
   test: {
-    include: ["src/**/*.test.ts"],
+    include: ["src/**/*.test.ts", "supabase/**/*.test.ts"],
     environment: "node",
   },
 });

@@ -77,7 +77,10 @@ export function DateTimeStep({
   const dayList = useRef<HTMLUListElement>(null);
   const slotList = useRef<HTMLUListElement>(null);
 
-  const { data: week } = useAgenda(() => schedulingService.getWeek(weekStart), weekStart);
+  const { data: week, error: loadError } = useAgenda(
+    () => schedulingService.getWeek(weekStart),
+    weekStart,
+  );
   // O dia escolhido é carregado à parte: continua valendo se a pessoa folhear outras semanas.
   const { data: loadedDay } = useAgenda(
     () => (date ? schedulingService.getDay(date) : Promise.resolve(undefined)),
@@ -166,6 +169,7 @@ export function DateTimeStep({
           </button>
         </div>
         {errors.day && <FieldError id="dia-erro">{errors.day}</FieldError>}
+        {loadError && <FieldError>{loadError}</FieldError>}
 
         <ul ref={dayList} className="day-choices" aria-busy={!week || undefined}>
           {(week ?? []).map((day) => (

@@ -9,6 +9,13 @@ import type { Appointment, Day, Slot, SlotState } from "./types";
  * qualquer dia e hora, inclusive os valores-limite.
  */
 
+/**
+ * O mínimo que a agenda precisa saber de cada agendamento para calcular a
+ * disponibilidade: dia, horário e situação. É o que o servidor publica
+ * (sem dados pessoais) e o que um agendamento completo também tem.
+ */
+export type SlotBooking = Pick<Appointment, "date" | "time" | "status">;
+
 /** Resultado de uma regra que pode recusar uma ação, com o motivo em texto. */
 export type RuleResult = { allowed: true } | { allowed: false; reason: string };
 
@@ -33,7 +40,7 @@ export function isWithinBookingWindow(dateKey: string, now: Date, rules: Schedul
 }
 
 /** Quantos agendamentos ocupam um horário (cancelados não contam). */
-function bookingsAt(dateKey: string, time: string, appointments: readonly Appointment[]) {
+function bookingsAt(dateKey: string, time: string, appointments: readonly SlotBooking[]) {
   return appointments.filter(
     (appointment) =>
       appointment.date === dateKey && appointment.time === time && occupiesSlot(appointment.status),
@@ -49,7 +56,7 @@ function bookingsAt(dateKey: string, time: string, appointments: readonly Appoin
 export function slotState(
   dateKey: string,
   time: string,
-  appointments: readonly Appointment[],
+  appointments: readonly SlotBooking[],
   now: Date,
   rules: SchedulingRules,
 ): SlotState {
@@ -62,7 +69,7 @@ export function slotState(
 /** RN-01 a RN-03: situação de um dia inteiro, com cada um dos seus horários. */
 export function dayAvailability(
   dateKey: string,
-  appointments: readonly Appointment[],
+  appointments: readonly SlotBooking[],
   now: Date,
   rules: SchedulingRules,
 ): Day {

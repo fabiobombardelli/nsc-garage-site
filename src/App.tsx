@@ -11,6 +11,7 @@ import { AdminPage } from "@/pages/AdminPage";
 import { BookingPage } from "@/pages/BookingPage";
 import { HomePage } from "@/pages/HomePage";
 import { MyAppointmentsPage } from "@/pages/MyAppointmentsPage";
+import { PrivacyPage } from "@/pages/PrivacyPage";
 
 /** Qual página mostrar em cada tela (as rotas ficam em app/routes.ts). */
 function CurrentPage({ route }: { route: Route }) {
@@ -25,6 +26,8 @@ function CurrentPage({ route }: { route: Route }) {
       return <AdminPage />;
     case "acessibilidade":
       return <AccessibilityPage />;
+    case "privacidade":
+      return <PrivacyPage />;
   }
 }
 

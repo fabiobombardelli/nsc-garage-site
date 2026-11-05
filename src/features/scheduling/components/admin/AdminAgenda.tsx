@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { ParkedCar } from "@/components/car/ParkedCar";
+import { FieldError } from "@/components/forms/Field";
 import { InlineConfirm } from "@/components/ui/InlineConfirm";
 import { schedulingService } from "../..";
 import { formatLongDate, formatLongDateTitle, formatTime, toDateKey } from "../../domain/calendar";
@@ -56,10 +57,11 @@ function summarize(appointments: Appointment[], today: string): string {
  */
 export function AdminAgenda() {
   const today = toDateKey(new Date());
-  const { data: appointments = [], loading } = useAgenda(
-    () => schedulingService.listAll(),
-    "agenda",
-  );
+  const {
+    data: appointments = [],
+    loading,
+    error,
+  } = useAgenda(() => schedulingService.listAll(), "agenda");
   const [filter, setFilter] = useState<Filter>("todos");
   /** Itens alterados agora continuam visíveis até trocar o filtro (o foco não se perde). */
   const [pinned, setPinned] = useState<ReadonlySet<string>>(new Set());
@@ -78,13 +80,19 @@ export function AdminAgenda() {
     setPinned(new Set());
   };
 
+  /** Dados de exemplo só existem na demonstração (no site online, a agenda é real). */
+  const demo =
+    schedulingService.loadDemoData && schedulingService.clearAll ? schedulingService : null;
+
   const loadDemo = async () => {
-    const count = await schedulingService.loadDemoData();
+    if (!demo?.loadDemoData) return;
+    const count = await demo.loadDemoData();
     setMessage(`${count} agendamentos de exemplo carregados.`);
   };
 
   const clearAll = async () => {
-    await schedulingService.clearAll();
+    if (!demo?.clearAll) return;
+    await demo.clearAll();
     setConfirmingClear(false);
     setPinned(new Set());
     setMessage("Todos os agendamentos deste navegador foram apagados.");
@@ -95,20 +103,23 @@ export function AdminAgenda() {
       <p className="admin-summary">
         {loading ? "Carregando a agenda…" : summarize(appointments, today)}
       </p>
+      {error && <FieldError>{error}</FieldError>}
       <p className="sr-only-text" role="status">
         {message}
       </p>
 
-      {appointments.length === 0 && !loading ? (
+      {appointments.length === 0 && !loading && !error ? (
         <div className="empty-state">
           <ParkedCar />
           <p>
-            A agenda está vazia. Os pedidos feitos em “Agendar avaliação” aparecem aqui na hora.
-            Para a apresentação, carregue os exemplos.
+            A agenda está vazia. Os pedidos feitos em “Agendar avaliação” aparecem aqui
+            {demo ? " na hora. Para a apresentação, carregue os exemplos." : " assim que chegam."}
           </p>
-          <button type="button" className="button button-small" onClick={loadDemo}>
-            Carregar exemplos
-          </button>
+          {demo && (
+            <button type="button" className="button button-small" onClick={loadDemo}>
+              Carregar exemplos
+            </button>
+          )}
         </div>
       ) : (
         <>
@@ -159,40 +170,47 @@ export function AdminAgenda() {
         </>
       )}
 
-      <section className="admin-tools" aria-labelledby="demonstracao-titulo">
-        <h2 id="demonstracao-titulo" className="admin-tools-title">
-          Dados de demonstração
-        </h2>
-        <p>
-          Nesta versão, a agenda fica guardada no navegador. Os exemplos trazem pedidos em todas as
-          situações ({STATUS_ORDER.map((status) => STATUS_LABEL[status].toLowerCase()).join(", ")})
-          para mostrar o ciclo completo.
-        </p>
-        {confirmingClear ? (
-          <InlineConfirm
-            question="Apagar todos os agendamentos deste navegador? Não dá para desfazer."
-            confirmLabel="Sim, apagar tudo"
-            cancelLabel="Não, manter"
-            onConfirm={clearAll}
-            onCancel={() => setConfirmingClear(false)}
-          />
-        ) : (
-          <div className="admin-tools-actions">
-            <button type="button" className="button button-small button-outline" onClick={loadDemo}>
-              Carregar exemplos
-            </button>
-            {appointments.length > 0 && (
+      {demo && (
+        <section className="admin-tools" aria-labelledby="demonstracao-titulo">
+          <h2 id="demonstracao-titulo" className="admin-tools-title">
+            Dados de demonstração
+          </h2>
+          <p>
+            Nesta versão, a agenda fica guardada no navegador. Os exemplos trazem pedidos em todas
+            as situações (
+            {STATUS_ORDER.map((status) => STATUS_LABEL[status].toLowerCase()).join(", ")}) para
+            mostrar o ciclo completo.
+          </p>
+          {confirmingClear ? (
+            <InlineConfirm
+              question="Apagar todos os agendamentos deste navegador? Não dá para desfazer."
+              confirmLabel="Sim, apagar tudo"
+              cancelLabel="Não, manter"
+              onConfirm={clearAll}
+              onCancel={() => setConfirmingClear(false)}
+            />
+          ) : (
+            <div className="admin-tools-actions">
               <button
                 type="button"
                 className="button button-small button-outline"
-                onClick={() => setConfirmingClear(true)}
+                onClick={loadDemo}
               >
-                Apagar todos os agendamentos
+                Carregar exemplos
               </button>
-            )}
-          </div>
-        )}
-      </section>
+              {appointments.length > 0 && (
+                <button
+                  type="button"
+                  className="button button-small button-outline"
+                  onClick={() => setConfirmingClear(true)}
+                >
+                  Apagar todos os agendamentos
+                </button>
+              )}
+            </div>
+          )}
+        </section>
+      )}
     </div>
   );
 }

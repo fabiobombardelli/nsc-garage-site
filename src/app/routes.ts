@@ -11,6 +11,7 @@ export const routes = {
   meusAgendamentos: { path: "meus-agendamentos", title: `Meus agendamentos | ${site.name}` },
   painel: { path: "painel", title: `Painel da oficina | ${site.name}` },
   acessibilidade: { path: "acessibilidade", title: `Acessibilidade | ${site.name}` },
+  privacidade: { path: "privacidade", title: `Privacidade | ${site.name}` },
 } as const;
 
 export type RouteName = keyof typeof routes;

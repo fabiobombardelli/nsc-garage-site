@@ -59,5 +59,6 @@ export const navigation: NavItem[] = [
 /** Links extras do rodapé: área da equipe e declaração de acessibilidade. */
 export const footerLinks: NavItem[] = [
   { label: "Acessibilidade", href: "#/acessibilidade" },
+  { label: "Privacidade", href: "#/privacidade" },
   { label: "Área da oficina", href: "#/painel" },
 ];

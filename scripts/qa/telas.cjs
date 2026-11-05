@@ -1,5 +1,5 @@
 // axe-core em cada estado das telas internas (agendamento, comprovante, consulta, avaliação,
-// painel da oficina, painel de acessibilidade e declaração), nos modos padrão, alto contraste,
+// painel da oficina, painel de acessibilidade, declaração e privacidade), nos modos padrão, alto contraste,
 // movimento reduzido e fonte 150%, em 1440 e 390 px.
 // Uso: com o build servido (npm run build && npx vite preview --port 4173), rode
 //   node scripts/qa/telas.cjs          (BASE=http://... para outro endereço)
@@ -115,6 +115,11 @@ const next = (page) =>
       await audit(page, "declaração de acessibilidade", results);
       await page.getByRole("button", { name: "Acessibilidade" }).click();
       await audit(page, "painel de acessibilidade aberto", results);
+      await page.keyboard.press("Escape");
+
+      // Aviso de privacidade (LGPD)
+      await go("#/privacidade");
+      await audit(page, "aviso de privacidade", results);
 
       const failing = results.filter((r) => r.violations.length || r.scrollWidth > 0);
       total += failing.reduce((sum, r) => sum + r.violations.length, 0);

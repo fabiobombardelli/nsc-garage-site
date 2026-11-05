@@ -7,7 +7,14 @@
 const { chromium } = require("playwright");
 const BASE = process.env.BASE || "http://127.0.0.1:4173/";
 /** Telas testadas: a página inicial e as telas internas (o endereço vai depois do "#"). */
-const ROUTES = ["", "#/agendar", "#/meus-agendamentos", "#/painel", "#/acessibilidade"];
+const ROUTES = [
+  "",
+  "#/agendar",
+  "#/meus-agendamentos",
+  "#/painel",
+  "#/acessibilidade",
+  "#/privacidade",
+];
 const SPACING = `* { line-height: 1.5 !important; letter-spacing: 0.12em !important; word-spacing: 0.16em !important; } p { margin-bottom: 2em !important; }`;
 const findClipped = () => {
   const vw = document.documentElement.clientWidth;
