@@ -94,8 +94,8 @@ economizar tokens). Código, commits e docs ficam em texto normal.
 
 ## Publicação (em andamento)
 
-Decisões do usuário (5/11/2026): banco no Supabase (região São Paulo), hospedagem no Cloudflare
-Pages (projeto `nsc-garage`), endereço **`nsc.vox.dev.br`** (domínio `vox.dev.br` no Registro.br;
+Decisões do usuário (5/11/2026): código no GitHub, banco no Supabase (região São Paulo), Cloudflare
+Pages ligado ao repositório (projeto `nsc-garage`, variáveis do Supabase só em Production), endereço **`nsc.vox.dev.br`** (domínio `vox.dev.br` no Registro.br;
 só um CNAME `nsc` → `nsc-garage.pages.dev`, sem mexer nos outros registros nem nos servidores DNS).
 WhatsApp de testes: `5513981197295`. Siga o `PUBLICAR.md` na ordem (passos 1 a 5).
 
@@ -115,6 +115,9 @@ WhatsApp de testes: `5513981197295`. Siga o `PUBLICAR.md` na ordem (passos 1 a 5
   `python3 scripts/artifact-page.py dist` e publicar `dist/nsc-garage.html` com `root: dist`,
   passando em `files` os assets de hash novo e `null` nos antigos (liste com `scope: "files"`). A
   prévia bloqueia arquivos de fonte e parâmetros de URL: o script embute a Archivo na página.
-- Git local na branch `main`, sem remoto. Commits em português, autor "NSC Garage".
+- GitHub: `fabiobombardelli/nsc-garage-site` (privado). A `main` é o que está no ar: o Cloudflare
+  Pages publica a cada push, e o fluxo `Verificação` (`.github/workflows/ci.yml`) roda a verificação
+  rápida. Mudança grande: branch + pull request (a prévia da branch roda em modo demonstração).
+  Commits em português, autor "NSC Garage".
 - Próximas fases: publicar em `nsc.vox.dev.br` (seção acima), notificação automática, anti-robô no
   agendamento, testes manuais com leitores de tela, medir desempenho (RNF-03).

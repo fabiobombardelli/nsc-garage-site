@@ -205,6 +205,8 @@ Uma demonstração de cerca de 10 minutos, que passa pelas duas disciplinas.
 | **Playwright + axe-core** | Testes no navegador e de acessibilidade   | Automatiza teclado, foco, contraste e o WCAG em todas as telas e modos       |
 | **ESLint + Prettier**     | Qualidade e formatação                    | Código uniforme, revisões mais fáceis                                        |
 | **Git**                   | Versionamento                             | Histórico de cada entrega, commits descritivos em português                  |
+| **GitHub + Actions**      | Repositório e verificação automática      | Fonte única do projeto; cada envio roda os testes e o build sozinho          |
+| **Cloudflare Pages**      | Hospedagem com HTTPS                      | Gratuita, publica sozinha a partir do GitHub e guarda cada versão            |
 | **Claude Code**           | Assistente de programação com IA          | Apoio na implementação e nos testes, com revisão e decisões da equipe        |
 
 ---
@@ -535,12 +537,26 @@ O carro é o fio condutor do movimento, sempre contando algo:
 
 ## 10. Como rodar
 
-Requer **Node.js 20** ou superior.
+Requer **Node.js 22** (a versão fica em `.node-version`) e o Git. O código está no GitHub, em
+`fabiobombardelli/nsc-garage-site`.
 
 ```bash
-npm install
-npm run dev        # http://localhost:5173
+git clone https://github.com/fabiobombardelli/nsc-garage-site.git
 ```
+
+```bash
+cd nsc-garage-site
+```
+
+```bash
+npm ci
+```
+
+```bash
+npm run dev
+```
+
+O site abre em `http://localhost:5173`.
 
 | Comando              | O que faz                                        |
 | -------------------- | ------------------------------------------------ |
@@ -577,9 +593,10 @@ node scripts/qa/agendamento.cjs
 node scripts/qa/layout.cjs
 ```
 
-**Publicação:** `npm run build` gera um site estático em `dist/`, com caminhos relativos. Pode ir
-para qualquer hospedagem (Cloudflare Pages, Netlify, Vercel, Hostinger…), na raiz ou numa subpasta.
-Guia completo, do banco ao domínio: [`PUBLICAR.md`](PUBLICAR.md).
+**Publicação:** o GitHub é a fonte única. Cada envio para a branch `main` dispara duas coisas: o
+fluxo **Verificação** do GitHub Actions (formatação, tipos, lint, testes e build) e a publicação no
+Cloudflare Pages, que gera o site e o põe no ar em `nsc.vox.dev.br`. Guia completo, do banco ao
+domínio: [`PUBLICAR.md`](PUBLICAR.md).
 
 ---
 
@@ -636,6 +653,7 @@ src/
   styles/                   tokens, formulários, telas internas e um CSS por seção
 supabase/                   migração do banco (tabelas, RLS, funções) e os testes dela no PGlite
 scripts/qa/                 testes de navegador e acessibilidade
+.github/workflows/          verificação automática a cada envio (GitHub Actions)
 docs/                       rastreabilidade de requisitos e base de conhecimento da NSC
 ACESSIBILIDADE.md           critérios WCAG atendidos, contraste e verificações
 PUBLICAR.md                 como colocar no ar: Supabase, hospedagem e domínio

@@ -1,0 +1,34 @@
+# Confere o projeto a cada envio e a cada pull request: formatação, tipos,
+# lint, os 77 testes (regras, banco no PGlite e integração) e o build.
+# A publicação em si é feita pelo Cloudflare Pages, ligado a este repositório
+# (ver PUBLICAR.md); este fluxo só avisa se algo quebrou.
+name: Verificação
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  verificar:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: .node-version
+          cache: npm
+      - run: npm ci
+      - name: Formatação
+        run: npx prettier --check .
+      - name: Tipos
+        run: npx tsc --noEmit
+      - name: Lint
+        run: npx eslint .
+      - name: Testes
+        run: npm test
+      - name: Build
+        run: npm run build

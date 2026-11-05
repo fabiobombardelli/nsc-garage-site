@@ -1,13 +1,23 @@
 # Como colocar o site da NSC Garage no ar
 
-Este guia leva o site do computador para o domínio da oficina, com o agendamento gravando num banco
-de dados de verdade. São três peças, todas com plano gratuito:
+Este guia leva o site do GitHub para o domínio da oficina, com o agendamento gravando num banco de
+dados de verdade. São quatro peças, todas com plano gratuito:
 
-| Peça          | Para quê                                                   | Serviço sugerido  |
-| ------------- | ---------------------------------------------------------- | ----------------- |
-| Banco e login | Guardar os agendamentos e deixar só a oficina entrar       | Supabase          |
-| Hospedagem    | Servir os arquivos do site (o `dist/`) com HTTPS           | Cloudflare Pages  |
-| Domínio       | O endereço `seudominio.com.br` apontando para a hospedagem | onde você comprou |
+| Peça          | Para quê                                                       | Serviço                    |
+| ------------- | -------------------------------------------------------------- | -------------------------- |
+| Código        | A fonte única do projeto; cada envio para `main` vai para o ar | GitHub                     |
+| Banco e login | Guardar os agendamentos e deixar só a oficina entrar           | Supabase                   |
+| Hospedagem    | Gerar o site a partir do GitHub e servir com HTTPS             | Cloudflare Pages           |
+| Domínio       | O endereço `nsc.vox.dev.br` apontando para a hospedagem        | Registro.br (`vox.dev.br`) |
+
+```mermaid
+flowchart LR
+  DEV["Computador · edita e testa"] -- git push --> GH["GitHub · branch main"]
+  GH -- "Verificação no GitHub Actions" --> CI["testes e build"]
+  GH -- "cada envio" --> CF["Cloudflare Pages · npm run build"]
+  CF --> SITE["nsc.vox.dev.br"]
+  SITE -- "agendamentos" --> SB[("Supabase · banco e login")]
+```
 
 Tempo estimado: uma hora, mais a espera do DNS (de minutos a algumas horas).
 
@@ -31,7 +41,8 @@ Tempo estimado: uma hora, mais a espera do DNS (de minutos a algumas horas).
       da NSC em `src/assets/images/history/`.
 - [ ] Conferir os marcos 14 (Endurance, uma fonte só) e 15 (Recife: o texto fala de um evento futuro
       e precisa mudar de tempo depois que ele acontecer) em `src/content/milestones.ts`.
-- [ ] Node.js 20 ou mais novo no computador que vai gerar o site.
+- [ ] Node.js 22 (a versão fica em `.node-version`) e o Git no computador, com o repositório
+      clonado do GitHub (`git clone https://github.com/fabiobombardelli/nsc-garage-site.git`).
 
 ---
 
@@ -83,9 +94,10 @@ Os testes em `supabase/` rodam esse mesmo SQL num PostgreSQL de verdade (PGlite)
 
 ---
 
-## 2. Gerar o site com o banco ligado
+## 2. Testar no seu computador com o banco ligado
 
-Na pasta do projeto:
+No ar, quem gera o site é a Cloudflare (passo 3). Este passo é para conferir antes, no seu
+computador. Na pasta do projeto:
 
 ```bash
 cp .env.example .env
@@ -117,39 +129,43 @@ momento do build).
 
 ---
 
-## 3. Hospedagem (Cloudflare Pages)
+## 3. Hospedagem ligada ao GitHub (Cloudflare Pages)
+
+O código fica no GitHub (`fabiobombardelli/nsc-garage-site`, privado). A Cloudflare lê o
+repositório, gera o site e publica sozinha a cada envio para a branch `main`.
 
 1. Crie uma conta gratuita em [cloudflare.com](https://dash.cloudflare.com).
-2. Envie a pasta `dist/` de um destes jeitos:
-   - **Pelo painel:** **Workers & Pages → Create → Pages → Upload assets** (envio direto). Nome do
-     projeto: `nsc-garage`. Arraste a pasta `dist/` inteira e clique em **Deploy**.
-   - **Pelo terminal** (o jeito mais fácil para um assistente de IA no seu computador): o primeiro
-     comando abre o navegador para você autorizar, os outros criam o projeto e publicam.
+2. **Workers & Pages → Create → Pages → Connect to Git** (ou "Import an existing Git repository").
+   Se a tela abrir em Workers, procure o link para Pages. Autorize o aplicativo da Cloudflare no
+   GitHub **só para o repositório `nsc-garage-site`**.
+3. Configure o build:
 
-     ```bash
-     npx wrangler login
-     ```
+   | Campo                  | Valor           |
+   | ---------------------- | --------------- |
+   | Project name           | `nsc-garage`    |
+   | Production branch      | `main`          |
+   | Framework preset       | None            |
+   | Build command          | `npm run build` |
+   | Build output directory | `dist`          |
 
-     ```bash
-     npx wrangler pages project create nsc-garage --production-branch main
-     ```
+4. Em **Environment variables**, crie `VITE_SUPABASE_URL` e `VITE_SUPABASE_ANON_KEY` com os
+   valores do passo 1.6. Depois, em **Settings → Variables and Secrets**, confira que as duas estão
+   **só em Production**: assim as prévias de outras branches rodam em modo de demonstração e não
+   mexem na agenda real.
+5. **Save and Deploy**. Em poucos minutos o site abre em `https://nsc-garage.pages.dev` (se o nome
+   estiver ocupado, a Cloudflare acrescenta um sufixo: use o endereço que ela mostrar). Teste tudo
+   lá antes do domínio.
 
-     ```bash
-     npx wrangler pages deploy dist --project-name nsc-garage --branch main
-     ```
+A Cloudflare lê a versão do Node em `.node-version` e instala com `npm ci`. O arquivo
+`public/_headers` liga cabeçalhos de segurança e o cache longo dos arquivos com hash. Como a
+navegação usa `#/`, não é preciso nenhuma regra de redirecionamento.
 
-3. Em um minuto o site abre em `https://nsc-garage.pages.dev` (se o nome estiver ocupado, a
-   Cloudflare acrescenta um sufixo: use o endereço que ela mostrar). Teste tudo lá antes do domínio.
+No GitHub, o fluxo **Verificação** (`.github/workflows/ci.yml`) roda formatação, tipos, lint, os
+testes e o build a cada envio e a cada pull request: se ficar vermelho, algo quebrou.
 
-O arquivo `public/_headers` (copiado para `dist/`) liga cabeçalhos de segurança e o cache longo dos
-arquivos com hash. Como a navegação usa `#/`, não é preciso nenhuma regra de redirecionamento.
-
-**Alternativa: Netlify.** Em [app.netlify.com/drop](https://app.netlify.com/drop), arraste a pasta
-`dist/`. Lê o mesmo `_headers`.
-
-**Mais tarde, publicação automática:** ligue a hospedagem ao repositório no GitHub (comando de build
-`npm run build`, pasta `dist`, e as variáveis `VITE_SUPABASE_URL` e `VITE_SUPABASE_ANON_KEY` nas
-configurações do projeto). Cada envio para a branch principal publica sozinho.
+**Sem GitHub (envio manual):** **Workers & Pages → Create → Pages → Upload assets** e arraste a
+pasta `dist/` gerada no passo 2. Ou, pelo terminal, `npx wrangler pages deploy dist --project-name
+nsc-garage`. Só que aí cada atualização também é manual.
 
 ---
 
@@ -228,9 +244,28 @@ No Netlify: **Domain management → Add a domain**. No painel do registrador, cr
 
 ## 6. Atualizar o site depois
 
-- **Texto, foto ou visual:** edite, rode `npm run build` e envie a nova pasta `dist/` (no Pages:
-  **Create deployment** no projeto). As versões antigas ficam guardadas e dá para voltar com um
-  clique.
+O GitHub é a fonte única: o que está na `main` é o que está no ar.
+
+- **Mudança pequena (texto, foto):** edite, rode a verificação rápida e envie:
+
+  ```bash
+  git add -A
+  ```
+
+  ```bash
+  git commit -m "Troca a foto do box"
+  ```
+
+  ```bash
+  git push
+  ```
+
+  Em poucos minutos a Cloudflare publica. Em **Deployments** ficam todas as versões, e dá para
+  voltar a uma anterior com um clique (**Rollback**).
+
+- **Mudança maior:** trabalhe numa branch (`git switch -c nova-secao`), envie e abra um pull request.
+  A Cloudflare gera um endereço de prévia só daquela branch, em modo de demonstração; o fluxo
+  Verificação roda os testes. Quando estiver bom, junte na `main` e vai para o ar.
 - **Regra da agenda:** mude no domínio (`src/features/scheduling/domain/` e
   `src/content/scheduling.ts`) **e** numa migração nova em `supabase/migrations/`, rodada no SQL
   Editor. Rode `npm test`: os testes do banco mostram se os dois lados ainda concordam.
