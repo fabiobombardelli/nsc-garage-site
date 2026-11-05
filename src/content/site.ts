@@ -17,13 +17,13 @@ export const site = {
 /**
  * Dados de contato.
  * Endereço, telefone e Instagram: dados públicos da oficina (pesquisa de
- * 04/11/2026). TODO: o WhatsApp e o horário ainda são provisórios.
+ * 04/11/2026). TODO: o horário é provisório e o WhatsApp é o número de testes.
  */
 export const contact = {
   whatsapp: {
     /** Só números, com DDI 55 + DDD. Ex.: "5511987654321". */
-    number: "5500000000000",
-    display: "(00) 00000-0000",
+    number: "5513981197295",
+    display: "(13) 98119-7295",
   },
   /** Telefone fixo da oficina. */
   phone: {

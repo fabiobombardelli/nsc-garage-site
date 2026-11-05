@@ -20,7 +20,8 @@ Tempo estimado: uma hora, mais a espera do DNS (de minutos a algumas horas).
 ## Antes de começar
 
 - [ ] Número do WhatsApp da oficina em `contact.whatsapp` (`src/content/site.ts`), no formato
-      `55` + DDD + número, só dígitos (exemplo: `5513987654321`). Hoje está `5500000000000`.
+      `55` + DDD + número, só dígitos (exemplo: `5513987654321`). Hoje está o número de testes
+      `5513981197295`.
 - [ ] Horário de atendimento em `contact.hours` (`src/content/site.ts`) e as mesmas horas na agenda
       (`src/content/scheduling.ts`). Se mudar a agenda, mude também a função `horario_valido` na
       migração do banco: as duas precisam dizer a mesma coisa.
