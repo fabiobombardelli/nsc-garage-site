@@ -29,6 +29,8 @@ export function useRouteFocus(route: Route) {
     // Âncora dentro da própria página inicial: o navegador já rola sozinho.
     const stayedHome = previous?.name === "inicio" && route.name === "inicio";
 
+    let observer: MutationObserver | null = null;
+    let giveUp = 0;
     // Espera a nova tela ser desenhada antes de mover rolagem e foco.
     const frame = requestAnimationFrame(() => {
       last.current = { name: route.name, signature };
@@ -43,10 +45,34 @@ export function useRouteFocus(route: Route) {
       if (isFirst) return;
       window.scrollTo({ top: 0, behavior: "instant" });
       // O título da tela; na página inicial, o conteúdo principal.
-      const title = document.querySelector<HTMLElement>("[data-page-title]");
-      (title ?? document.getElementById("conteudo"))?.focus({ preventScroll: true });
+      const findTitle = () => document.querySelector<HTMLElement>("[data-page-title]");
+      const title = findTitle();
+      if (title || route.name === "inicio") {
+        (title ?? document.getElementById("conteudo"))?.focus({ preventScroll: true });
+        return;
+      }
+      // Tela interna ainda carregando (código sob demanda): o foco vai ao
+      // conteúdo agora e ao título assim que ele aparecer.
+      const main = document.getElementById("conteudo");
+      main?.focus({ preventScroll: true });
+      if (!main) return;
+      observer = new MutationObserver(() => {
+        const late = findTitle();
+        if (!late) return;
+        observer?.disconnect();
+        window.clearTimeout(giveUp);
+        // Só puxa o foco se a pessoa não saiu do lugar enquanto esperava.
+        if (document.activeElement === main || document.activeElement === document.body)
+          late.focus({ preventScroll: true });
+      });
+      observer.observe(main, { childList: true, subtree: true });
+      giveUp = window.setTimeout(() => observer?.disconnect(), 15000);
     });
-    return () => cancelAnimationFrame(frame);
+    return () => {
+      cancelAnimationFrame(frame);
+      observer?.disconnect();
+      window.clearTimeout(giveUp);
+    };
   }, [route.key, route.name, route.anchor]);
 
   useEffect(() => {

@@ -16,6 +16,10 @@ import { cn } from "@/lib/cn";
  * frases saem pelas laterais, como portas se abrindo, o escurecimento do
  * vídeo diminui e só então a página segue.
  *
+ * Desempenho: a imagem de capa (pôster) aparece de imediato; o vídeo só
+ * começa a baixar depois que a página terminou de carregar, para não
+ * disputar a rede com o texto, a fonte e o código (RNF-03).
+ *
  * Acessibilidade: o vídeo tem botão de pausa (WCAG 2.2.2), para fora da
  * tela e não toca sozinho com movimento reduzido. Com movimento reduzido,
  * ou se o slogan não couber na altura da tela (fonte muito ampliada), o
@@ -30,6 +34,7 @@ export function Hero() {
   const pinned = !reduceMotion && fits;
   const [playing, setPlaying] = useState(!reduceMotion);
   const onScreen = useInView(sectionRef, { threshold: 0.05 });
+  const videoReady = useAfterPageLoad();
   const [lineOne, lineTwo] = site.tagline;
 
   useEffect(() => {
@@ -38,10 +43,10 @@ export function Hero() {
 
   useEffect(() => {
     const video = videoRef.current;
-    if (!video) return;
+    if (!video || !videoReady) return;
     if (playing && onScreen) video.play().catch(() => setPlaying(false));
     else video.pause();
-  }, [playing, onScreen]);
+  }, [playing, onScreen, videoReady]);
 
   // Progresso enquanto o topo está preso: 0 no início, 1 quando a página segue.
   const { scrollYProgress } = useScroll({
@@ -81,9 +86,8 @@ export function Hero() {
             animate={{ opacity: 1 }}
             transition={{ duration: 1.2, ease: "easeOut" }}
           >
-            {heroVideo.sources.map((source) => (
-              <source key={source.src} {...source} />
-            ))}
+            {videoReady &&
+              heroVideo.sources.map((source) => <source key={source.src} {...source} />)}
           </m.video>
         </m.div>
         <m.div
@@ -135,6 +139,24 @@ export function Hero() {
       </div>
     </section>
   );
+}
+
+/** Fica verdadeiro depois do evento load da página (e de um respiro do navegador). */
+function useAfterPageLoad() {
+  const [ready, setReady] = useState(false);
+  useEffect(() => {
+    let timer = 0;
+    const done = () => {
+      timer = window.setTimeout(() => setReady(true), 300);
+    };
+    if (document.readyState === "complete") done();
+    else window.addEventListener("load", done, { once: true });
+    return () => {
+      window.removeEventListener("load", done);
+      window.clearTimeout(timer);
+    };
+  }, []);
+  return ready;
 }
 
 /**
