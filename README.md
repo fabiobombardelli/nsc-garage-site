@@ -84,7 +84,9 @@ src/
     accessibility.css           atalhos, forced colors e movimento reduzido
     controls.css                botões e links
     sections/                   um arquivo por seção
+scripts/qa/                     testes automáticos (axe, espaçamento de texto, teclado)
 ACESSIBILIDADE.md               o que já atende ao WCAG e como testar
+CLAUDE.md                       resumo do projeto para o Claude (carregado a cada sessão)
 DESIGN.md                       sistema visual documentado
 PRODUCT.md                      fatos do negócio que o design respeita
 ```
