@@ -28,6 +28,10 @@
 
   .site-header-logo {
     flex-shrink: 0;
+    /* Alvo de 44px também no celular, onde a marca encolhe. */
+    display: inline-flex;
+    align-items: center;
+    min-height: 2.75rem;
   }
 
   .site-header-menu {

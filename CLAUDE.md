@@ -92,22 +92,32 @@ economizar tokens). Código, commits e docs ficam em texto normal.
   itens dos serviços, a foto do box e as fotos da Trajetória (de terceiros, com crédito; o usuário
   vai mandar versões tratadas para trocar uma a uma em `src/assets/images/history/`).
 
-## Publicação (em andamento)
+## Publicação
 
-Decisões do usuário (5/11/2026): código no GitHub, banco no Supabase (região São Paulo), Cloudflare
-Pages ligado ao repositório (projeto `nsc-garage`, variáveis do Supabase só em Production), endereço **`nsc.vox.dev.br`** (domínio `vox.dev.br` no Registro.br;
-só um CNAME `nsc` → `nsc-garage.pages.dev`, sem mexer nos outros registros nem nos servidores DNS).
-WhatsApp de testes: `5513981197295`. Siga o `PUBLICAR.md` na ordem (passos 1 a 5).
+No ar desde 5/11/2026 em **https://nsc.vox.dev.br** (passos 1 a 5 do `PUBLICAR.md` feitos e
+conferidos no domínio: agendar, painel, confirmar, concluir, WhatsApp, consultar, cancelar, avaliar,
+painel de acessibilidade; agendamentos de teste apagados).
+
+- Supabase: organização "NSC Garage" (Free), projeto `nsc-garage`, ref `qbbrwgkjyldzgykytijl`,
+  região São Paulo (`sa-east-1`). Migração `20261105000000_agenda.sql` aplicada, cadastro aberto
+  desligado, Site URL `https://nsc.vox.dev.br`. Login da oficina (`oficina_admins`):
+  `fabiobombardellijr@gmail.com`. O site usa a chave publishable (`sb_publishable_…`).
+- Cloudflare Pages: projeto `nsc-garage` (`nsc-garage.pages.dev`), ligado ao GitHub (app da
+  Cloudflare autorizado só neste repositório), build `npm run build` → `dist`. `VITE_SUPABASE_URL` e
+  `VITE_SUPABASE_ANON_KEY` só em Production; Preview roda em modo demonstração.
+- DNS: o `vox.dev.br` usa os servidores DNS da Cloudflare (mesma conta), não os do Registro.br. O
+  registro `nsc` é um CNAME → `nsc-garage.pages.dev` criado pelo Pages nessa zona (substituiu um
+  `A nsc → 185.158.133.1` antigo, com aval do usuário). Não mexa nos outros registros.
+- WhatsApp de testes: `5513981197295` (trocar pelo da oficina em `site.ts`).
+- Node local: 22 em `~/.local/node` (no PATH do usuário); o Windows não tem `winget`.
 
 - O usuário digita as próprias senhas e e-mails de login; você navega, preenche o resto e confere.
 - A chave `service_role`/`secret` nunca vai para o site, para o `.env` nem para o chat. O `.env`
   leva só a URL e a chave anon/publishable.
 - Conta da oficina no painel: o usuário cria em Authentication → Users; você roda o `insert` em
   `oficina_admins` com o e-mail que ele disser.
-- Antes de publicar, rode a verificação rápida e confira o build com `npm run preview`: um
-  agendamento de teste tem que aparecer no painel. Depois de publicar, os itens do passo 5.
-- Ao terminar, anote aqui o que ficou pronto (referência do projeto Supabase, sem chaves, e a data
-  da publicação) e tire o "em andamento" do título.
+- Agendamentos de teste: use um telefone fictício e apague no SQL Editor depois
+  (`delete from public.agendamentos where cliente_telefone = '…';`).
 
 ## Prévia e git
 
@@ -119,5 +129,5 @@ WhatsApp de testes: `5513981197295`. Siga o `PUBLICAR.md` na ordem (passos 1 a 5
   Pages publica a cada push, e o fluxo `Verificação` (`.github/workflows/ci.yml`) roda a verificação
   rápida. Mudança grande: branch + pull request (a prévia da branch roda em modo demonstração).
   Commits em português, autor "NSC Garage".
-- Próximas fases: publicar em `nsc.vox.dev.br` (seção acima), notificação automática, anti-robô no
+- Próximas fases: notificação automática, anti-robô no
   agendamento, testes manuais com leitores de tela, medir desempenho (RNF-03).

@@ -164,7 +164,14 @@
   .footer-links {
     display: flex;
     flex-wrap: wrap;
-    gap: 0.5rem 1.25rem;
+    gap: 0 1.25rem;
+  }
+
+  /* Alvo de 44px (regra 8 de ACESSIBILIDADE.md): a altura vem da área de toque, não do texto. */
+  .footer-legal .text-link {
+    display: inline-flex;
+    align-items: center;
+    min-height: 2.75rem;
   }
 
   @media (width < 64rem) {

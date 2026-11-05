@@ -61,6 +61,31 @@ const ok = (cond, label) => console.log((cond ? "  ✓ " : "  ✗ ") + label);
       `Atalho ${key} (accesskey) leva a ${target} (foco em: ${a.split(" ")[0]})`,
     );
   }
+  // Nas telas internas, conteúdo, menu e rodapé pulam dentro da própria tela (WCAG 2.4.1).
+  // Troca só o hash (sem recarregar), para manter o que o teste instalou na página.
+  await p.evaluate(() => {
+    location.hash = "#/agendar";
+  });
+  await p.waitForTimeout(600);
+  for (const [key, target] of [
+    ["1", "#conteudo"],
+    ["2", "#menu-principal"],
+    ["4", "#rodape"],
+  ]) {
+    await p.locator(`.access-shortcuts a[accesskey="${key}"]`).focus();
+    await p.keyboard.press("Enter");
+    await p.waitForTimeout(400);
+    const a = await active();
+    const hash = await p.evaluate(() => location.hash);
+    ok(
+      hash === "#/agendar" && a.startsWith(target),
+      `Em #/agendar, atalho ${key} fica na tela e leva a ${target} (hash ${hash}, foco em: ${a.split(" ")[0]})`,
+    );
+  }
+  await p.evaluate(() => {
+    location.hash = "#/";
+  });
+  await p.waitForTimeout(800);
   const hasFocusStyle = await p.evaluate(() => {
     const css = [...document.styleSheets]
       .flatMap((s) => {

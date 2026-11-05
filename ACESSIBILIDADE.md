@@ -93,7 +93,9 @@ cores do tema (`src/styles/theme.css`) e `--font-scale` multiplica todo o texto.
 | Alt + 4 | Rodapé                     |
 
 No Firefox use Alt + Shift + número e no Mac, Control + Option + número. Os quatro links aparecem no
-topo ao primeiro Tab. Nas telas internas, "Ir para o contato" abre a página inicial já no contato.
+topo ao primeiro Tab. Conteúdo, menu e rodapé existem em todas as telas, e o atalho pula dentro da
+tela atual, sem trocar de tela nem perder o que foi preenchido. Só "Ir para o contato" abre a
+página inicial, porque o contato fica lá.
 
 ## Telas com várias etapas e troca de tela
 
@@ -200,10 +202,27 @@ Todos os testes ficam em `scripts/qa/` e rodam contra o build servido
 | ------------------- | ---------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------- |
 | `axe.cjs`           | axe-core 4 na página inicial: padrão, alto contraste, movimento reduzido e fonte 150%, em 1440 e 390 px                      | 0 violações nos 8 cenários                                                  |
 | `telas.cjs`         | axe-core em 14 estados das telas internas (etapas, erros, comprovante, consulta, avaliação, painel, declaração, privacidade) | 0 violações em 112 verificações (14 × 4 modos × 2)                          |
-| `keyboard.cjs`      | Atalhos, gavetas, ordem de serviço e menu do celular só pelo teclado                                                         | 19 de 19 ✓                                                                  |
+| `keyboard.cjs`      | Atalhos (na inicial e numa tela interna), gavetas, ordem de serviço e menu do celular só pelo teclado                        | 22 de 22 ✓                                                                  |
 | `agendamento.cjs`   | O agendamento inteiro só pelo teclado: foco em cada etapa, erros, troca de tela, cancelar, painéis                           | 20 de 20 ✓                                                                  |
 | `layout.cjs`        | Espaçamento de texto (1.4.12) e fonte 150% em 6 telas e 6 larguras, sem cortes; foco nunca coberto pelo header               | 0 cortes em 72 combinações; 0 focos cobertos em 138 paradas (1440 e 390 px) |
 | `npm test` (Vitest) | Regras de negócio e casos de uso (TC-014 a TC-021), o banco e a versão online do serviço                                     | 77 de 77 ✓                                                                  |
+
+### QA de acessibilidade de 5 de novembro de 2026 (site publicado)
+
+Além dos testes acima, rodados também contra `https://nsc.vox.dev.br`:
+
+- **Contraste que o axe deixa para revisão manual** (texto sobre foto, vídeo e gradiente): medido
+  nos pixels, comparando a captura com e sem o texto. Menus, slogan, legenda do vídeo, abas dos anos
+  e cartões da Trajetória ficam entre 7:1 e 21:1. O slogan sobre o vídeo foi medido em 8 quadros
+  (com fumaça), e o pior caso foi 7,5:1 (mínimo 3:1).
+- **Vídeo do topo:** o arquivo não tem trilha de áudio, então legenda (1.2.2) não se aplica.
+- **Alvos:** todos os controles com 44 px ou mais em 1440 e 390 px.
+- **Navegadores:** Chromium, Firefox e WebKit (motor do Safari), em desktop e celular, com alto
+  contraste e fonte 150%, sem rolagem lateral e sem erros no console.
+- **Corrigido neste QA:** (1) nas telas internas, "Ir para o conteúdo", "Ir para o menu" e "Ir
+  para o rodapé" levavam à página inicial e faziam perder o agendamento em andamento (2.4.1); agora
+  pulam dentro da tela, e o `keyboard.cjs` confere isso em `#/agendar`. (2) Links do rodapé (22 px)
+  e logo do celular (36 px) estavam abaixo da regra 8; agora têm 44 px.
 
 ## Pontos de atenção para a auditoria
 
