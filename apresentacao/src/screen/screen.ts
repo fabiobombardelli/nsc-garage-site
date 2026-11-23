@@ -169,18 +169,26 @@ export function startScreen(app: HTMLElement) {
   // fim, para os programas da GPU continuarem em cache.
   const warmLayer = h("div", { class: "warm-layer", "aria-hidden": "true" });
   stage.sceneLayer.append(warmLayer);
+  const limit = (promise: Promise<unknown>, ms: number) =>
+    Promise.race([
+      promise.catch(() => undefined),
+      new Promise((resolve) => window.setTimeout(resolve, ms)),
+    ]);
   window.setTimeout(async () => {
-    await warmHeroVideo(warmLayer);
-    await loadCarModel();
+    // Cada etapa tem limite de tempo: internet lenta não pode travar o aquecimento.
+    await limit(warmHeroVideo(warmLayer), 9000);
+    await limit(loadCarModel(), 30000);
     for (const index of [1, 6, 10]) {
       const scene = SCENES[index]?.();
       if (!scene) continue;
       scene.el.classList.add("is-hidden");
       warmLayer.append(scene.el);
       scene.mount(ctx);
-      if (scene.world) await gl.warm(scene.world);
+      if (scene.world) await limit(gl.warm(scene.world), 15000);
       await new Promise((resolve) => window.setTimeout(resolve, 300));
     }
+    // Pronto para começar (os testes esperam por isto).
+    document.documentElement.dataset.aquecido = "sim";
   }, 1500);
   if (param("cronometro") === "1") timer.classList.add("is-on");
   if (param("qualidade") === "baixa") gl.setQuality("baixa");

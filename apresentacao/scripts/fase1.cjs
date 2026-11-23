@@ -36,7 +36,8 @@ const BASE = process.env.BASE || "http://127.0.0.1:5180/";
   // Voltar tudo
   for (let i = 0; i < expected + 2; i++) {
     await page.keyboard.press("ArrowLeft");
-    await page.waitForTimeout(820);
+    await page.waitForTimeout(150);
+    await page.waitForFunction(() => window.nsc.director.settled, null, { timeout: 15000 });
   }
   const back = await page.evaluate(() => window.nsc.director.state);
   console.log("voltou ao lobby:", back.scene === 0 && back.step === 0 ? "✓" : "✗");

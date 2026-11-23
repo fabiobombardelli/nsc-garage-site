@@ -205,6 +205,14 @@ export class GL {
     this.start();
   }
 
+  /**
+   * Congela o 3D no último quadro (a cortina vai cobrir a cena). Desenhar o
+   * bloom por baixo da cortina animada deixava cada quadro com ~1 s no ANGLE.
+   */
+  freeze() {
+    this.stop();
+  }
+
   setQuality(quality: Quality) {
     this.quality = quality;
     this.resize();

@@ -210,9 +210,17 @@ function runPresenter(app: HTMLElement, sala: string, nome: Integrante | "ouvint
   // ---------- comandos ----------
   const connected = () => screen !== null && performance.now() - screen.receivedAt < SCREEN_TIMEOUT;
 
+  /** Último comando enviado: um segundo toque em menos de 0,7 s é ignorado. */
+  let lastSent = -Infinity;
+
   function command(msg: Extract<Msg, { t: "cmd" }>) {
     vibrate(12);
     if (connected()) {
+      // O Supabase espaça mensagens seguidas do mesmo aparelho (~1 s); sem esta
+      // trava, um toque duplo chegaria como dois passos.
+      const now = performance.now();
+      if (now - lastSent < 700) return;
+      lastSent = now;
       sync.send({ ...msg, by: meName });
       pendingSince = performance.now();
       render();

@@ -138,14 +138,21 @@ export class Director {
     if (this.upcoming && this.upcoming !== mounted) this.upcoming.scene.unmount();
     this.upcoming = null;
 
+    this.gl.freeze();
     await this.curtain.cover();
     this.current?.scene.unmount();
     this.reveal(mounted);
-    this.enter(mounted, Math.min(step, mounted.scene.steps - 1), animate);
+    this.enter(mounted, Math.min(step, mounted.scene.steps - 1), animate, false);
+    // A cortina fica fechada até a cena estar pronta (ex.: o vídeo começar a tocar).
+    await Promise.race([
+      mounted.scene.ready().catch(() => undefined),
+      new Promise((resolve) => window.setTimeout(resolve, 2500)),
+    ]);
+    mounted.scene.show(this.step, animate);
     await this.curtain.reveal();
   }
 
-  private enter(mounted: Mounted, step: number, animate: boolean) {
+  private enter(mounted: Mounted, step: number, animate: boolean, showNow = true) {
     this.current = mounted;
     this.step = Math.max(0, step);
     this.sceneStartedAt = Date.now();
@@ -153,7 +160,7 @@ export class Director {
     else if (this.startedAt === null) this.startedAt = Date.now();
     this.gl.setWorld(mounted.scene.world);
     mounted.scene.activate();
-    mounted.scene.show(this.step, animate);
+    if (showNow) mounted.scene.show(this.step, animate);
     this.emit();
     this.premount(mounted.index + 1);
   }

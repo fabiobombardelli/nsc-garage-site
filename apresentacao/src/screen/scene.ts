@@ -74,6 +74,11 @@ export abstract class Scene {
   /** A cena ficou visível (a cortina abriu). */
   activate() {}
 
+  /** A cortina espera esta promessa (até 2,5 s) antes de abrir; ex.: o vídeo começar. */
+  ready(): Promise<void> {
+    return Promise.resolve();
+  }
+
   protected onCleanup(fn: () => void) {
     this.cleanups.push(fn);
   }

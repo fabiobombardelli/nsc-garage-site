@@ -47,7 +47,9 @@ export async function warmHeroVideo(parent: HTMLElement) {
     parent.append(video);
   }
   try {
-    await video.play();
+    // Limite de 6 s: com internet lenta o vídeo pode demorar a começar,
+    // e o aquecimento do 3D não pode ficar esperando por ele.
+    await Promise.race([video.play(), new Promise((resolve) => window.setTimeout(resolve, 6000))]);
     await new Promise((resolve) => window.setTimeout(resolve, 1200));
   } catch {
     // Sem autoplay: a cena tenta de novo ao entrar.
@@ -95,9 +97,21 @@ export class NscScene extends Scene {
     this.mark();
   }
 
+  private playing: Promise<void> = Promise.resolve();
+
   activate() {
     if (NO_VIDEO) return;
-    void this.video.play().catch(() => undefined);
-    this.onCleanup(() => this.video.pause());
+    const video = this.video;
+    // A cortina espera o primeiro quadro tocar (iniciar o vídeo engasgava a tela).
+    this.playing = new Promise<void>((resolve) => {
+      if (!video.paused && video.readyState >= 3) return resolve();
+      video.addEventListener("playing", () => resolve(), { once: true });
+    });
+    void video.play().catch(() => undefined);
+    this.onCleanup(() => video.pause());
+  }
+
+  ready() {
+    return this.playing;
   }
 }

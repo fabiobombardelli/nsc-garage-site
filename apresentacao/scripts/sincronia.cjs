@@ -10,7 +10,9 @@ const separate = process.env.SEPARADO === "1";
 const ok = (cond, label) => console.log(`${cond ? "✓" : "✗"} ${label}`);
 
 (async () => {
-  const browser = await chromium.launch();
+  // CHROME_ARGS: argumentos extras separados por ";" (ex.: --host-resolver-rules=...).
+  const args = (process.env.CHROME_ARGS || "").split(";").filter(Boolean);
+  const browser = await chromium.launch({ args });
   const screenCtx = await browser.newContext({ viewport: { width: 1920, height: 1080 } });
   const phoneCtx = separate
     ? await browser.newContext({
@@ -22,6 +24,10 @@ const ok = (cond, label) => console.log(`${cond ? "✓" : "✗"} ${label}`);
   const screen = await screenCtx.newPage();
   await screen.goto(`${BASE}?sala=${SALA}`, { waitUntil: "networkidle" });
   await screen.waitForFunction(() => window.nsc);
+  // Como na apresentação: a tela fica no lobby até terminar de aquecer o 3D.
+  await screen.waitForFunction(() => document.documentElement.dataset.aquecido === "sim", null, {
+    timeout: 90000,
+  });
 
   const phone = await phoneCtx.newPage();
   if (!separate) await phone.setViewportSize({ width: 390, height: 844 });
@@ -33,13 +39,39 @@ const ok = (cond, label) => console.log(`${cond ? "✓" : "✗"} ${label}`);
     { timeout: 15000 },
   );
   ok(true, "celular vê a tela conectada");
+  if (separate) {
+    // Presence: o lobby da tela mostra quem está no celular.
+    const seen = await screen
+      .waitForFunction(
+        () =>
+          [...document.querySelectorAll(".lobby-name")].some((li) =>
+            li.textContent?.includes("Cawan"),
+          ),
+        null,
+        { timeout: 15000 },
+      )
+      .then(() => true)
+      .catch(() => false);
+    ok(seen, "lobby da tela mostra o nome de quem conectou (presence)");
+  }
 
   const state = () => screen.evaluate(() => window.nsc.director.state);
+  // Toque direto na página (o clique simulado do Playwright num celular leva ~1 s).
+  const tap = (selector, times = 1) =>
+    phone.evaluate(
+      ([sel, n]) => {
+        const el = document.querySelector(sel);
+        for (let i = 0; i < n; i++) el?.click();
+      },
+      [selector, times],
+    );
+  const NEXT = ".p-footer .p-button-primary";
+  const PREV = ".p-footer .p-nav:not(.p-button-primary)";
 
   // Próximo no celular → tela muda em < 500 ms
   const before = await state();
   const t0 = Date.now();
-  await phone.click(".p-footer .p-button-primary");
+  await tap(NEXT);
   await screen.waitForFunction(
     (b) => {
       const s = window.nsc.director.state;
@@ -62,10 +94,7 @@ const ok = (cond, label) => console.log(`${cond ? "✓" : "✗"} ${label}`);
 
   // Dois toques quase juntos → só um avanço (proteção de 400 ms)
   const b2 = await state();
-  await Promise.all([
-    phone.click(".p-footer .p-button-primary"),
-    phone.click(".p-footer .p-button-primary"),
-  ]);
+  await tap(NEXT, 2);
   await screen.waitForTimeout(1400);
   const a2 = await state();
   ok(
@@ -74,15 +103,18 @@ const ok = (cond, label) => console.log(`${cond ? "✓" : "✗"} ${label}`);
   );
 
   // Voltar
-  await phone.click(".p-footer .p-nav:not(.p-button-primary)");
+  await tap(PREV);
   await screen.waitForTimeout(1200);
   const a3 = await state();
-  ok(a3.scene === b2.scene && a3.step === b2.step, "Voltar no celular volta a tela");
+  ok(
+    a3.scene === b2.scene && a3.step === b2.step,
+    `Voltar no celular volta a tela (antes ${b2.scene}.${b2.step}, depois de 2 toques ${a2.scene}.${a2.step}, depois de voltar ${a3.scene}.${a3.step})`,
+  );
 
   // Ir para… a cena do Neto
-  await phone.click("text=Ir para…");
-  await phone.click(".p-goto-item >> nth=3");
-  await screen.waitForTimeout(1500);
+  await tap(".p-actions .p-link:last-child");
+  await phone.evaluate(() => document.querySelectorAll(".p-goto-item")[3]?.click());
+  await screen.waitForTimeout(3000); // pela internet: espaçamento do servidor + cortina
   const a4 = await state();
   ok(a4.scene === 3, "Ir para… leva a tela à cena 3 (Neto)");
   const neto = await phone.isVisible(".p-neto");
