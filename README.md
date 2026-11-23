@@ -669,7 +669,7 @@ CLAUDE.md                   resumo do projeto para o assistente de IA
 | `src/assets/brand/logo.webp`           | Logo enviado pelo cliente (fundo transparente)                                                               |
 | `src/assets/images/drift-car-top.webp` | 350Z visto de cima, enviado pelo cliente e clareado: dianteira **para baixo**, fundo transparente            |
 | `src/assets/images/history/*.webp`     | Fotos da Trajetória, de fontes públicas (crédito no site): **trocar pelas tratadas e confirmar autorização** |
-| `src/assets/images/workshop-drift.jpg` | Foto ilustrativa do box (seção Oficina): **trocar pela real**                                                |
+| Foto da seção Oficina                  | Provisória: reusa o 350Z #69 da Trajetória (crédito no site) até chegar a foto real do box: **trocar**       |
 | `public/media/hero-drift(-mobile).*`   | Vídeo do topo (1080p no computador, 720p no celular) e o poster                                              |
 
 Para gerar o vídeo do topo a partir do original com [ffmpeg](https://ffmpeg.org):

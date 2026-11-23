@@ -51,6 +51,12 @@
     line-height: 1.45;
   }
 
+  .about-credit {
+    display: block;
+    margin-top: 0.5rem;
+    font-size: var(--text-small);
+  }
+
   .about-side {
     grid-column: 9 / -1;
     display: grid;

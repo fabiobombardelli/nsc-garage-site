@@ -51,7 +51,7 @@ export function Footer({ route }: { route: Route }) {
               <span className="footer-place-label">Telefone</span>
               {contact.phone.display}
             </a>
-            <p className="footer-place">
+            <p className="footer-place footer-place-wide">
               <span className="footer-place-label">Endereço</span>
               {contact.address.street}, {contact.address.city}
             </p>

@@ -52,7 +52,7 @@ Track pedigree applied to every car: the same team and methods that build compet
 ## Evidence on Hand
 
 - Real: hero footage (`public/media/hero-drift*.{webm,mp4}`), stills taken from that footage (`src/assets/images/footage/`), the 350Z livery top view (`src/assets/images/drift-car-top.webp`), the logo.
-- Illustrative, to be replaced by real photos the client will send: `workshop-drift.jpg`, `parts-drift.jpg`.
+- Illustrative, to be replaced by real photos the client will send: `parts-drift.jpg`. The Oficina section temporarily reuses the real 2019 350Z #69 race photo (credited) until a real photo of the shop arrives.
 - Absent, must not be fabricated: testimonials, client names, review scores, sponsor logos, business statistics, and any title or date not listed as confirmed in `docs/historia-nsc.md` (e.g. the 7th and 8th SDB titles are undocumented).
 
 ## Product Principles

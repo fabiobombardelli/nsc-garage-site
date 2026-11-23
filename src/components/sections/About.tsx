@@ -1,5 +1,5 @@
 import { m } from "motion/react";
-import workshopPhoto from "@/assets/images/workshop-drift.jpg";
+import racePhoto from "@/assets/images/history/2019-350z-nsc-69.webp";
 import { MaskedLine, Reveal } from "@/components/ui/Reveal";
 import { milestones } from "@/content/milestones";
 
@@ -18,7 +18,8 @@ const facts = [
 ];
 
 /**
- * Oficina: quem é a NSC. Uma foto larga do box com uma nota em painel de
+ * Oficina: quem é a NSC. Uma foto larga do 350Z #69 na pista (provisória até
+ * chegar a foto real do box) com uma nota em painel de
  * luz, um bloco no vermelho do carrinho de ferramentas e os fatos.
  */
 export function About() {
@@ -41,10 +42,10 @@ export function About() {
           <figure className="about-photo">
             <div className="about-photo-frame">
               <m.img
-                src={workshopPhoto}
-                alt="Box da oficina com um carro sobre o elevador"
-                width={1200}
-                height={900}
+                src={racePhoto}
+                alt="350Z número 69 da NSC Garage de lado na curva, em batalha com o carro 77"
+                width={1210}
+                height={806}
                 loading="lazy"
                 initial={{ scale: 1.1 }}
                 whileInView={{ scale: 1 }}
@@ -55,6 +56,7 @@ export function About() {
             <figcaption className="about-note">
               O legado construído por Neto e por toda a equipe continua sendo escrito a cada motor
               ligado e a cada pneu que toca o asfalto.
+              <span className="about-credit">Foto: Eduardo Junior Photography, via CBA</span>
             </figcaption>
           </figure>
 

@@ -257,7 +257,7 @@ Cada seção tem composição própria:
 - **Oficina:** foto larga de 8 colunas com a nota em painel de luz no canto, e a coluna lateral com o bloco vermelho e os fatos.
 - **Serviços:** coluna central estreita (42rem) com o título de ponta a ponta e as gavetas.
 - **Contato:** o cupom da ordem de serviço em 10 colunas, com picote a 42%.
-- **Rodapé:** o campo vermelho com o nome de margem a margem.
+- **Rodapé:** o campo vermelho com o nome de margem a margem. Abaixo de 64rem ele cabe numa tela: contatos em duas colunas (endereço e horário na linha toda), o oito com até 20rem e o © dividindo a última linha com "Voltar ao início"; abaixo de 24rem os contatos usam 1.125rem.
 
 Pontos de quebra: 40rem (a legenda do vídeo sai), 48rem (margens, cupom em pé, Trajetória em uma coluna) e 64rem (menu vira "Menu", a pista vai para a esquerda, Oficina e rodapé empilham).
 

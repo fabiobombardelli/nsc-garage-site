@@ -179,5 +179,48 @@
     .figure-eight {
       grid-column: 1 / -1;
     }
+
+    /* Celular e tablet: o rodapé inteiro cabe numa tela. Os contatos ficam
+       em duas colunas (uma só quando a fonte ampliada não cabe), o endereço
+       ocupa a linha toda. */
+    .footer-main {
+      margin-top: 2rem;
+      row-gap: 1.25rem;
+    }
+
+    .footer-places {
+      grid-template-columns: repeat(auto-fit, minmax(min(100%, 9.5rem), 1fr));
+      gap: 1.25rem 1rem;
+    }
+
+    .footer-place-wide,
+    .footer-hours {
+      grid-column: 1 / -1;
+    }
+
+    /* O oito encolhe um pouco para o rodapé caber também em celulares baixos. */
+    .figure-eight {
+      width: min(100%, 20rem);
+      justify-self: center;
+    }
+
+    /* Links numa faixa própria; o © e o "Voltar ao início" dividem a linha
+       de baixo. A ordem do foco não muda (o © não recebe foco). */
+    .footer-legal {
+      gap: 0 1rem;
+      margin-top: 4rem;
+    }
+
+    .footer-links {
+      order: -1;
+      width: 100%;
+    }
+  }
+
+  /* Celulares estreitos: os telefones cabem lado a lado sem quebrar. */
+  @media (width < 24rem) {
+    .footer-place {
+      font-size: 1.125rem;
+    }
   }
 }
