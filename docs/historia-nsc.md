@@ -66,5 +66,8 @@ As fotos do site vêm de fontes públicas de terceiros (Drifted, Netflix, MotorT
 Eduardo Junior Photography, capas de vídeos do YouTube). Elas aparecem com crédito, foram recortadas
 (sem faixas pretas nem textos sobrepostos) e ampliadas 2× com nitidez leve. **Antes de publicar o
 site, troque pelas versões tratadas e confirme a autorização de uso**, de preferência com o acervo da
-própria NSC. Não há foto pública verificada de: Neto no Japão, fachada da oficina, Praia Grande
-(dez/2015) e Endurance Brasil (out/2026). Esses marcos aparecem só com texto.
+própria NSC. Não há foto pública verificada de Neto no Japão nem da fachada da oficina. Praia Grande
+(dez/2015) usa a foto da Prefeitura de Praia Grande (notícia de 15/12/2015, que cita a NSC Garage
+como organizadora); Endurance Brasil usa o Mustang GT4 #72 de Rafa Catelan/Catelan Motorsport
+(Curva do S, 14/09/2026). A foto de Praia Grande é pequena (525 px) e foi ampliada: trocar por uma
+melhor do acervo da NSC.

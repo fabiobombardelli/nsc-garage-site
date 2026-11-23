@@ -1,6 +1,7 @@
 import cockpit2012 from "@/assets/images/history/2012-cockpit.webp";
 import paddock2012 from "@/assets/images/history/2012-paddock.webp";
 import silvia2013 from "@/assets/images/history/2013-silvia-paulista.webp";
+import praiaGrande2015 from "@/assets/images/history/2015-praia-grande.webp";
 import z350Red2015 from "@/assets/images/history/2015-350z-vermelho.webp";
 import r34KingOfNations2016 from "@/assets/images/history/2016-r34-king-of-nations.webp";
 import profileSdb2018 from "@/assets/images/history/2018-perfil-sdb.webp";
@@ -11,6 +12,7 @@ import longBeach2023 from "@/assets/images/history/2023-formula-drift-long-beach
 import longBeach2024 from "@/assets/images/history/2024-formula-drift-long-beach.webp";
 import ebisu2026 from "@/assets/images/history/2026-ebisu-japao.webp";
 import matsuri2026 from "@/assets/images/history/2026-matsuri-japao.webp";
+import endurance2026 from "@/assets/images/history/2026-endurance-interlagos.webp";
 
 export type MilestonePhoto = {
   src: string;
@@ -101,8 +103,11 @@ export const milestones: Milestone[] = [
     date: "12 e 13 de dezembro",
     title: "Recebendo os mestres japoneses",
     text: "A NSC organiza em Praia Grande uma etapa com Daigo Saito e Masashi Yokoi. Receber os maiores nomes do Japão valida, diante de todo o país, o nível técnico da casa.",
-    // TODO: sem foto pública verificada deste evento; usar o arquivo da NSC.
-    photo: null,
+    photo: {
+      src: praiaGrande2015,
+      alt: "Carro vermelho e branco de lado na curva do kartódromo de Praia Grande, soltando fumaça",
+      credit: "Prefeitura de Praia Grande",
+    },
   },
   {
     id: "2016-podio-mundial",
@@ -206,8 +211,12 @@ export const milestones: Milestone[] = [
     date: "outubro",
     title: "Além do drift",
     text: "A NSC amplia o repertório: a estreia no Endurance Brasil, com um Mustang GT4 liderando em Interlagos, mostra a casa também nas corridas de longa duração. Preparação não tem fronteira.",
-    // TODO: sem foto pública verificada; usar o arquivo da NSC (fonte do fato: Revista Podium, 21/10/2026).
-    photo: null,
+    // Fonte do fato: Revista Podium, 21/10/2026.
+    photo: {
+      src: endurance2026,
+      alt: "Mustang GT4 número 72, com HIGA na lateral, contornando uma curva molhada de Interlagos à frente de outros carros",
+      credit: "Rafa Catelan/Catelan Motorsport, via Curva do S",
+    },
   },
   {
     id: "2026-atracao",
