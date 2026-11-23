@@ -1,0 +1,357 @@
+/*
+ * Tela do projetor: palco de 1920×1080 px escalado. Tudo em px do palco.
+ * Mundo visual do site: grafite em degraus, luz de LED no texto, vermelho
+ * só como superfície (com texto claro por cima), cantos retos.
+ */
+
+body.is-screen {
+  overflow: hidden;
+  background: var(--color-carbon-deep);
+  cursor: none;
+}
+
+.viewport {
+  position: fixed;
+  inset: 0;
+  overflow: hidden;
+  background: var(--color-carbon-deep);
+}
+
+.stage {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 1920px;
+  height: 1080px;
+  overflow: hidden;
+  background: var(--color-carbon);
+  transform-origin: center;
+}
+
+.gl-layer,
+.scene-layer,
+.overlay-layer {
+  position: absolute;
+  inset: 0;
+}
+
+.gl-layer {
+  opacity: 0;
+  transition: opacity 300ms ease;
+
+  &.is-active {
+    opacity: 1;
+  }
+}
+
+.gl-canvas {
+  display: block;
+  width: 1920px;
+  height: 1080px;
+}
+
+.overlay-layer {
+  pointer-events: none;
+  z-index: 50;
+}
+
+/* ---------- Cenas ---------- */
+
+.scene {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  background: var(--color-carbon);
+  color: var(--color-ink);
+
+  &.is-hidden {
+    visibility: hidden;
+  }
+
+  &.is-3d {
+    background: transparent;
+  }
+}
+
+/* ---------- Tipografia (as vozes do site, em px do palco) ---------- */
+
+.t-monument {
+  font-weight: 800;
+  font-stretch: 62%;
+  line-height: 0.86;
+  letter-spacing: -0.01em;
+  text-transform: uppercase;
+}
+
+.t-head {
+  font-weight: 800;
+  font-stretch: 62%;
+  line-height: 0.9;
+  letter-spacing: -0.005em;
+  text-transform: uppercase;
+}
+
+.t-placa {
+  font-weight: 800;
+  font-stretch: 62%;
+  line-height: 1;
+  text-transform: uppercase;
+}
+
+.t-lead {
+  font-size: 44px;
+  line-height: 1.3;
+}
+
+.t-label {
+  font-size: 34px;
+  font-weight: 600;
+  line-height: 1.25;
+}
+
+.t-small {
+  font-size: 26px;
+  font-weight: 600;
+  line-height: 1.4;
+}
+
+.muted {
+  color: var(--color-muted);
+}
+
+/* Linha que sobe de dentro de uma máscara (como as placas do site).
+   O respiro em cima guarda os acentos (SÃO, PAIXÃO, É, À): sem ele, a
+   máscara cortaria o til e o acento do slogan. A animação desloca 150%. */
+.mask {
+  display: block;
+  overflow: hidden;
+  padding-top: 0.24em;
+  margin-top: -0.24em;
+  padding-bottom: 0.1em;
+  margin-bottom: -0.1em;
+}
+
+.mask-inner {
+  display: block;
+}
+
+/* Painel de luz: a nota clara do site, texto escuro por cima. */
+.light-panel {
+  background: var(--color-ink);
+  color: var(--color-on-light);
+}
+
+/* Bloco de laca: vermelho como superfície, texto claro por cima. */
+.lacquer {
+  background: var(--color-accent);
+  color: var(--color-on-accent);
+}
+
+/* ---------- Carro 2D (o 350Z visto de cima, dianteira para baixo) ---------- */
+
+.car2d {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: var(--car-w, 64px);
+  transform: translate(calc(var(--x, -400px) - 50%), calc(var(--y, 0px) - 50%))
+    rotate(var(--r, 0deg));
+  will-change: transform;
+  z-index: 5;
+}
+
+.car2d img {
+  display: block;
+  width: 100%;
+  height: auto;
+  filter: drop-shadow(0 8px 6px oklch(0 0 0 / 55%));
+}
+
+/* Nuvem de fumaça: degradê radial (bem mais leve que filter: blur em dezenas de nuvens). */
+.puff {
+  position: absolute;
+  border-radius: 999px;
+  background: radial-gradient(
+    circle,
+    color-mix(in oklab, var(--color-paint) 62%, transparent) 0%,
+    color-mix(in oklab, var(--color-paint) 30%, transparent) 45%,
+    transparent 72%
+  );
+  pointer-events: none;
+  z-index: 4;
+}
+
+/* ---------- Cone visto de cima (o mesmo do site) ---------- */
+
+.cone-base {
+  fill: var(--color-rubber);
+}
+
+.cone-body,
+.cone-tip {
+  fill: var(--color-accent);
+}
+
+.cone-band {
+  fill: var(--color-paint);
+}
+
+.cone-ring {
+  fill: none;
+  stroke: var(--color-paint);
+  stroke-width: 3px;
+  opacity: 0;
+  transform-box: fill-box;
+  transform-origin: center;
+}
+
+/* ---------- Cortina de laca ---------- */
+
+.curtain {
+  position: absolute;
+  inset: 0;
+  background: var(--color-accent);
+  z-index: 60;
+}
+
+.curtain-edge {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: 6px;
+  background: var(--color-ink);
+  opacity: 0.5;
+}
+
+/* ---------- Sobreposições ---------- */
+
+.blackout {
+  position: absolute;
+  inset: 0;
+  background: var(--color-carbon);
+  opacity: 0;
+  transition: opacity 400ms ease;
+  z-index: 70;
+
+  &.is-on {
+    opacity: 1;
+  }
+}
+
+.pair-overlay {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  background: oklch(0.13 0.004 250 / 92%);
+  opacity: 0;
+  transition: opacity 300ms ease;
+  z-index: 80;
+
+  &.is-on {
+    opacity: 1;
+  }
+}
+
+.pair-card {
+  display: flex;
+  align-items: center;
+  gap: 72px;
+}
+
+.pair-qr {
+  width: 460px;
+  height: 460px;
+  background: var(--color-ink);
+  padding: 18px;
+
+  & svg {
+    display: block;
+    width: 100%;
+    height: 100%;
+  }
+}
+
+.pair-label {
+  font-size: 48px;
+  color: var(--color-muted);
+  margin: 0;
+}
+
+.pair-code {
+  font-size: 260px;
+  margin: 8px 0 24px;
+  letter-spacing: 0.04em;
+}
+
+.pair-url {
+  font-size: 28px;
+  font-weight: 600;
+  color: var(--color-muted);
+  margin: 0;
+  max-width: 900px;
+  overflow-wrap: anywhere;
+}
+
+.timer {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  display: grid;
+  gap: 6px;
+  padding: 16px 20px;
+  background: oklch(0.13 0.004 250 / 88%);
+  border: 2px solid var(--color-edge);
+  font-size: 26px;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  text-align: right;
+  opacity: 0;
+  z-index: 90;
+
+  &.is-on {
+    opacity: 1;
+  }
+}
+
+.timer-total {
+  font-size: 40px;
+  font-weight: 800;
+  font-stretch: 62%;
+}
+
+.timer-fps {
+  color: var(--color-muted);
+}
+
+/* ---------- Cena provisória ---------- */
+
+.scene-placeholder {
+  padding: 120px 140px;
+}
+
+.placeholder-number {
+  margin: 0;
+  font-size: 48px;
+  color: var(--color-muted);
+}
+
+.placeholder-title {
+  margin: 12px 0 48px;
+  font-size: 200px;
+}
+
+.placeholder-steps {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  font-size: 48px;
+  font-weight: 600;
+}
+
+.placeholder-step {
+  opacity: 0.25;
+  transform: translateX(-24px);
+  margin-bottom: 18px;
+}

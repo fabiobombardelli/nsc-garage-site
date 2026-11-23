@@ -1,0 +1,279 @@
+.scene-acess {
+  background: var(--color-carbon);
+}
+
+/* ---------- Mini tela (variáveis --m-* trocam no alto contraste) ---------- */
+
+.ac-mini {
+  --k: 1;
+  position: absolute;
+  left: 120px;
+  top: 120px;
+  width: 1100px;
+  display: grid;
+  gap: calc(var(--k) * 18px);
+  padding: calc(var(--k) * 34px) calc(var(--k) * 36px);
+  background: var(--m-bg);
+  color: var(--m-ink);
+  border: 2px solid var(--m-edge);
+}
+
+.ac-swap {
+  display: grid;
+  margin: 0;
+
+  & > span {
+    grid-area: 1 / 1;
+  }
+}
+
+.ac-step {
+  font-size: calc(var(--k) * 26px);
+  font-weight: 600;
+  color: var(--m-muted);
+}
+
+.ac-title {
+  font-size: calc(var(--k) * 52px);
+  font-weight: 800;
+  font-stretch: 62%;
+  line-height: 0.95;
+  text-transform: uppercase;
+}
+
+.ac-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: calc(var(--k) * 16px);
+}
+
+.ac-opt {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: calc(var(--k) * 16px);
+  min-height: calc(var(--k) * 92px);
+  padding: calc(var(--k) * 16px) calc(var(--k) * 20px);
+  background: var(--m-raised);
+  border: 2px solid var(--m-edge);
+}
+
+.ac-box {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: calc(var(--k) * 34px);
+  height: calc(var(--k) * 34px);
+  border: 2px solid var(--m-ink);
+}
+
+.ac-check {
+  display: grid;
+  place-items: center;
+  width: 100%;
+  height: 100%;
+  background: var(--m-ink);
+  color: var(--m-bg);
+  font-size: calc(var(--k) * 24px);
+  font-weight: 800;
+}
+
+.ac-opt-name {
+  font-size: calc(var(--k) * 28px);
+  font-weight: 600;
+  line-height: 1.2;
+}
+
+.ac-sel {
+  position: absolute;
+  inset: -2px;
+  border: 4px solid var(--m-ink);
+  pointer-events: none;
+}
+
+.ac-actions {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.ac-btn {
+  display: inline-flex;
+  align-items: center;
+  min-height: calc(var(--k) * 64px);
+  padding: 0 calc(var(--k) * 30px);
+  background: var(--m-accent);
+  color: var(--m-on-accent);
+  font-size: calc(var(--k) * 28px);
+  font-weight: 600;
+}
+
+.ac-ring {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 10px;
+  height: 10px;
+  border: 4px solid var(--color-focus);
+  pointer-events: none;
+}
+
+/* ---------- Teclas ---------- */
+
+.ac-keys {
+  position: absolute;
+  left: 120px;
+  top: 800px;
+  display: flex;
+  gap: 18px;
+}
+
+.ac-key {
+  display: grid;
+  place-items: center;
+  min-width: 96px;
+  height: 92px;
+  padding: 0 22px;
+  border: 2px solid var(--color-edge);
+  border-bottom-width: 8px;
+  background: #2d2f32;
+  color: #f2f4f5;
+  font-size: 40px;
+  font-weight: 800;
+
+  &.is-wide {
+    min-width: 170px;
+  }
+}
+
+/* ---------- Painel de acessibilidade ---------- */
+
+.ac-panel {
+  position: absolute;
+  left: 1300px;
+  top: 200px;
+  width: 520px;
+  padding: 30px 32px 34px;
+  background: var(--color-raised);
+  box-shadow: 0 12px 28px oklch(0 0 0 / 45%);
+}
+
+.ac-panel-title {
+  margin: 0 0 24px;
+  font-size: 48px;
+}
+
+.ac-row-label {
+  margin: 0;
+  font-size: 28px;
+  font-weight: 600;
+}
+
+.ac-chips {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 10px;
+  margin: 12px 0 26px;
+}
+
+.ac-chip {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  place-items: center;
+  height: 64px;
+  border: 2px solid var(--color-edge);
+  font-size: 26px;
+  font-weight: 800;
+}
+
+.ac-chip-sel {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: calc((100% - 30px) / 4);
+  height: 64px;
+  background: var(--color-ink);
+  mix-blend-mode: difference;
+  z-index: 2;
+}
+
+.ac-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 18px;
+}
+
+.ac-track {
+  position: relative;
+  width: 92px;
+  height: 52px;
+  border: 2px solid var(--color-edge);
+  background: #2d2f32;
+}
+
+.ac-knob {
+  position: absolute;
+  top: 6px;
+  left: 6px;
+  width: 36px;
+  height: 36px;
+  background: var(--color-muted);
+  mix-blend-mode: difference;
+}
+
+/* ---------- Leitor de tela ---------- */
+
+.ac-bubble {
+  position: absolute;
+  left: 1300px;
+  top: 690px;
+  width: 520px;
+  display: flex;
+  gap: 18px;
+  align-items: flex-start;
+  padding: 26px 28px;
+  box-shadow: 0 18px 40px oklch(0 0 0 / 50%);
+}
+
+.ac-speaker {
+  flex: none;
+}
+
+.ac-bubble-text {
+  margin: 0;
+  font-size: 34px;
+  font-weight: 600;
+  line-height: 1.25;
+}
+
+/* ---------- Selo e pista ---------- */
+
+.ac-badge {
+  position: absolute;
+  right: 60px;
+  top: 50px;
+  margin: 0;
+  padding: 10px 22px 12px;
+  font-size: 40px;
+}
+
+.ac-lane {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 90px;
+  background: var(--color-floor);
+
+  & svg {
+    position: absolute;
+    inset: 0;
+  }
+}
+
+.ac-lane-cars {
+  position: absolute;
+  inset: 0;
+}

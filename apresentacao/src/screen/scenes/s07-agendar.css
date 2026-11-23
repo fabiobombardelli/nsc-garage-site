@@ -1,0 +1,146 @@
+.scene-agendar {
+  background: var(--color-carbon);
+}
+
+.ag-floor {
+  position: absolute;
+  left: 40px;
+  top: 40px;
+  width: 1000px;
+  height: 1000px;
+  overflow: hidden;
+  background: var(--color-floor);
+}
+
+.ag-svg {
+  position: absolute;
+  inset: 0;
+}
+
+.ag-marks-layer {
+  will-change: transform;
+  pointer-events: none;
+}
+
+.ag-edge,
+.ag-asphalt,
+.ag-dash,
+.ag-marks,
+.ag-center {
+  fill: none;
+}
+
+.ag-edge {
+  stroke: var(--color-paint);
+  stroke-width: 104;
+}
+
+.ag-asphalt {
+  stroke: var(--color-asphalt);
+  stroke-width: 94;
+}
+
+.ag-marks {
+  stroke: var(--color-rubber);
+  stroke-width: 18;
+  opacity: 0.55;
+}
+
+.ag-dash {
+  stroke: var(--color-paint);
+  stroke-width: 3;
+  stroke-dasharray: 18 24;
+  opacity: 0.45;
+}
+
+.ag-center {
+  stroke: none;
+}
+
+.ag-label {
+  position: absolute;
+  margin: 0;
+  font-size: 56px;
+  transform: translateY(-50%);
+  white-space: nowrap;
+
+  &.is-left {
+    text-align: right;
+  }
+}
+
+.ag-titles {
+  position: absolute;
+  left: 1110px;
+  top: 100px;
+  width: 760px;
+  height: 120px;
+}
+
+.ag-title {
+  position: absolute;
+  top: 0;
+  left: 0;
+  margin: 0;
+  font-size: 110px;
+  white-space: nowrap;
+}
+
+.ag-frame {
+  position: absolute;
+  left: 1110px;
+  top: 260px;
+  width: 760px;
+  background: var(--color-raised);
+  box-shadow: 0 24px 60px oklch(0 0 0 / 50%);
+}
+
+.ag-bar {
+  display: flex;
+  align-items: center;
+  height: 44px;
+  padding: 0 14px;
+  background: var(--color-raised-strong);
+  font-size: 20px;
+  font-weight: 600;
+}
+
+.ag-screen {
+  position: relative;
+  width: 760px;
+  height: 475px;
+  background: var(--color-carbon);
+}
+
+.ag-shot {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.ag-proto {
+  position: absolute;
+  left: 1150px;
+  top: 640px;
+  width: 700px;
+  padding: 26px 34px 30px;
+  box-shadow: 0 24px 60px oklch(0 0 0 / 55%);
+}
+
+.ag-proto-label {
+  margin: 0;
+  font-size: 36px;
+}
+
+.ag-proto-code {
+  margin: 8px 0;
+  font-size: 124px;
+  letter-spacing: 0.02em;
+  white-space: nowrap;
+}
+
+.ag-proto-sub {
+  margin: 0;
+}

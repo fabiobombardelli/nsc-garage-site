@@ -1,0 +1,64 @@
+/*
+ * Espelho dos tokens do site (src/styles/theme.css, bloco @theme):
+ * "o box à noite". Mesmos nomes e valores, para a apresentação ter a
+ * mesma luz de LED, o mesmo grafite e o mesmo vermelho laqueado.
+ * O vermelho é sempre superfície, com texto claro por cima.
+ */
+:root {
+  --color-carbon: oklch(0.205 0.005 250);
+  --color-carbon-deep: oklch(0.13 0.004 250);
+  --color-floor: oklch(0.265 0.005 250);
+  --color-raised: oklch(0.305 0.005 250);
+  --color-raised-strong: oklch(0.36 0.005 250);
+  --color-ink: oklch(0.965 0.003 250);
+  --color-muted: oklch(0.78 0.006 250);
+  --color-accent: oklch(0.55 0.21 27);
+  --color-accent-strong: oklch(0.48 0.19 27);
+  --color-on-accent: oklch(0.985 0.002 250);
+  --color-on-light: oklch(0.18 0.004 250);
+  --color-paint: oklch(0.93 0.003 250);
+  --color-asphalt: oklch(0.21 0.004 250);
+  --color-rubber: oklch(0.1 0.003 250);
+  --color-focus: oklch(0.88 0.17 95);
+  --color-danger: oklch(0.76 0.15 25);
+  --color-edge: oklch(0.62 0.006 250);
+
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-expo: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-in-out: cubic-bezier(0.76, 0, 0.24, 1);
+
+  --font-sans: "Archivo Variable", "Archivo", ui-sans-serif, system-ui, sans-serif;
+
+  color-scheme: dark;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  height: 100%;
+  background: var(--color-carbon);
+  color: var(--color-ink);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+button {
+  font: inherit;
+  color: inherit;
+}
+
+[hidden] {
+  display: none !important;
+}
+
+:focus-visible {
+  outline: 3px solid var(--color-focus);
+  outline-offset: 3px;
+}

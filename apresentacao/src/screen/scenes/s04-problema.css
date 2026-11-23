@@ -1,0 +1,115 @@
+.scene-problema {
+  background: var(--color-carbon);
+}
+
+.prob-before {
+  position: absolute;
+  inset: 0;
+  transform-origin: 0 50%;
+}
+
+.prob-frame {
+  position: absolute;
+  left: 150px;
+  top: 96px;
+  width: 600px;
+  background: var(--color-raised);
+  box-shadow: 0 24px 60px oklch(0 0 0 / 50%);
+}
+
+.prob-bar {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  height: 54px;
+  padding: 0 14px;
+  background: var(--color-raised-strong);
+  font-size: 22px;
+  font-weight: 600;
+}
+
+.prob-lock {
+  flex: none;
+  color: var(--color-danger);
+}
+
+.prob-url {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.prob-unsafe {
+  color: var(--color-danger);
+  font-size: 18px;
+}
+
+.prob-shot img {
+  display: block;
+  width: 600px;
+  height: 834px;
+}
+
+.prob-lines {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.prob-line {
+  fill: none;
+  stroke: var(--color-ink);
+  stroke-width: 3;
+  opacity: 0.8;
+}
+
+.prob-pin {
+  position: absolute;
+  width: 64px;
+  height: 64px;
+  transform: translate(-50%, -50%);
+
+  & svg {
+    display: block;
+    filter: drop-shadow(0 6px 6px oklch(0 0 0 / 60%));
+  }
+}
+
+.prob-label {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  gap: 22px;
+  transform: translateY(-50%);
+  white-space: nowrap;
+
+  & .t-head {
+    font-size: 80px;
+  }
+}
+
+.prob-kicker {
+  position: absolute;
+  left: 950px;
+  top: 120px;
+  margin: 0;
+  font-size: 44px;
+  color: var(--color-muted);
+}
+
+.prob-missing {
+  position: absolute;
+  left: 240px;
+  top: 190px;
+  display: grid;
+  gap: 34px;
+}
+
+.prob-plate {
+  margin: 0;
+  padding: 26px 48px 30px;
+  font-size: 150px;
+  width: fit-content;
+}

@@ -1,0 +1,109 @@
+.scene-neto {
+  background: var(--color-carbon-deep);
+}
+
+.neto-photo {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 1300px;
+  height: 900px;
+  overflow: hidden;
+  -webkit-mask-image: linear-gradient(to right, transparent 0, #000 34%);
+  mask-image: linear-gradient(to right, transparent 0, #000 34%);
+}
+
+.neto-img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.neto-left {
+  position: absolute;
+  left: 120px;
+  top: 200px;
+  width: 640px;
+}
+
+.neto-kicker {
+  margin: 0 0 24px;
+  font-size: 40px;
+  color: var(--color-muted);
+}
+
+.neto-year {
+  position: relative;
+  height: 290px;
+  overflow: hidden;
+  font-size: 320px;
+  line-height: 0.9;
+}
+
+.neto-year-num {
+  position: absolute;
+  top: 0;
+  left: 0;
+  font-variant-numeric: tabular-nums;
+}
+
+.neto-text {
+  position: relative;
+  min-height: 260px;
+  margin-top: 28px;
+}
+
+.neto-block {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+}
+
+.neto-title {
+  margin: 0;
+  font-size: 52px;
+  font-weight: 600;
+  line-height: 1.15;
+}
+
+.neto-date {
+  margin: 14px 0 0;
+  font-size: 32px;
+  font-weight: 600;
+  color: var(--color-muted);
+}
+
+.neto-credit {
+  position: absolute;
+  right: 48px;
+  bottom: 200px;
+  margin: 0;
+  max-width: 900px;
+  font-size: 22px;
+  font-weight: 600;
+  color: var(--color-muted);
+  text-align: right;
+  text-shadow: 0 2px 8px oklch(0 0 0 / 80%);
+}
+
+.neto-lane {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 180px;
+  background: var(--color-floor);
+}
+
+.neto-lane-svg {
+  position: absolute;
+  inset: 0;
+}
+
+.neto-lane-cars {
+  position: absolute;
+  inset: 0;
+}

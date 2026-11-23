@@ -1,0 +1,90 @@
+.cr-kicker {
+  position: absolute;
+  left: 110px;
+  top: 80px;
+  margin: 0;
+  font-size: 60px;
+  text-shadow: 0 4px 20px oklch(0 0 0 / 70%);
+}
+
+.cr-label {
+  position: absolute;
+  top: 0;
+  left: 0;
+  padding: 16px 24px 18px;
+  min-width: 300px;
+  box-shadow: 0 16px 40px oklch(0 0 0 / 55%);
+  will-change: transform;
+}
+
+.cr-label-name {
+  margin: 0;
+  font-size: 64px;
+}
+
+.cr-label-sub {
+  margin: 2px 0 0;
+}
+
+.cr-label-check {
+  margin: 10px 0 0;
+  padding: 6px 12px;
+  background: var(--color-on-light);
+  color: var(--color-ink);
+  font-size: 28px;
+}
+
+.cr-counter {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 70px;
+  text-align: center;
+  text-shadow: 0 6px 30px oklch(0 0 0 / 80%);
+}
+
+.cr-count {
+  margin: 0;
+  font-size: 240px;
+  line-height: 0.85;
+  font-variant-numeric: tabular-nums;
+}
+
+.cr-count-label {
+  margin: 8px 0 0;
+  font-weight: 600;
+}
+
+.cr-pipe {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 70px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0;
+}
+
+.cr-pipe-box {
+  margin: 0;
+  padding: 14px 34px 18px;
+  border: 3px solid var(--color-edge);
+  background: #151719;
+  color: #f2f4f5;
+  font-size: 64px;
+}
+
+.cr-pipe-arrow {
+  position: relative;
+  width: 170px;
+  height: 6px;
+  background: var(--color-raised-strong);
+}
+
+.cr-pipe-fill {
+  position: absolute;
+  inset: 0;
+  background: var(--color-ink);
+  transform-origin: left center;
+}
