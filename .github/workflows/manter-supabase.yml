@@ -1,0 +1,48 @@
+# Mantém o Supabase do plano gratuito ativo. O projeto é pausado depois de
+# 7 dias sem uso (foi o que derrubou o agendamento em novembro de 2026).
+# A cada 3 dias, uma consulta de leitura ao banco: os horários ocupados de
+# hoje, a mesma consulta que o site faz, sem nenhum dado pessoal e sem gravar nada.
+# Se o banco não responder, o GitHub avisa por e-mail que o fluxo falhou.
+name: Manter Supabase ativo
+
+on:
+  schedule:
+    # A cada 3 dias, 12:17 UTC (9:17 em Brasília). O "*/3" recomeça no dia 1
+    # de cada mês, então o intervalo nunca passa de 3 dias.
+    - cron: "17 12 */3 * *"
+  # Também dá para rodar na hora: Actions → Manter Supabase ativo → Run workflow.
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  consultar:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Consulta ao banco
+        env:
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_KEY: ${{ secrets.SUPABASE_ANON_KEY }}
+        run: |
+          if [ -z "$SUPABASE_URL" ] || [ -z "$SUPABASE_KEY" ]; then
+            echo "Faltam os segredos SUPABASE_URL e SUPABASE_ANON_KEY (Settings → Secrets and variables → Actions)."
+            exit 1
+          fi
+          hoje=$(date -u +%F)
+          for tentativa in 1 2 3; do
+            codigo=$(curl -s -o resposta.json -w "%{http_code}" -m 30 \
+              -X POST "$SUPABASE_URL/rest/v1/rpc/agenda_ocupada" \
+              -H "apikey: $SUPABASE_KEY" \
+              -H "Content-Type: application/json" \
+              -d "{\"p_de\":\"$hoje\",\"p_ate\":\"$hoje\"}")
+            echo "Tentativa $tentativa: HTTP $codigo"
+            if [ "$codigo" = "200" ]; then
+              echo "O banco respondeu: $(head -c 300 resposta.json)"
+              exit 0
+            fi
+            sleep 30
+          done
+          echo "O banco não respondeu. Confira no painel do Supabase se o projeto foi pausado."
+          exit 1

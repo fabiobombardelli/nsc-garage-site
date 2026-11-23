@@ -66,6 +66,12 @@ economizar tokens). Código, commits e docs ficam em texto normal.
 - `docs/rastreabilidade.md`: RF/RN/RNF → UC → código → teste. Atualize ao mudar um requisito.
 - `src/styles/theme.css`: tokens `--color-*`, tamanhos, utilitários e tema de alto contraste.
   `sections/*.css`: um arquivo por seção.
+- `apresentacao/`: apresentação da entrega em HTML (GSAP + three.js), pacote próprio (`npm i` e
+  `npm run dev` lá dentro; a raiz ignora no ESLint). Tela (palco 1920×1080, `src/screen/`) e celular
+  do apresentador (`#/apresentador?sala=XXXX`, `src/presenter/`) sincronizados pelo Supabase Realtime
+  (canal Broadcast) ou BroadcastChannel; roteiro e falas em `src/roteiro.ts`. O 370Z 3D com a
+  plotagem da NSC é `src/assets/carro-370z-nsc.glb`, gerado por `tools/carro.ts` +
+  `scripts/carro.cjs` a partir do FBX original (fora do repositório). Testes: `scripts/*.cjs`.
 - `DESIGN.md` + `.impeccable/design.json`: sistema visual. `PRODUCT.md`: fatos do negócio.
   `ACESSIBILIDADE.md`: WCAG. Atualize-os quando o visual ou a acessibilidade mudarem.
 
@@ -103,6 +109,10 @@ painel de acessibilidade; agendamentos de teste apagados).
   região São Paulo (`sa-east-1`). Migração `20261105000000_agenda.sql` aplicada, cadastro aberto
   desligado, Site URL `https://nsc.vox.dev.br`. Login da oficina (`oficina_admins`):
   `fabiobombardellijr@gmail.com`. O site usa a chave publishable (`sb_publishable_…`).
+  O plano Free pausa o projeto após 7 dias sem uso (aconteceu em 22/11/2026; o DNS do projeto
+  some). O fluxo `.github/workflows/manter-supabase.yml` faz uma consulta de leitura
+  (`agenda_ocupada`) a cada 3 dias; usa os segredos do GitHub `SUPABASE_URL` e
+  `SUPABASE_ANON_KEY` (a publishable, nunca a secret).
 - Cloudflare Pages: projeto `nsc-garage` (`nsc-garage.pages.dev`), ligado ao GitHub (app da
   Cloudflare autorizado só neste repositório), build `npm run build` → `dist`. `VITE_SUPABASE_URL` e
   `VITE_SUPABASE_ANON_KEY` só em Production; Preview roda em modo demonstração.

@@ -1,0 +1,99 @@
+.fim-slogan {
+  position: absolute;
+  inset: 0;
+  margin: 0;
+  font-size: 150px;
+  pointer-events: none;
+  text-shadow: 0 6px 30px oklch(0 0 0 / 70%);
+}
+
+.fim-line {
+  position: absolute;
+  display: block;
+}
+
+.fim-line-1 {
+  left: 110px;
+  top: 110px;
+}
+
+.fim-line-2 {
+  right: 110px;
+  bottom: 120px;
+  text-align: right;
+}
+
+.fim-thanks {
+  position: absolute;
+  inset: 0;
+  color: var(--color-on-accent);
+  pointer-events: none;
+}
+
+/* O nome de margem a margem, como no rodapé do site. */
+.fim-name {
+  position: absolute;
+  left: 60px;
+  right: 60px;
+  top: 40px;
+  margin: 0;
+  /* Como no rodapé do site: largura útil / 4,65. */
+  font-size: 387px;
+  line-height: 0.82;
+  white-space: nowrap;
+  text-align: center;
+  text-shadow: 0 10px 40px oklch(0.25 0.1 27 / 45%);
+}
+
+.fim-bottom {
+  position: absolute;
+  left: 110px;
+  right: 110px;
+  bottom: 70px;
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+}
+
+.fim-obrigado {
+  margin: 0 0 18px;
+  font-size: 150px;
+}
+
+.fim-team {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px 40px;
+  max-width: 1200px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+
+  & li {
+    font-size: 40px;
+  }
+}
+
+.fim-right {
+  display: grid;
+  justify-items: center;
+  gap: 12px;
+}
+
+.fim-qr {
+  width: 250px;
+  height: 250px;
+  padding: 12px;
+  background: var(--color-ink);
+
+  & svg {
+    display: block;
+    width: 100%;
+    height: 100%;
+  }
+}
+
+.fim-url {
+  margin: 0;
+  font-size: 30px;
+}

@@ -1,0 +1,55 @@
+.scene-nsc {
+  background: var(--color-carbon-deep);
+}
+
+.nsc-video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+
+  /* Aquecendo no lobby: tocando, mas fora da vista. */
+  &.is-warming {
+    width: 16px;
+    height: 9px;
+    opacity: 0.01;
+    pointer-events: none;
+  }
+}
+
+/* O scrim do site: escurece as bordas onde fica o texto. */
+.nsc-scrim {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to bottom,
+    oklch(0 0 0 / 55%) 0%,
+    oklch(0 0 0 / 20%) 35%,
+    oklch(0 0 0 / 35%) 60%,
+    oklch(0 0 0 / 88%) 100%
+  );
+}
+
+.nsc-big {
+  position: absolute;
+  left: 120px;
+  bottom: 250px;
+  margin: 0;
+  font-size: 560px;
+  line-height: 0.8;
+}
+
+.nsc-full {
+  position: absolute;
+  left: 128px;
+  bottom: 120px;
+  margin: 0;
+  font-size: 120px;
+  letter-spacing: 0.01em;
+}
+
+.nsc-char {
+  display: inline-block;
+  white-space: pre;
+}

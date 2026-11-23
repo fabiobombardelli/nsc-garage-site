@@ -1,0 +1,51 @@
+.ab-leds {
+  position: absolute;
+  top: 54px;
+  left: 140px;
+  right: 140px;
+  display: flex;
+  gap: 60px;
+}
+
+.ab-led {
+  flex: 1;
+  height: 10px;
+  background: var(--color-ink);
+  opacity: 0;
+  box-shadow:
+    0 0 18px 2px oklch(0.965 0.003 250 / 70%),
+    0 0 70px 14px oklch(0.965 0.003 250 / 22%);
+}
+
+.ab-slogan {
+  position: absolute;
+  inset: 0;
+  margin: 0;
+  font-size: 150px;
+  pointer-events: none;
+  text-shadow: 0 6px 30px oklch(0 0 0 / 70%);
+}
+
+.ab-line {
+  position: absolute;
+  display: block;
+}
+
+.ab-line-1 {
+  left: 110px;
+  top: 120px;
+}
+
+.ab-line-2 {
+  right: 110px;
+  bottom: 150px;
+  text-align: right;
+}
+
+.ab-tag {
+  position: absolute;
+  left: 116px;
+  bottom: 70px;
+  margin: 0;
+  color: var(--color-muted);
+}

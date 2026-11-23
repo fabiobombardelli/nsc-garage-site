@@ -1,0 +1,62 @@
+.scene-resultado {
+  background: var(--color-raised);
+}
+
+.res-photo {
+  position: absolute;
+  width: 600px;
+  padding: 12px;
+  background: var(--color-raised-strong);
+  box-shadow: 0 20px 50px oklch(0 0 0 / 50%);
+  transform: rotate(var(--r));
+
+  & img {
+    display: block;
+    width: 576px;
+    height: 360px;
+    object-fit: cover;
+    opacity: 0.75;
+  }
+}
+
+.res-band {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 330px;
+  height: 440px;
+  display: grid;
+  align-content: center;
+  gap: 26px;
+  background: oklch(0.205 0.005 250 / 94%);
+  transform-origin: center;
+}
+
+.res-stats {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  padding: 0 120px;
+}
+
+.res-stat {
+  text-align: center;
+}
+
+.res-num {
+  display: block;
+  font-size: 260px;
+  line-height: 0.85;
+  font-variant-numeric: tabular-nums;
+}
+
+.res-label {
+  margin: 14px 0 0;
+  color: var(--color-muted);
+  font-size: 40px;
+}
+
+.res-live {
+  margin: 0;
+  text-align: center;
+  font-weight: 600;
+}
