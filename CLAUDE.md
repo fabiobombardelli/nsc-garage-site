@@ -109,6 +109,10 @@ painel de acessibilidade; agendamentos de teste apagados).
   região São Paulo (`sa-east-1`). Migração `20261105000000_agenda.sql` aplicada, cadastro aberto
   desligado, Site URL `https://nsc.vox.dev.br`. Login da oficina (`oficina_admins`):
   `fabiobombardellijr@gmail.com`. O site usa a chave publishable (`sb_publishable_…`).
+  O plano Free pausa o projeto após 7 dias sem uso (aconteceu em 22/11/2026; o DNS do projeto
+  some). O fluxo `.github/workflows/manter-supabase.yml` faz uma consulta de leitura
+  (`agenda_ocupada`) a cada 3 dias; usa os segredos do GitHub `SUPABASE_URL` e
+  `SUPABASE_ANON_KEY` (a publishable, nunca a secret).
 - Cloudflare Pages: projeto `nsc-garage` (`nsc-garage.pages.dev`), ligado ao GitHub (app da
   Cloudflare autorizado só neste repositório), build `npm run build` → `dist`. `VITE_SUPABASE_URL` e
   `VITE_SUPABASE_ANON_KEY` só em Production; Preview roda em modo demonstração.
