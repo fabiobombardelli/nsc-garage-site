@@ -254,3 +254,10 @@
 html[data-motion="reduce"] .drift-car-puff {
   display: none;
 }
+
+/* VLibras (lib/vlibras.ts): o botão fica num Shadow DOM, mas lê estas variáveis;
+   o foco dele usa o mesmo anel amarelo do site. */
+#vlibras {
+  --vlibras-btn-focus-visible-outline: 3px solid var(--color-focus);
+  --vlibras-btn-focus-visible-shadow: none;
+}

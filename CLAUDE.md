@@ -45,7 +45,8 @@ economizar tokens). Código, commits e docs ficam em texto normal.
 - `src/components/footer/FigureEight.tsx`: carro fazendo oitos em loop. `ui/Reveal.tsx`: entradas
   (a `MaskedLine` observa a máscara, não o texto escondido).
 - `src/lib/accessibility.ts`: preferências (`data-motion`, `data-contrast`, `--font-scale`), evento
-  de mudança; painel visível em `components/a11y/AccessibilityPanel.tsx`.
+  de mudança; painel visível em `components/a11y/AccessibilityPanel.tsx`. `src/lib/vlibras.ts`:
+  botão do VLibras (gov.br), carregado depois da página; domínios liberados na CSP de `_headers`.
 - `src/app/`: rotas por hash (`#/agendar`, `#/meus-agendamentos`, `#/painel`, `#/acessibilidade`,
   `#/privacidade`), foco e título a cada troca (`useRouteFocus`). Telas internas sob demanda
   (`lazyPage.tsx`, baixadas logo depois da inicial); o vídeo do topo só baixa depois do `load`. Links para seções da inicial usam

@@ -97,6 +97,14 @@ topo ao primeiro Tab. Conteúdo, menu e rodapé existem em todas as telas, e o a
 tela atual, sem trocar de tela nem perder o que foi preenchido. Só "Ir para o contato" abre a
 página inicial, porque o contato fica lá.
 
+## Tradução para Libras (VLibras)
+
+O botão azul do VLibras (governo federal), à direita no meio da tela, traduz para Libras o texto
+que a pessoa selecionar, com um avatar. O script (`src/lib/vlibras.ts`) carrega depois que a
+página termina de abrir, e o avatar só baixa no clique. O botão e o avatar são do governo e ficam
+fora dos tokens do site; o foco do botão usa o anel amarelo do site. A CSP de `public/_headers`
+libera `vlibras.gov.br` e o CDN oficial dele no jsDelivr (`cdn.jsdelivr.net/gh/spbgovbr-vlibras/`).
+
 ## Telas com várias etapas e troca de tela
 
 O site é uma aplicação de página única com navegação por `#/` (`src/app/router.ts`). Cada troca
