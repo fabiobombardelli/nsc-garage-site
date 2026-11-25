@@ -41,6 +41,10 @@ export function PrivacyPage() {
               O site não usa cookies de propaganda nem ferramentas de rastreamento. As escolhas do
               painel de acessibilidade ficam só no seu navegador.
             </li>
+            <li>
+              O botão de Libras é o VLibras, serviço do governo federal: ele vem do site
+              vlibras.gov.br e só baixa o avatar quando você clica.
+            </li>
           </ul>
         </section>
 
