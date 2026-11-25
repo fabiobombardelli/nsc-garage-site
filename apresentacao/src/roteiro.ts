@@ -144,7 +144,7 @@ export const CENAS: readonly Cena[] = [
     numero: 6,
     titulo: "Criação",
     quem: "Fabio",
-    segundos: 100,
+    segundos: 90,
     passos: ["Três camadas", "O pedido desce", "Testes e publicação"],
     pontos: [
       "Pensem no site como um carro de competição.",
@@ -175,13 +175,19 @@ export const CENAS: readonly Cena[] = [
     numero: 8,
     titulo: "Acessibilidade",
     quem: "Mathias",
-    segundos: 80,
-    passos: ["Teclado", "Contraste e texto 150%", "Leitor de tela e movimento"],
+    segundos: 90,
+    passos: [
+      "Teclado",
+      "Contraste e texto 150%",
+      "Leitor de tela e movimento",
+      "Libras com o VLibras",
+    ],
     pontos: [
       "A meta foi WCAG 2.2 nível AA, com eMAG e a Lei Brasileira de Inclusão.",
       "Dá para agendar só com o teclado; o foco amarelo nunca some.",
       "O botão Acessibilidade aumenta o texto até 150%, liga alto contraste e reduz o movimento.",
       "O leitor de tela anuncia cada etapa, e erro sempre vem com texto e ícone, nunca só cor.",
+      "Para quem é surdo e usa Libras, o botão azul do VLibras, do governo federal, traduz o texto do site com um avatar.",
     ],
   },
   {

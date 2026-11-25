@@ -36,11 +36,13 @@ const LANE_Y = 45;
 /**
  * Acessibilidade: a mesma mini tela do agendamento usada pelo teclado, com
  * alto contraste e texto em 150% (mesmos componentes, outras variáveis), o
- * leitor de tela anunciando a etapa e o movimento que para.
+ * leitor de tela anunciando a etapa, o movimento que para e a tradução para
+ * Libras com o VLibras (avatar desenhado aqui, só para ilustrar o botão).
  */
 export class AcessibilidadeScene extends Scene {
-  readonly steps = 3;
+  readonly steps = 4;
   private shuttle: gsap.core.Timeline | null = null;
+  private signing: gsap.core.Timeline | null = null;
 
   constructor() {
     super("scene-acess");
@@ -154,7 +156,92 @@ export class AcessibilidadeScene extends Scene {
       ),
       laneCars,
     );
-    this.el.append(mini, keys, panel, bubble, badge, lane);
+    // ---------- VLibras ----------
+    const handsIcon = () =>
+      s(
+        "svg",
+        { width: 52, height: 52, viewBox: "0 0 24 24", "aria-hidden": "true" },
+        s("path", {
+          d: "M7 21v-6l-3-4 1.5-1.5L8 12V4.5a1.2 1.2 0 0 1 2.4 0V10h.6V3.2a1.2 1.2 0 0 1 2.4 0V10h.6V4.2a1.2 1.2 0 0 1 2.4 0V11h.6V6.5a1.2 1.2 0 0 1 2.4 0V15c0 3-2 6-5 6z",
+          fill: "currentColor",
+        }),
+      );
+    const vlButton = h("div", { class: "ac-vl-btn" }, handsIcon());
+    const SKIN = "#e9b48f";
+    const SHIRT = "#2456d6";
+    const SLEEVE = "#1b44b8";
+    const HAIR = "#2b2321";
+    const line = (d: string, width: number) =>
+      s("path", {
+        d,
+        stroke: SLEEVE,
+        "stroke-width": width,
+        "stroke-linecap": "round",
+        fill: "none",
+      });
+    // Antebraço + mão, girando no cotovelo.
+    const forearm = (elbowX: number, handX: number) =>
+      s(
+        "g",
+        {},
+        line(`M${elbowX} 188 L${handX} 158`, 17),
+        s("circle", { cx: handX, cy: 154, r: 12, fill: SKIN }),
+      );
+    const armL = forearm(56, 88);
+    const armR = forearm(144, 112);
+    const avatar = s(
+      "svg",
+      {
+        class: "ac-avatar",
+        width: 280,
+        height: 280,
+        viewBox: "0 0 200 200",
+        "aria-hidden": "true",
+      },
+      s("path", { d: "M38 200 C38 146 64 128 100 128 C136 128 162 146 162 200 Z", fill: SHIRT }),
+      s("rect", { x: 90, y: 98, width: 20, height: 32, fill: SKIN }),
+      s("ellipse", { cx: 100, cy: 72, rx: 30, ry: 35, fill: SKIN }),
+      s("path", {
+        d: "M68 66 C66 36 86 28 100 30 C118 28 136 38 132 66 C124 50 108 46 96 50 C84 46 74 54 68 66 Z",
+        fill: HAIR,
+      }),
+      s("circle", { cx: 89, cy: 74, r: 3.5, fill: HAIR }),
+      s("circle", { cx: 111, cy: 74, r: 3.5, fill: HAIR }),
+      s("path", {
+        d: "M92 90 Q100 96 108 90",
+        stroke: HAIR,
+        "stroke-width": 2.5,
+        fill: "none",
+        "stroke-linecap": "round",
+      }),
+      line("M64 146 L56 188", 19),
+      line("M136 146 L144 188", 19),
+      armL,
+      armR,
+    );
+    const vlWindow = h(
+      "div",
+      { class: "ac-vl-window" },
+      h("div", { class: "ac-vl-head" }, handsIcon(), h("span", {}, "VLibras")),
+      h("div", { class: "ac-vl-body" }, avatar),
+    );
+    const vlLabel = h("p", { class: "ac-vl-label t-placa" }, "Texto em Libras");
+
+    this.el.append(mini, keys, panel, bubble, badge, lane, vlButton, vlWindow, vlLabel);
+
+    // Mãos fazendo sinais (só roda no passo 4).
+    gsap.set(armL, { svgOrigin: "56 188" });
+    gsap.set(armR, { svgOrigin: "144 188" });
+    this.signing = gsap
+      .timeline({ repeat: -1, paused: true, defaults: { ease: "sine.inOut" } })
+      .to(armL, { rotation: 22, duration: 0.45 })
+      .to(armR, { rotation: -14, duration: 0.45 }, "<0.1")
+      .to(armL, { rotation: -16, duration: 0.4 })
+      .to(armR, { rotation: 26, duration: 0.45 }, "<")
+      .to(armL, { rotation: 10, duration: 0.35 })
+      .to(armR, { rotation: -10, duration: 0.35 }, "<0.05")
+      .to([armL, armR], { rotation: 0, duration: 0.4 });
+    this.onCleanup(() => this.signing?.kill());
 
     // Carro indo e voltando (para quando "Reduzir movimento" liga).
     const car = new Car2D(laneCars, 34);
@@ -192,7 +279,7 @@ export class AcessibilidadeScene extends Scene {
     const opt0 = options[0] as HTMLElement;
     const opt1 = options[1] as HTMLElement;
 
-    gsap.set([bubble, ring], { opacity: 0 });
+    gsap.set([bubble, ring, vlButton, vlWindow, vlLabel], { opacity: 0 });
     gsap.set(this.q(".ac-b"), { opacity: 0 });
     gsap.set(this.q(".ac-check, .ac-sel"), { opacity: 0 });
 
@@ -253,6 +340,29 @@ export class AcessibilidadeScene extends Scene {
       .to(motion.knob, { x: 40, duration: 0.3, ease: "power2.out" }, "+=0.4")
       .to(motion.track, { backgroundColor: "#f2f4f5", duration: 0.3 }, "<");
     this.mark();
+
+    // Passo 4: tradução para Libras (VLibras). O título fica selecionado e o avatar sinaliza.
+    this.tl
+      .to(bubble, { opacity: 0, y: 20, duration: 0.35 })
+      .fromTo(
+        vlButton,
+        { x: 60, opacity: 0 },
+        { x: 0, opacity: 1, duration: 0.5, ease: "back.out(1.6)" },
+        "<0.1",
+      )
+      .to(
+        this.q(".ac-title .ac-b"),
+        { backgroundColor: "rgba(19, 81, 180, 0.6)", duration: 0.4 },
+        "+=0.2",
+      )
+      .to(vlButton, { scale: 0.9, duration: 0.1, yoyo: true, repeat: 1 }, "+=0.2")
+      .fromTo(
+        vlWindow,
+        { opacity: 0, scale: 0.85, transformOrigin: "100% 50%" },
+        { opacity: 1, scale: 1, duration: 0.55, ease: "expo.out" },
+      )
+      .fromTo(vlLabel, { y: 30, opacity: 0 }, { y: 0, opacity: 1, duration: 0.5 }, "<0.2");
+    this.mark();
   }
 
   activate() {
@@ -260,8 +370,12 @@ export class AcessibilidadeScene extends Scene {
   }
 
   protected onStep(step: number) {
+    if (this.signing) {
+      if (step === 3) this.signing.delay(1.6).restart(true);
+      else this.signing.pause(0);
+    }
     if (!this.shuttle) return;
-    if (step === 2)
+    if (step >= 2)
       gsap.to(this.shuttle, { timeScale: 0, duration: 1.2, delay: 1.6, ease: "power2.out" });
     else {
       gsap.killTweensOf(this.shuttle);

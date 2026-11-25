@@ -77,7 +77,7 @@ organizar a agenda num lugar só.
 2. Um **sistema de agendamento** em que o cliente escolha serviço, dia e horário livres, receba um
    protocolo, acompanhe, cancele e avalie, e em que a oficina confirme e conclua os atendimentos.
 3. Tudo **acessível**: usável por quem navega só pelo teclado, usa leitor de tela, enxerga pouco, é
-   daltônico ou sente desconforto com movimento.
+   daltônico, é surdo e prefere Libras ou sente desconforto com movimento.
 
 ### Por que é um projeto de extensão
 
@@ -88,7 +88,8 @@ cliente, e aplica as duas disciplinas ao mesmo produto:
   estados, matriz de rastreabilidade, arquitetura em camadas e testes automatizados ligados aos
   casos de teste.
 - **Acessibilidade:** WCAG 2.2 AA em todas as telas, atalhos do eMAG, painel de acessibilidade,
-  declaração de acessibilidade e testes automáticos de acessibilidade a cada entrega.
+  tradução para Libras (VLibras), declaração de acessibilidade e testes automáticos de
+  acessibilidade a cada entrega.
 
 ---
 
@@ -154,7 +155,8 @@ Uma demonstração de cerca de 10 minutos, que passa pelas duas disciplinas.
    350Z desce a pista da Trajetória acendendo os cones.
 2. **Acessibilidade na prática.** Aperte Tab: aparecem os atalhos do eMAG. Abra o botão
    **Acessibilidade** no topo e mostre texto em 150%, alto contraste e reduzir movimento. Tudo vale
-   na hora e o layout não quebra.
+   na hora e o layout não quebra. Clique no botão azul do **VLibras**, à direita, e depois num
+   texto: o avatar traduz para Libras.
 3. **Agendar.** Em Serviços, abra a gaveta "Preparação para drift" e clique em "Agendar avaliação".
    A cada etapa o carro dirige até o próximo cone. Tente avançar com campos vazios para mostrar os
    erros (texto, ícone e foco no primeiro campo). Confirme na revisão: o carro fica fazendo "zerinhos"
@@ -300,6 +302,7 @@ flowchart TB
 | Base de acessibilidade | Tokens de alto contraste, movimento reduzido, fonte ampliada, atalhos do eMAG, testes automáticos                  |
 | Sistema de agendamento | Domínio, testes, repositório, casos de uso, telas, painel da oficina                                               |
 | Padronização WCAG      | Painel de acessibilidade, declaração, borda de controles, foco em todas as telas, testes em todas as telas e modos |
+| Libras                 | Botão do VLibras (gov.br) em todas as telas, com a CSP liberando só o domínio dele e o CDN oficial                 |
 
 O histórico do Git registra cada passo (`git log`). As decisões da revisão de requisitos adotadas
 nesta versão:
@@ -509,6 +512,8 @@ declaração pública fica na própria tela `#/acessibilidade`.
   mensagens de status anunciadas, desenhos decorativos escondidos, nomes descritivos nos links.
 - **Visão:** contraste 4,5:1 ou mais em todo texto, bordas de controle com 3:1 ou mais, foco
   amarelo de 3px, tema de alto contraste e suporte ao alto contraste do Windows.
+- **Libras:** botão do VLibras (governo federal), carregado depois da página; o avatar traduz o
+  texto selecionado.
 - **Daltonismo:** nenhuma informação só pela cor (situação com ícone e texto, erro com ícone).
 - **Movimento:** pausa no vídeo e no carro do rodapé; modo de movimento reduzido para tudo.
 - **Texto ampliado:** até 150% pelo painel ou pelo zoom, sem cortes nem rolagem lateral; o menu

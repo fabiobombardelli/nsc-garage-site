@@ -38,7 +38,7 @@ Track pedigree applied to every car: the same team and methods that build compet
 - Stack: React 19 + TypeScript + Vite + Tailwind CSS 4, static build.
 - Address, phone and Instagram (@nscgarage) are real; the WhatsApp number and opening hours are still placeholders in `src/content/site.ts`.
 - Timeline milestones (2012–2026) come from the team's sourced research (section 11 cards). Their photos are public third-party images shown with credit; they must be replaced by treated versions or the NSC archive, with permission, before launch.
-- Accessibility target: WCAG 2.2 level AA (confirmed by the client), with Brazilian eMAG-style access shortcuts, screen-reader semantics, a high-contrast mode (including colour-blind users), a reduced-motion mode and font enlargement that does not break the layout. The client will send the WCAG reference document; the visual system must be ready for these modes now.
+- Accessibility target: WCAG 2.2 level AA (confirmed by the client), with Brazilian eMAG-style access shortcuts, screen-reader semantics, a high-contrast mode (including colour-blind users), a reduced-motion mode, font enlargement that does not break the layout and the government VLibras widget (Libras translation). The client will send the WCAG reference document; the visual system must be ready for these modes now.
 - Requirements, use cases and the traceability matrix come from the team's requirements review (23/10/2026); see `docs/rastreabilidade.md`. Business-rule values (hours, slot length, lead time, cancel window) are provisional in `src/content/scheduling.ts`.
 - This is also a university extension project (Accessibility + Software Engineering); the README is the presentation document.
 
