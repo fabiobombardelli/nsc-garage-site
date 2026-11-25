@@ -11,7 +11,7 @@ const SHORTCUTS = [
 ];
 
 /** Data da última revisão desta declaração. */
-const LAST_REVIEW = "5 de novembro de 2026";
+const LAST_REVIEW = "25 de novembro de 2026";
 
 /**
  * Declaração de acessibilidade: o compromisso, os recursos, como navegar,
@@ -33,7 +33,7 @@ export function AccessibilityPage() {
           <p>
             Queremos que todas as pessoas consigam conhecer a oficina, agendar e acompanhar um
             atendimento, inclusive quem usa leitor de tela, navega só pelo teclado, enxerga pouco, é
-            daltônico ou sente desconforto com movimento na tela.
+            daltônico, é surdo e prefere Libras ou sente desconforto com movimento na tela.
           </p>
           <p>
             A meta é o nível AA das Diretrizes de Acessibilidade para Conteúdo Web (WCAG) 2.2, do
@@ -63,6 +63,16 @@ export function AccessibilityPage() {
           <p>
             Sem mexer em nada, o site já segue o que estiver configurado no seu sistema: movimento
             reduzido, contraste alto e o modo de alto contraste do Windows.
+          </p>
+        </section>
+
+        <section aria-labelledby="libras">
+          <h2 id="libras">Tradução para Libras</h2>
+          <p>
+            O botão azul à direita, no meio da tela, é o <strong>VLibras</strong>, ferramenta do
+            governo federal que traduz para a Língua Brasileira de Sinais o texto do site, com um
+            avatar. Clique no botão, depois no texto que quiser traduzir. O avatar só é baixado
+            quando você clica.
           </p>
         </section>
 
