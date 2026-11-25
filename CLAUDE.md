@@ -93,7 +93,7 @@ economizar tokens). Código, commits e docs ficam em texto normal.
 - Regras de negócio só em `features/scheduling/domain/` (nunca em componente), cada uma com teste
   que cita o TC (e repetidas nas funções SQL, para o modo online). Painel: e-mail e senha do
   Supabase online; senha `oficina2026` só na demonstração.
-- Integrantes do grupo: o README tem espaço reservado; não invente nomes.
+- Integrantes, papéis e professoras: seção 2 do README (dados passados pelo usuário); não invente outros.
 - Nunca invente títulos, números, depoimentos ou patrocinadores. Fatos da NSC só de
   `docs/historia-nsc.md` (base de conhecimento com fontes e confiança; usar só os confirmados). Os
   marcos vêm da seção 11 do documento da equipe. São provisórios: WhatsApp e horário (`site.ts`),

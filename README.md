@@ -95,17 +95,17 @@ cliente, e aplica as duas disciplinas ao mesmo produto:
 
 ## 2. Equipe
 
-<!-- Preencha os nomes completos e os links. Acrescente ou remova linhas conforme o grupo. -->
+| Integrante        | Papel no projeto                                      |
+| ----------------- | ----------------------------------------------------- |
+| Fabio Bombardelli | Desenvolvimento e testes                              |
+| Cawan Henrique    | Planejamento da estrutura semântica e desenvolvimento |
+| Erick Brian       | Design, UX/UI e wireframes                            |
+| Mathias Rajão     | Acessibilidade e responsividade                       |
 
-| Integrante                      | Papel no projeto | GitHub | LinkedIn |
-| ------------------------------- | ---------------- | ------ | -------- |
-| [Nome completo do integrante 1] | [papel]          | [link] | [link]   |
-| [Nome completo do integrante 2] | [papel]          | [link] | [link]   |
-| [Nome completo do integrante 3] | [papel]          | [link] | [link]   |
-| [Nome completo do integrante 4] | [papel]          | [link] | [link]   |
-
-**Orientação:** [Professor(a) de Acessibilidade] · [Professor(a) de Engenharia de Software]
-**Curso:** [nome do curso] · Fatec Rubens Lara · [semestre]/2026
+**Orientação:** Profa. Juliana Linhares (Acessibilidade) · Profa. Renata Neves (Engenharia de
+Software)
+**Curso:** Curso Superior de Tecnologia em Sistemas para Internet · Fatec Rubens Lara
+**Período:** de 2 de setembro a 22 de novembro de 2026
 **Cliente:** NSC Garage
 
 ---
